@@ -13,3 +13,14 @@ The service answers three core questions for a tenant:
 3. **Has the tenant reached its limit?** It determines whether the tenant can continue using the metered capability within the limits of its current plan.
 
 The capstone stays deliberately small: it focuses on Free and Pro tenants, the two metered usage dimensions of API calls and AI tokens, and the minimum billing information needed to answer these three questions.
+
+## T1.2 Explicit Non-Goal
+
+This project is not a full billing or invoicing platform. The core capstone scope explicitly excludes:
+
+- Invoicing
+- Overage charging
+- Proration
+- Complex dashboards
+- Microservices
+- Paid infrastructure
