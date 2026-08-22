@@ -24,3 +24,4 @@ This project is not a full billing or invoicing platform. The core capstone scop
 - Complex dashboards
 - Microservices
 - Paid infrastructure
+- Real AI calls; token counts may be simulated for this capstone
