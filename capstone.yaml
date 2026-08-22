@@ -1,0 +1,43 @@
+project:
+  identifier: flyrank-capstone-metering-billing-ai
+  title: FlyRank Backend Capstone — Usage Metering & Billing Engine
+  implementation_origin: ai-generated
+
+status:
+  phase: 1
+  state: project-controls-only
+  implementation_started: false
+
+planned_stack:
+  language: Python
+  framework: FastAPI
+  database: PostgreSQL
+  containerization: Docker
+  orm: SQLAlchemy
+  migrations: Alembic
+  testing: pytest
+  payments: Stripe test mode only
+
+core_scope:
+  plans:
+    - Free
+    - Pro
+  usage_types:
+    - API calls
+    - AI tokens
+  billable_endpoint: POST /generate
+  usage_endpoint: GET /usage
+  intentionally_excluded:
+    - Real AI calls
+    - Invoicing
+    - Overage billing
+    - Proration
+    - Dashboards
+    - Microservices
+    - Kubernetes
+    - Paid infrastructure
+    - Production Stripe
+
+implementation_note: >
+  This control file describes the planned capstone contract only. It does not
+  claim that later implementation, infrastructure, or acceptance tasks are complete.
