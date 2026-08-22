@@ -25,3 +25,14 @@ This project is not a full billing or invoicing platform. The core capstone scop
 - Microservices
 - Paid infrastructure
 - Real AI calls; token counts may be simulated for this capstone
+
+## T1.3 Domain Model
+
+The core domain is intentionally small and uses four related concepts:
+
+- **Tenant** — the trusted customer organization or workspace boundary. A tenant owns its usage records and keeps one customer's billing context isolated from every other customer.
+- **Plan** — the conceptual definition of a service offering. A plan describes the entitlement, limits, and pricing policy that apply to tenants using that offering.
+- **Subscription** — the current link between a tenant and a plan, together with the tenant's payment-related state. It represents which plan currently governs the tenant's entitlement.
+- **Usage event** — an immutable record of billable activity. Every usage event belongs to exactly one tenant and contributes to the tenant's view of usage, cost, and limits.
+
+At a high level, a tenant has a current subscription, and that subscription selects the plan that governs the tenant's entitlement and pricing policy. The tenant's usage events are recorded independently as activity occurs. Those events are interpreted through the tenant's current plan context to answer the service's three core questions about usage, cost, and limits.
