@@ -5,7 +5,7 @@ project:
 
 status:
   phase: 1
-  state: database-foundation-setup
+  state: database-schema-ready
   implementation_started: true
 
 planned_stack:

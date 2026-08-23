@@ -18,5 +18,11 @@ def test_database_url_is_required(monkeypatch: pytest.MonkeyPatch) -> None:
         get_database_url()
 
 
-def test_metadata_has_no_domain_tables_yet() -> None:
-    assert metadata.tables == {}
+def test_metadata_collects_domain_tables() -> None:
+    assert set(metadata.tables) == {
+        "plans",
+        "tenants",
+        "subscriptions",
+        "usage_events",
+        "processed_webhook_events",
+    }

@@ -25,6 +25,16 @@ This document records only command output and facts that have actually been veri
 - The T2 and T3 deterministic test suite completed successfully: `4 passed`.
 - This Replit Docker runtime blocks exec-based container health checks with `OCI runtime exec ... setns`; the published localhost port, SQLAlchemy connection, and Alembic commands above are the genuine verification path.
 
+## T4 verified database schema
+
+- Alembic generated revision `dd3399d4697c` for the five domain tables: `plans`, `tenants`, `subscriptions`, `usage_events`, and `processed_webhook_events`.
+- A dedicated clean PostgreSQL verification database applied the migration successfully: `Running upgrade -> dd3399d4697c, create billing domain schema`.
+- Live inspection confirmed the expected tables, named foreign keys, required uniqueness constraints, targeted indexes, and `BIGINT` storage for cents and usage quantity.
+- Direct database inserts confirmed duplicate usage-event `(tenant_id, idempotency_key)` values and duplicate Stripe event identifiers are rejected.
+- `uv run alembic check` completed successfully: `No new upgrade operations detected.`
+- The deterministic test suite completed successfully: `9 passed`.
+- `GET /api/healthz` continued to return `{"status":"ok"}` with `HTTP 200`.
+
 ## Pending evidence
 
-Domain schema, generated revisions, webhook, quota, pricing, usage, and later acceptance evidence will be added only after those items exist and their commands have been run successfully.
+Webhook processing, quota behavior, pricing calculations, usage summaries, background jobs, and later acceptance evidence will be added only after those items exist and their commands have been run successfully.

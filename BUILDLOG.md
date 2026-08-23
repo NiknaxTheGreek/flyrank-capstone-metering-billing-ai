@@ -28,3 +28,11 @@ This is the dedicated AI-generated implementation workspace for the FlyRank Back
 - The live local PostgreSQL connection, Alembic configuration, and deterministic test suite were verified without creating domain tables or revisions.
 - The Replit Docker runtime cannot execute container health-check commands, so verification uses the Compose-published localhost PostgreSQL port rather than the blocked exec-based health status.
 - Metering, idempotency, quotas, Stripe behavior, pricing, usage summaries, background jobs, and T4 schema implementation remain unimplemented.
+
+## T4 database schema
+
+- AI assistance added persistence-only models for plans, tenants, subscriptions, usage events, and processed Stripe webhook-event receipts.
+- The schema uses tenant foreign keys, tenant-scoped usage idempotency, global Stripe event deduplication, and targeted PostgreSQL indexes without adding service behavior.
+- Integer `BIGINT` columns represent cents, usage quantity, and plan limits; no floating-point money representation was introduced.
+- The generated Alembic revision was applied and inspected against a dedicated clean PostgreSQL verification database, including direct duplicate-protection checks.
+- Metering services, idempotent request handling, quotas, billable API logic, Stripe webhook processing, pricing calculations, usage summaries, and background jobs remain unimplemented.
