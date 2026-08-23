@@ -27,6 +27,7 @@ class MeterUsageCommand:
     usage_type: str
     quantity: int
     idempotency_key: str
+    token_category: str | None = None
 
 
 @dataclass(frozen=True)
@@ -46,6 +47,16 @@ def meter_usage(
     """Record one tenant-scoped usage event or return its prior durable record."""
     if usage_repository.get_tenant(session, command.tenant_id) is None:
         raise TenantNotFoundError
+    if command.usage_type == "api_call" and command.token_category is not None:
+        raise ValueError("API-call usage cannot include a token category.")
+    if command.usage_type == "ai_token" and command.token_category not in (
+        None,
+        "input",
+        "cached_input",
+        "output",
+        "reasoning",
+    ):
+        raise ValueError("Unsupported AI-token category.")
 
     existing_event = usage_repository.get_usage_event_by_idempotency_key(
         session,
@@ -83,6 +94,9 @@ def meter_usage(
         usage_type=command.usage_type,
         quantity=command.quantity,
         idempotency_key=command.idempotency_key,
+        token_category=(
+            command.token_category if command.usage_type == "ai_token" else None
+        ),
     )
     return MeterUsageResult(
         usage_event=usage_event,

@@ -41,6 +41,45 @@ def get_active_plan_for_tenant(session: Session, tenant_id: uuid.UUID) -> Plan |
     )
 
 
+def get_current_subscription_for_tenant(
+    session: Session, tenant_id: uuid.UUID
+) -> Subscription | None:
+    """Return the tenant's latest locally verified subscription state."""
+    return session.scalar(
+        select(Subscription)
+        .where(Subscription.tenant_id == tenant_id)
+        .order_by(Subscription.created_at.desc())
+        .limit(1)
+    )
+
+
+def get_usage_breakdown_for_period(
+    session: Session,
+    *,
+    tenant_id: uuid.UUID,
+    period_start: datetime,
+    period_end: datetime,
+) -> dict[tuple[str, str | None], int]:
+    """Aggregate tenant-only usage, retaining every known token category."""
+    rows = session.execute(
+        select(
+            UsageEvent.usage_type,
+            UsageEvent.token_category,
+            func.coalesce(func.sum(UsageEvent.quantity), 0),
+        )
+        .where(
+            UsageEvent.tenant_id == tenant_id,
+            UsageEvent.occurred_at >= period_start,
+            UsageEvent.occurred_at < period_end,
+        )
+        .group_by(UsageEvent.usage_type, UsageEvent.token_category)
+    )
+    return {
+        (str(usage_type), token_category): int(total)
+        for usage_type, token_category, total in rows
+    }
+
+
 def get_usage_total_for_period(
     session: Session,
     *,
@@ -68,6 +107,7 @@ def create_or_get_usage_event(
     usage_type: str,
     quantity: int,
     idempotency_key: str,
+    token_category: str | None = None,
 ) -> tuple[UsageEvent, bool]:
     """Persist one event or return the existing event for a repeated request."""
     existing_event = get_usage_event_by_idempotency_key(
@@ -79,6 +119,7 @@ def create_or_get_usage_event(
     usage_event = UsageEvent(
         tenant_id=tenant_id,
         usage_type=usage_type,
+        token_category=token_category,
         quantity=quantity,
         idempotency_key=idempotency_key,
     )

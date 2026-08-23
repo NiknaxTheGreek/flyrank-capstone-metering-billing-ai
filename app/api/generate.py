@@ -26,6 +26,7 @@ class GenerateRequest(BaseModel):
     tenant_id: uuid.UUID
     usage_type: Literal["api_call", "ai_token"]
     quantity: Annotated[int, Field(gt=0)]
+    token_category: Literal["input", "cached_input", "output", "reasoning"] | None = None
 
 
 class GenerateResponse(BaseModel):
@@ -73,6 +74,7 @@ def generate(
                 usage_type=request.usage_type,
                 quantity=request.quantity,
                 idempotency_key=idempotency_key,
+                token_category=request.token_category,
             ),
         )
     except TenantNotFoundError as error:

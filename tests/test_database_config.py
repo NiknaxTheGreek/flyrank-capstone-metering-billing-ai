@@ -35,5 +35,6 @@ def test_metadata_collects_domain_tables() -> None:
         "tenants",
         "subscriptions",
         "usage_events",
+        "monthly_usage_rollups",
         "processed_webhook_events",
     }

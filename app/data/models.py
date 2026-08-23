@@ -120,6 +120,12 @@ class UsageEvent(Base):
             "usage_type IN ('api_call', 'ai_token')",
             name="ck_usage_events_usage_type",
         ),
+        CheckConstraint(
+            "(usage_type = 'api_call' AND token_category IS NULL) OR "
+            "(usage_type = 'ai_token' AND token_category IN "
+            "('input', 'cached_input', 'output', 'reasoning'))",
+            name="ck_usage_events_token_category",
+        ),
         Index("ix_usage_events_tenant_occurred_at", "tenant_id", "occurred_at"),
     )
 
@@ -129,6 +135,7 @@ class UsageEvent(Base):
         nullable=False,
     )
     usage_type: Mapped[str] = mapped_column(String(32), nullable=False)
+    token_category: Mapped[str | None] = mapped_column(String(32))
     quantity: Mapped[int] = mapped_column(BigInteger, nullable=False)
     idempotency_key: Mapped[str] = mapped_column(String(255), nullable=False)
     occurred_at: Mapped[datetime] = mapped_column(
@@ -136,6 +143,44 @@ class UsageEvent(Base):
     )
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+
+
+class MonthlyUsageRollup(Base):
+    """A reconciled tenant/month summary maintained by the standalone job."""
+
+    __tablename__ = "monthly_usage_rollups"
+    __table_args__ = (
+        UniqueConstraint(
+            "tenant_id",
+            "billing_period_start",
+            name="uq_monthly_usage_rollups_tenant_period",
+        ),
+        Index(
+            "ix_monthly_usage_rollups_tenant_period",
+            "tenant_id",
+            "billing_period_start",
+        ),
+    )
+
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    tenant_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("tenants.id", name="fk_monthly_usage_rollups_tenant_id"),
+        nullable=False,
+    )
+    billing_period_start: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    billing_period_end: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    api_calls: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    input_tokens: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    cached_input_tokens: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    output_tokens: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    reasoning_tokens: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    estimated_ai_cost_cents: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now(),
+        onupdate=func.now(),
     )
 
 

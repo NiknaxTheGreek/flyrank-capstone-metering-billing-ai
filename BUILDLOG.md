@@ -97,3 +97,16 @@ This is the dedicated AI-generated implementation workspace for the FlyRank Back
 - API-call variable cost is pinned to `0` cents. Gemini 2.5 Flash-Lite Standard text rates are pinned as follows: input `10`, cached input `1`, output `40`, and reasoning `40` cents per 1,000,000 tokens. The source is Google AI pricing as supplied and checked on `2026-08-23`.
 - The calculator combines category numerators first and applies exactly one final half-up rounding to whole cents. It does not use binary floating-point money and is deliberately not integrated with a usage-summary endpoint.
 - Deterministic tests cover the independent cost categories, final-rounding boundaries, large exact integers, invalid values, webhook delivery paths, PostgreSQL-backed synchronization, and full regression behavior.
+
+## T11 monthly usage summary
+
+- AI assistance added a tenant-scoped `GET /usage` route backed by one shared source-event summary service using the existing UTC calendar billing period.
+- The response exposes the locally verified plan/status, Free or Pro limits, current API/token usage with distinct token categories, remaining allowance, and the existing T10 integer-cent estimate. No pricing constants or rounding behavior were duplicated.
+- Legacy uncategorized AI-token events remain represented as input tokens; new generation requests can retain input, cached-input, output, or reasoning categories.
+- The summary derives its plan from persisted Stripe-synchronized subscription state, so a verified Pro update changes displayed limits without changing historical usage.
+
+## T12 monthly usage reconciliation job
+
+- AI assistance added a directly runnable `python -m app.jobs.monthly_usage_rollup` job outside FastAPI request handling.
+- The job reuses the same summary/pricing functions as `GET /usage`, retries transient database failures with a small bounded budget, logs only safe failure labels, and raises a nonzero CLI exit after exhausted retries.
+- A monthly rollup table with a tenant-plus-UTC-month uniqueness constraint allows repeated execution to reconcile one row rather than create duplicates.

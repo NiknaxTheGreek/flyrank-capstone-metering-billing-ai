@@ -100,6 +100,17 @@ This document records only command output and facts that have actually been veri
 - Independent deterministic tests cover each category, zero-cost API calls, mixed totals, exact and below-half-cent boundaries, large values, invalid counts, and immutability.
 - The full deterministic suite completed successfully after the final reconciliation change: `92 passed`.
 
-## Pending evidence
+## T11 verified monthly usage summary
 
-Usage summaries, invoicing, charging, taxes, proration, and background jobs remain out of scope and have not been implemented.
+- `GET /usage` returns a tenant-scoped UTC-calendar-month summary with verified plan/status, configured plan limits, remaining API-call/token allowance, distinguishable input/cached-input/output/reasoning token totals, and the T10 integer-cent estimate.
+- Focused deterministic T11/T12 tests completed successfully: `7 passed`.
+- The requested one full-suite run observed `98 passed, 1 failed`; the sole failure was the existing metadata-table inventory missing the new required rollup table. That expectation was corrected and the isolated test file then completed successfully: `4 passed`.
+- PostgreSQL proof passed with Free limits `1000/100000`, verified Stripe Pro limits `10000/1000000`, an isolated second tenant with `777` API calls, and unchanged historical usage through the upgrade.
+
+## T12 verified monthly usage reconciliation job
+
+- The directly runnable monthly reconciliation job uses the same source-event summary and T10 pricing calculation as `GET /usage`; it is outside FastAPI request handling.
+- A unique tenant-plus-UTC-month rollup row makes repeated execution update one logical rollup. Focused tests cover success, reconciliation on repeated execution, retry success, and exhausted retry failure.
+- PostgreSQL proof ran the job twice and confirmed `repeated_rollups=1`.
+
+Invoicing, charging, taxes, and proration remain out of scope and have not been implemented.
