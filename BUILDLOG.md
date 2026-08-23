@@ -36,3 +36,11 @@ This is the dedicated AI-generated implementation workspace for the FlyRank Back
 - Integer `BIGINT` columns represent cents, usage quantity, and plan limits; no floating-point money representation was introduced.
 - The generated Alembic revision was applied and inspected against a dedicated clean PostgreSQL verification database, including direct duplicate-protection checks.
 - Metering services, idempotent request handling, quotas, billable API logic, Stripe webhook processing, pricing calculations, usage summaries, and background jobs remain unimplemented.
+
+## T5 seed data
+
+- AI assistance added a repeatable `python -m app.data.seed` command for the Free and Pro plans plus a deterministic demo Free tenant and active Free subscription.
+- Free is seeded with 1,000 API calls and 100,000 tokens per month; Pro is seeded with 10,000 API calls and 1,000,000 tokens per month.
+- Both plans use the schema-required integer `monthly_price_cents` value of `0` because no approved nonzero plan price exists in the capstone configuration; no pricing behavior was introduced.
+- Stable seed UUIDs and converging updates keep repeated runs at exactly two plans, one demo tenant, and one demo subscription.
+- Metering services, idempotent request handling, quotas, billable API logic, Stripe webhook processing, pricing calculations, usage summaries, and background jobs remain unimplemented.

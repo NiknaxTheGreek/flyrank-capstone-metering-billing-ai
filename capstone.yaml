@@ -5,7 +5,7 @@ project:
 
 status:
   phase: 1
-  state: database-schema-ready
+  state: seed-data-ready
   implementation_started: true
 
 planned_stack:
