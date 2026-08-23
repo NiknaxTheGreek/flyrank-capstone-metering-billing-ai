@@ -74,6 +74,55 @@ def test_generate_records_one_event_and_replays_duplicate_request() -> None:
         engine.dispose()
 
 
+def test_generate_rejects_unsupported_usage_type_without_persisting_an_event() -> None:
+    engine = create_engine(
+        "sqlite+pysqlite://",
+        connect_args={"check_same_thread": False},
+        poolclass=StaticPool,
+    )
+    Base.metadata.create_all(engine)
+    with Session(engine) as session:
+        seed_database(session)
+        session.commit()
+
+    def override_get_session() -> Generator[Session, None, None]:
+        with Session(engine) as session:
+            yield session
+
+    rejected_key = "unsupported-usage-type-request"
+    app.dependency_overrides[get_session] = override_get_session
+    try:
+        with TestClient(app) as client:
+            response = client.post(
+                "/api/generate",
+                json={
+                    "tenant_id": str(DEMO_FREE_TENANT_ID),
+                    "usage_type": "unsupported_type",
+                    "quantity": 1,
+                },
+                headers={"Idempotency-Key": rejected_key},
+            )
+
+        assert response.status_code == 422
+        assert any(
+            error["loc"] == ["body", "usage_type"]
+            and error["type"] == "literal_error"
+            for error in response.json()["detail"]
+        )
+        with Session(engine) as session:
+            assert (
+                session.scalar(
+                    select(func.count())
+                    .select_from(UsageEvent)
+                    .where(UsageEvent.idempotency_key == rejected_key)
+                )
+                == 0
+            )
+    finally:
+        app.dependency_overrides.clear()
+        engine.dispose()
+
+
 @pytest.mark.parametrize(
     ("usage_type", "limit"),
     [

@@ -114,4 +114,9 @@ This document records only command output and facts that have actually been veri
 - A unique tenant-plus-UTC-month rollup row makes repeated execution update one logical rollup. Focused tests cover success, reconciliation on repeated execution, retry success, and exhausted retry failure.
 - PostgreSQL proof ran the job twice and confirmed `repeated_rollups=1`.
 
+## T13.1 verified invalid usage-type rejection
+
+- The real `POST /api/generate` request-validation boundary rejects an unsupported `usage_type` with `HTTP 422` before metering or persistence.
+- The focused deterministic API regression completed successfully: `1 passed`; it verifies the validation error is attached to `body.usage_type` and the rejected idempotency key has zero persisted usage events.
+
 Invoicing, charging, taxes, and proration remain out of scope and have not been implemented.

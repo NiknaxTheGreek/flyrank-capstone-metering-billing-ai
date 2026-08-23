@@ -111,3 +111,8 @@ This is the dedicated AI-generated implementation workspace for the FlyRank Back
 - The job reuses the same summary/pricing functions as `GET /usage`, retries transient database failures with a small bounded budget, logs only safe failure labels, and raises a nonzero CLI exit after exhausted retries.
 - A monthly rollup table with a tenant-plus-UTC-month uniqueness constraint allows repeated execution to reconcile one row rather than create duplicates.
 - The final deterministic regression-suite rerun against the corrected committed T11/T12 milestone completed successfully: `99 passed`.
+
+## T13.1 invalid usage type
+
+- The existing FastAPI/Pydantic literal validation for the real generation endpoint already allows only `api_call` and `ai_token`, so no production behavior was changed.
+- A focused API regression now proves an unsupported type receives a validation error before metering and produces no usage event for its idempotency key.
