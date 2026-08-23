@@ -14,4 +14,9 @@ This is the dedicated AI-generated implementation workspace for the FlyRank Back
 
 - The intended implementation stack is Python, FastAPI, PostgreSQL, Docker, SQLAlchemy, Alembic, pytest, and Stripe test mode.
 - The capstone will remain intentionally small: Free and Pro plans, API-call and AI-token metering, and no real AI call.
-- No application code, database schema, API route, Stripe implementation, Docker configuration, migration, or test suite has been built at this point.
+
+## T2 initial application setup
+
+- AI assistance configured the Replit-managed project Python environment and locked the minimal initial dependencies: FastAPI, Uvicorn, and pytest.
+- A minimal FastAPI application, health endpoint, layered package boundaries, and deterministic pytest check were added and verified.
+- Database schema, metering, quotas, Stripe behavior, pricing, usage summaries, migrations, Docker configuration, and background jobs remain unimplemented.

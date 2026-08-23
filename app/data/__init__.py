@@ -1,0 +1,1 @@
+"""Data-access layer boundary; persistence is introduced in later tasks."""

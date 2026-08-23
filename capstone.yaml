@@ -5,8 +5,8 @@ project:
 
 status:
   phase: 1
-  state: project-controls-only
-  implementation_started: false
+  state: initial-application-setup
+  implementation_started: true
 
 planned_stack:
   language: Python

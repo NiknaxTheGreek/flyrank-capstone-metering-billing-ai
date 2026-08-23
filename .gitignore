@@ -50,3 +50,9 @@ Thumbs.db
 
 # Local environment secrets
 .env
+
+# Replit-managed Python project environment and test caches
+.pythonlibs/
+__pycache__/
+*.py[cod]
+.pytest_cache/

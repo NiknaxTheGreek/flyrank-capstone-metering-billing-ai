@@ -10,23 +10,18 @@ name = "API Server"
 paths = ["/api"]
 
 [services.development]
-run = "pnpm --filter @workspace/api-server run dev"
+run = "cd ../.. && uv run --locked uvicorn app.main:app --host 0.0.0.0 --port $PORT"
 
 [services.production]
 
 [services.production.build]
-args = ["pnpm", "--filter", "@workspace/api-server", "run", "build"]
-
-[services.production.build.env]
-NODE_ENV = "production"
+args = ["uv", "sync", "--project", "../..", "--locked", "--no-dev"]
 
 [services.production.run]
-# we don't run through pnpm to make startup faster in production
-args = ["node", "--enable-source-maps", "artifacts/api-server/dist/index.mjs"]
+args = ["sh", "-c", "cd ../.. && uv run --no-sync uvicorn app.main:app --host 0.0.0.0 --port 8080"]
 
 [services.production.run.env]
 PORT = "8080"
-NODE_ENV = "production"
 
 [services.production.health.startup]
 path = "/api/healthz"

@@ -1,0 +1,1 @@
+"""Stripe integration boundary; Stripe behavior is introduced in later tasks."""

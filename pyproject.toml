@@ -1,0 +1,14 @@
+[project]
+name = "flyrank-capstone-metering-billing-ai"
+version = "0.1.0"
+description = "FlyRank Usage Metering & Billing Engine capstone"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.141.1",
+    "pytest>=9.1.1",
+    "uvicorn>=0.52.4",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
