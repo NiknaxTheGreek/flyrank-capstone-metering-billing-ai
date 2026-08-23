@@ -69,6 +69,15 @@ This document records only command output and facts that have actually been veri
 - The full deterministic test suite completed successfully: `37 passed`.
 - No Stripe API request, Checkout Session, tenant association, subscription mutation, webhook behavior, or live Stripe verification was added in this configuration-only step.
 
+## T8.4–T8.7 Checkout construction
+
+- Deterministic mocked Checkout tests completed successfully: `10 passed`; the full deterministic suite completed successfully: `47 passed`.
+- An eligible active Free tenant produces a subscription-mode Checkout request with one configured Pro Price line item, configured success/cancel URLs, and the tenant identifier in both `client_reference_id` and `metadata.tenant_id`.
+- The public Checkout route requires a tenant-bound HMAC proof derived from the runtime-only `SESSION_SECRET`; tests confirm a missing or proof-for-another-tenant request is rejected before Checkout creation.
+- Tests confirm unknown and non-Free tenants are rejected, Stripe failures map to the Checkout-unavailable path, and creating Checkout leaves the persisted tenant subscription active on Free with no Stripe subscription identifier.
+- Live Stripe test-mode Checkout verification is pending: `STRIPE_SECRET_KEY`, `STRIPE_PRO_PRICE_ID`, `STRIPE_SUCCESS_URL`, and `STRIPE_CANCEL_URL` are not configured in this Replit environment. No live Checkout Session was created or claimed.
+- No webhook route, signature verification, event deduplication, subscription synchronization, pricing behavior, usage summary, or background job was added.
+
 ## Pending evidence
 
-Checkout Session creation, webhook processing, pricing calculations, usage summaries, background jobs, and later acceptance evidence will be added only after those items exist and their commands have been run successfully.
+Live Checkout Session creation, webhook processing, pricing calculations, usage summaries, background jobs, and later acceptance evidence will be added only after those items exist and their commands have been run successfully.

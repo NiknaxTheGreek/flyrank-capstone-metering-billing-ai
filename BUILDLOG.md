@@ -68,3 +68,12 @@ This is the dedicated AI-generated implementation workspace for the FlyRank Back
 - The example environment contract now contains only safe placeholders for `STRIPE_SECRET_KEY`, `STRIPE_PRO_PRICE_ID`, `STRIPE_SUCCESS_URL`, and `STRIPE_CANCEL_URL`; no real credential or sandbox Price ID is committed.
 - Deterministic configuration tests verify valid environment loading, safe SDK client construction, and rejection of missing, live-key, malformed-price, and unsafe-URL values.
 - No Checkout endpoint or service, Stripe API call, tenant association, subscription change, webhook handling, pricing, usage summary, or background job behavior was added.
+
+## T8.4–T8.7 Stripe Checkout construction
+
+- AI assistance added a service-layer Checkout flow for active Free tenants and a thin `POST /api/checkout` route. The service uses the validated environment-derived Pro Price and redirect URLs to build a Stripe subscription-mode hosted Checkout Session.
+- The Checkout request carries the tenant UUID in both `client_reference_id` and `metadata.tenant_id`. Checkout creation only reads local tenant/subscription state; it intentionally does not mutate the local plan, status, customer reference, or subscription reference.
+- The API maps unknown tenants to `404`, ineligible subscriptions to `409`, missing Stripe configuration to `503`, and Stripe session failures to `502`. Stripe business decisions remain outside the route.
+- The public route also requires `X-Checkout-Tenant-Proof`, an HMAC proof bound to the request tenant UUID and verified with the existing runtime-only `SESSION_SECRET`. This prevents callers from substituting a different tenant identifier; a trusted authentication or gateway layer can issue the proof without exposing the secret.
+- Mocked tests verify the exact Checkout request shape, tenant association, eligibility behavior, Stripe failure handling, API error mapping, and no immediate Free-to-Pro upgrade.
+- Live sandbox proof is intentionally pending because this Replit environment has no configured Stripe test secret, Pro Price, success URL, or cancel URL. No live session is claimed. Webhooks, signature verification, event processing, subscription synchronization, pricing, usage summaries, and background jobs remain out of scope.

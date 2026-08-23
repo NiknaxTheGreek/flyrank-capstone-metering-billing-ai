@@ -5,7 +5,7 @@ project:
 
 status:
   phase: 1
-  state: stripe-test-mode-configured
+  state: stripe-checkout-live-verification-pending
   implementation_started: true
 
 planned_stack:
