@@ -1,1 +1,1 @@
-"""Stripe integration boundary; Stripe behavior is introduced in later tasks."""
+"""Stripe test-mode configuration boundary; API behavior is introduced later."""

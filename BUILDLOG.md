@@ -60,3 +60,11 @@ This is the dedicated AI-generated implementation workspace for the FlyRank Back
 - Existing successful idempotency keys are replayed before plan or quota evaluation, preserving exactly-once behavior even when current usage has subsequently reached a limit.
 - `402` is reserved for a tenant without an active eligible subscription plan; ordinary quota exhaustion remains `429`.
 - No Stripe Checkout or webhook processing, pricing engine, usage-summary route, or background job behavior was added.
+
+## T8.1–T8.3 Stripe test-mode configuration
+
+- AI assistance added Stripe Python SDK `15.4.0` and a lazy `StripeClient` construction boundary. It reads only validated runtime settings and does not issue Stripe API requests in this milestone.
+- Stripe configuration requires a test-mode secret-key prefix, a Pro Price identifier beginning with `price_`, and absolute HTTPS success and cancel URLs without embedded user credentials. A Price identifier alone cannot distinguish test and live mode, so the test-mode secret key is the mode boundary.
+- The example environment contract now contains only safe placeholders for `STRIPE_SECRET_KEY`, `STRIPE_PRO_PRICE_ID`, `STRIPE_SUCCESS_URL`, and `STRIPE_CANCEL_URL`; no real credential or sandbox Price ID is committed.
+- Deterministic configuration tests verify valid environment loading, safe SDK client construction, and rejection of missing, live-key, malformed-price, and unsafe-URL values.
+- No Checkout endpoint or service, Stripe API call, tenant association, subscription change, webhook handling, pricing, usage summary, or background job behavior was added.

@@ -5,7 +5,7 @@ project:
 
 status:
   phase: 1
-  state: quota-enforcement-ready
+  state: stripe-test-mode-configured
   implementation_started: true
 
 planned_stack:

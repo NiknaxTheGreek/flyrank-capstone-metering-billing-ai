@@ -60,6 +60,15 @@ This document records only command output and facts that have actually been veri
 - Direct PostgreSQL totals after the boundary proof were `api_calls:1000 ai_tokens:100000`; rejected-key counts were both zero.
 - The deterministic test suite completed successfully: `30 passed`.
 
+## T8.1–T8.3 verified Stripe test-mode foundation
+
+- The official Stripe Python SDK was installed and imported successfully: `stripe_version=15.4.0` and `StripeClient` is available.
+- The application accepts Stripe configuration only through runtime environment variables and rejects non-test secret-key prefixes, malformed Pro Price identifiers, missing values, and unsafe redirect URLs.
+- The checked-in example configuration contains placeholders only for the Stripe test key, Pro Price ID, success URL, and cancel URL; the local `.env` file remains ignored by Git.
+- Deterministic Stripe configuration tests completed successfully: `7 passed`.
+- The full deterministic test suite completed successfully: `37 passed`.
+- No Stripe API request, Checkout Session, tenant association, subscription mutation, webhook behavior, or live Stripe verification was added in this configuration-only step.
+
 ## Pending evidence
 
-Webhook processing, pricing calculations, usage summaries, background jobs, and later acceptance evidence will be added only after those items exist and their commands have been run successfully.
+Checkout Session creation, webhook processing, pricing calculations, usage summaries, background jobs, and later acceptance evidence will be added only after those items exist and their commands have been run successfully.
