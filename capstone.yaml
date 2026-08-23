@@ -5,7 +5,7 @@ project:
 
 status:
   phase: 1
-  state: initial-application-setup
+  state: database-foundation-setup
   implementation_started: true
 
 planned_stack:

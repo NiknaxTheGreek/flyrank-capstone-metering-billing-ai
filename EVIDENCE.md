@@ -16,6 +16,15 @@ This document records only command output and facts that have actually been veri
 - The managed API service started successfully with Uvicorn listening on `http://0.0.0.0:8080`.
 - `curl https://${REPLIT_DEV_DOMAIN}/api/healthz` returned `{"status":"ok"}` with `HTTP 200`.
 
+## T3 verified database foundation
+
+- `docker compose -f compose.yml up -d postgres` started the local PostgreSQL service; `pg_isready -h 127.0.0.1 -p 5432 -U flyrank -d flyrank_metering` reported `accepting connections`.
+- The application data-layer connection check completed successfully: `database_connection=ok`.
+- `uv run alembic current` loaded the PostgreSQL migration context successfully.
+- `uv run alembic check` completed successfully: `No new upgrade operations detected.`
+- The T2 and T3 deterministic test suite completed successfully: `4 passed`.
+- This Replit Docker runtime blocks exec-based container health checks with `OCI runtime exec ... setns`; the published localhost port, SQLAlchemy connection, and Alembic commands above are the genuine verification path.
+
 ## Pending evidence
 
-Database, migration, webhook, quota, pricing, Docker, usage, and later acceptance evidence will be added only after those items exist and their commands have been run successfully.
+Domain schema, generated revisions, webhook, quota, pricing, usage, and later acceptance evidence will be added only after those items exist and their commands have been run successfully.

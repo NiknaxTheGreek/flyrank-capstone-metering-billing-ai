@@ -20,3 +20,11 @@ This is the dedicated AI-generated implementation workspace for the FlyRank Back
 - AI assistance configured the Replit-managed project Python environment and locked the minimal initial dependencies: FastAPI, Uvicorn, and pytest.
 - A minimal FastAPI application, health endpoint, layered package boundaries, and deterministic pytest check were added and verified.
 - Database schema, metering, quotas, Stripe behavior, pricing, usage summaries, migrations, Docker configuration, and background jobs remain unimplemented.
+
+## T3 database foundation
+
+- AI assistance added a local PostgreSQL Compose service with local-only trust authentication, so no database secret is committed.
+- SQLAlchemy, Psycopg, and Alembic were added only for environment-driven connectivity and migration configuration.
+- The live local PostgreSQL connection, Alembic configuration, and deterministic test suite were verified without creating domain tables or revisions.
+- The Replit Docker runtime cannot execute container health-check commands, so verification uses the Compose-published localhost PostgreSQL port rather than the blocked exec-based health status.
+- Metering, idempotency, quotas, Stripe behavior, pricing, usage summaries, background jobs, and T4 schema implementation remain unimplemented.
