@@ -42,6 +42,15 @@ This document records only command output and facts that have actually been veri
 - Live PostgreSQL inspection confirmed the approved plan quotas, the demo Free tenant, its active Free subscription, and repeat-safe counts: `plans:2 tenants:1 subscriptions:1`.
 - The deterministic test suite completed successfully: `10 passed`.
 
+## T6 verified core metering
+
+- A dedicated clean PostgreSQL verification database migrated, seeded, and served the dummy `/api/generate` route successfully.
+- The first request returned `HTTP 201`; a retry with the same tenant and `Idempotency-Key` returned `HTTP 200`, `idempotent_replay=true`, and the same usage-event identifier.
+- Direct PostgreSQL inspection confirmed exactly one persistent usage event for the retry key.
+- A direct duplicate insert was rejected by the database uniqueness constraint: `database_unique_constraint=duplicate_rejected`.
+- The managed API workflow served the same first-request/retry behavior against the documented local Compose database and retained `GET /api/healthz` at `HTTP 200`.
+- The deterministic test suite completed successfully: `12 passed`.
+
 ## Pending evidence
 
 Webhook processing, quota behavior, pricing calculations, usage summaries, background jobs, and later acceptance evidence will be added only after those items exist and their commands have been run successfully.

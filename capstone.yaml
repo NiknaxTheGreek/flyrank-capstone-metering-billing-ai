@@ -5,7 +5,7 @@ project:
 
 status:
   phase: 1
-  state: seed-data-ready
+  state: core-metering-ready
   implementation_started: true
 
 planned_stack:

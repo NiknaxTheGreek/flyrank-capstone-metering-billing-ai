@@ -44,3 +44,10 @@ This is the dedicated AI-generated implementation workspace for the FlyRank Back
 - Both plans use the schema-required integer `monthly_price_cents` value of `0` because no approved nonzero plan price exists in the capstone configuration; no pricing behavior was introduced.
 - Stable seed UUIDs and converging updates keep repeated runs at exactly two plans, one demo tenant, and one demo subscription.
 - Metering services, idempotent request handling, quotas, billable API logic, Stripe webhook processing, pricing calculations, usage summaries, and background jobs remain unimplemented.
+
+## T6 core metering
+
+- AI assistance added a validated dummy `POST /api/generate` endpoint that simulates generation without calling an AI provider.
+- The API requires a tenant-scoped request body and `Idempotency-Key` header. A first request returns `201`; a safe retry returns `200`, the original usage event, and `idempotent_replay=true`.
+- The service coordinates metering behavior, while the repository owns persistence, transaction handling, and the existing tenant/idempotency database uniqueness constraint as the final duplicate-prevention backstop.
+- No quota enforcement, Stripe processing, pricing calculation, usage summary, or background job behavior was added.
