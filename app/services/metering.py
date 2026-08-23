@@ -1,4 +1,4 @@
-"""Core metering behavior without quota, pricing, or provider logic."""
+"""Core metering and quota-enforcement behavior without pricing or provider logic."""
 
 import uuid
 from dataclasses import dataclass
