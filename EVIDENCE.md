@@ -141,4 +141,14 @@ This document records only command output and facts that have actually been veri
 - **T15.9 background job:** T12 PostgreSQL evidence confirms two reconciliation executions create one tenant/month rollup; job tests cover retries and exhausted failure.
 - **T15.10 secret hygiene:** the Phase 4 tracked live-credential scan was clear; `.env.example`, README, Evidence Log, and Build Log contain placeholders or non-sensitive descriptions only.
 
+## T17 acceptance probes
+
+- Focused acceptance command covering the five required probe areas completed successfully: `48 passed`.
+- **T17.1 — duplicate usage:** the real generate API regression confirms a first request and same-key retry return one usage-event identifier; the durable count for that tenant/key is exactly one.
+- **T17.2 — quota boundary:** all Free/Pro API-call and AI-token cases verify one-unit requests just below and at the limit persist, while an above-limit request raises quota exhaustion and leaves zero event rows for its key.
+- **T17.3 — integer pricing:** tests retain input, cached-input, output, and reasoning token counts separately; API-call variable cost is zero; a mixed case totals `292` cents; and combined half-cent values round once to `1` cent rather than per-category over-rounding. Reasoning uses the same documented rate as output.
+- **T17.4 — Stripe safety and entitlement:** forged/missing signatures return `400` with no receipt; duplicate valid Checkout events have one receipt/effect; a verified active configured-price subscription update grants Pro, while verified deletion restores Free.
+- **T17.5 — tenant isolation and rollup:** cross-tenant generate and usage proofs return `403` without a usage write or disclosure; monthly-job tests retain retry and one-row-per-tenant/month reconciliation coverage.
+- No additional PostgreSQL command was run for T17. Existing PostgreSQL evidence remains the durable proof for one usage event, quota persistence boundaries, Free-to-Pro synchronization, isolated tenant totals, and repeated monthly rollups.
+
 Invoicing, charging, taxes, and proration remain out of scope and have not been implemented.
