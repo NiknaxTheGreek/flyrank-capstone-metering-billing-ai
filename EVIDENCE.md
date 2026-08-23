@@ -83,12 +83,13 @@ This document records only command output and facts that have actually been veri
 ## T9 verified Stripe webhook payment synchronization
 
 - The `POST /webhooks/stripe` boundary reads the raw request body and uses Stripe Python SDK `Webhook.construct_event` before calling local synchronization. Missing, forged, wrong-secret, stale, and malformed-signature deliveries return `HTTP 400` with no local mutation.
-- Deterministic, correctly HMAC-signed Stripe-compatible event fixtures exercised the real SDK verifier: valid Checkout completion upgrades only the referenced tenant and records Stripe customer/subscription identifiers; mapped subscription updates apply Pro access only for the configured Pro Price; deletion restores the Free plan.
+- Deterministic, correctly HMAC-signed Stripe-compatible event fixtures exercised the real SDK verifier: valid subscription-mode Checkout completion records Stripe customer/subscription identifiers only; mapped subscription updates are the sole grant path and apply Pro access only for the configured Pro Price with `active` status; deletion restores the Free plan.
+- Completed-but-unpaid and wrong-product-like Checkout fixtures remain on Free, and a non-subscription Checkout event is rejected without a persisted mapping. This prevents an unconfirmed Checkout from granting paid entitlement.
 - Subscription synchronization records the latest applied Stripe event creation time and event type under a subscription row lock. Older valid deliveries are acknowledged and receipted but cannot resurrect access after a newer deletion. Because Stripe event timestamps are second-granular, a same-second distinct delivery retrieves the current Stripe subscription before the receipt is claimed, records an authoritative reconciliation watermark, and routes any later potentially subsumed delivery through that same current-state read instead of trusting stale arrival order.
 - Valid duplicate deliveries return `HTTP 200` with `idempotent_replay=true`. The existing globally unique processed-event identifier is claimed transactionally before subscription mutation, so only one business effect is durable.
 - Valid unsupported event types return `HTTP 200` with `handled=false` and do not create a receipt or alter subscription state. Safely unprocessable but signature-valid mapped events return `HTTP 422` without mutation.
-- `uv run --locked pytest -q tests/test_stripe_config.py tests/test_webhooks.py tests/test_pricing.py` completed successfully: `49 passed`.
-- An isolated PostgreSQL verification database migrated and seeded successfully. Through the HTTP endpoint, an SDK-verified Checkout completion, its duplicate delivery, a verified deletion, and two older delayed deliveries completed with `receipts=4`, `final_plan=free`, and `final_status=canceled`. `alembic check` reported `No new upgrade operations detected.`
+- `uv run --locked pytest -q tests/test_webhooks.py` completed successfully: `16 passed`, including the delayed A-to-B subscription Checkout mapping regression.
+- An isolated PostgreSQL verification database migrated and seeded successfully. Through the HTTP endpoint, a delayed Checkout for subscription B followed a later deletion for subscription A, then B's active configured-price update granted Pro: `final_subscription=sub_pg_b`, `final_plan=pro`.
 - Stripe CLI was installed without credentials and version-checked as `stripe version 1.27.0`. This environment was not authenticated to Stripe and no Stripe CLI delivery proof was attempted or fabricated.
 
 ## T10 verified Gemini 2.5 Flash-Lite Standard pricing engine
@@ -97,7 +98,7 @@ This document records only command output and facts that have actually been veri
 - The pinned Gemini 2.5 Flash-Lite Standard text rates are input `10`, cached input `1`, output `40`, and reasoning `40` cents per million tokens, as supplied from Google AI pricing and checked on `2026-08-23`.
 - All category numerators are combined first; one final non-negative integer half-up rounding to whole cents is applied. No binary floating-point money is used.
 - Independent deterministic tests cover each category, zero-cost API calls, mixed totals, exact and below-half-cent boundaries, large values, invalid counts, and immutability.
-- The full deterministic suite completed successfully after the final reconciliation change: `89 passed`.
+- The full deterministic suite completed successfully after the final reconciliation change: `92 passed`.
 
 ## Pending evidence
 

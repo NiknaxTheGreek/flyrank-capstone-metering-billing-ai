@@ -102,6 +102,8 @@ def _checkout_event(
     tenant_id: uuid.UUID = DEMO_FREE_TENANT_ID,
     *,
     created: int = 1_700_000_000,
+    customer_id: str = "cus_test_webhook",
+    subscription_id: str = "sub_test_webhook",
 ) -> dict[str, object]:
     tenant_reference = str(tenant_id)
     return {
@@ -112,8 +114,9 @@ def _checkout_event(
         "data": {
             "object": {
                 "id": "cs_test_completed",
-                "customer": "cus_test_webhook",
-                "subscription": "sub_test_webhook",
+                "mode": "subscription",
+                "customer": customer_id,
+                "subscription": subscription_id,
                 "client_reference_id": tenant_reference,
                 "metadata": {"tenant_id": tenant_reference},
             }
@@ -128,6 +131,8 @@ def _subscription_event(
     price_id: str = PRO_PRICE_ID,
     status: str = "active",
     created: int = 1_700_000_010,
+    customer_id: str = "cus_test_webhook",
+    subscription_id: str = "sub_test_webhook",
 ) -> dict[str, object]:
     return {
         "id": event_id,
@@ -136,8 +141,8 @@ def _subscription_event(
         "type": event_type,
         "data": {
             "object": {
-                "id": "sub_test_webhook",
-                "customer": "cus_test_webhook",
+                "id": subscription_id,
+                "customer": customer_id,
                 "status": status,
                 "current_period_start": 1_700_000_000,
                 "current_period_end": 1_700_100_000,
@@ -200,7 +205,7 @@ def test_wrong_secret_and_stale_signature_return_400_without_mutation(
         assert session.scalar(select(func.count()).select_from(ProcessedWebhookEvent)) == 0
 
 
-def test_verified_checkout_upgrades_only_referenced_tenant_and_persists_identifiers(
+def test_verified_checkout_records_only_referenced_tenant_and_persists_identifiers(
     webhook_client: tuple[TestClient, object],
 ) -> None:
     client, engine = webhook_client
@@ -227,7 +232,7 @@ def test_verified_checkout_upgrades_only_referenced_tenant_and_persists_identifi
         "idempotent_replay": False,
     }
     assert _subscription_state(engine, DEMO_FREE_TENANT_ID) == (
-        "pro",
+        "free",
         "active",
         "sub_test_webhook",
     )
@@ -239,6 +244,54 @@ def test_verified_checkout_upgrades_only_referenced_tenant_and_persists_identifi
         assert (
             session.scalar(select(func.count()).select_from(ProcessedWebhookEvent)) == 1
         )
+
+
+def test_completed_unpaid_or_wrong_product_checkout_remains_free(
+    webhook_client: tuple[TestClient, object],
+) -> None:
+    client, engine = webhook_client
+    unpaid = _checkout_event("evt_completed_unpaid")
+    unpaid_object = unpaid["data"]["object"]  # type: ignore[index]
+    assert isinstance(unpaid_object, dict)
+    unpaid_object["payment_status"] = "unpaid"
+
+    wrong_product = _checkout_event(
+        "evt_completed_wrong_product",
+        created=1_700_000_010,
+    )
+    wrong_product_object = wrong_product["data"]["object"]  # type: ignore[index]
+    assert isinstance(wrong_product_object, dict)
+    wrong_product_object["line_items"] = {
+        "data": [{"price": {"id": "price_not_configured"}}]
+    }
+
+    unpaid_response = _post_signed(client, unpaid)
+    wrong_product_response = _post_signed(client, wrong_product)
+
+    assert unpaid_response.status_code == 200
+    assert wrong_product_response.status_code == 200
+    assert _subscription_state(engine, DEMO_FREE_TENANT_ID) == (
+        "free",
+        "active",
+        "sub_test_webhook",
+    )
+
+
+def test_non_subscription_checkout_does_not_create_a_mapping(
+    webhook_client: tuple[TestClient, object],
+) -> None:
+    client, engine = webhook_client
+    checkout = _checkout_event("evt_one_time_checkout")
+    checkout_object = checkout["data"]["object"]  # type: ignore[index]
+    assert isinstance(checkout_object, dict)
+    checkout_object["mode"] = "payment"
+
+    response = _post_signed(client, checkout)
+
+    assert response.status_code == 422
+    assert _subscription_state(engine, DEMO_FREE_TENANT_ID) == ("free", "active", None)
+    with Session(engine) as session:  # type: ignore[arg-type]
+        assert session.scalar(select(func.count()).select_from(ProcessedWebhookEvent)) == 0
 
 
 def test_verified_subscription_update_uses_configured_price_for_entitlement(
@@ -365,6 +418,73 @@ def test_delayed_update_or_checkout_cannot_restore_access_after_newer_deletion(
     )
     with Session(engine) as session:  # type: ignore[arg-type]
         assert session.scalar(select(func.count()).select_from(ProcessedWebhookEvent)) == 4
+
+
+def test_delayed_checkout_for_new_subscription_maps_before_its_active_update(
+    webhook_client: tuple[TestClient, object],
+) -> None:
+    client, engine = webhook_client
+    assert (
+        _post_signed(
+            client,
+            _checkout_event(
+                "evt_checkout_subscription_a",
+                created=1_700_000_010,
+                customer_id="cus_subscription_a",
+                subscription_id="sub_subscription_a",
+            ),
+        ).status_code
+        == 200
+    )
+    assert (
+        _post_signed(
+            client,
+            _subscription_event(
+                "evt_deletion_subscription_a",
+                "customer.subscription.deleted",
+                status="canceled",
+                created=1_700_000_030,
+                customer_id="cus_subscription_a",
+                subscription_id="sub_subscription_a",
+            ),
+        ).status_code
+        == 200
+    )
+
+    delayed_checkout = _post_signed(
+        client,
+        _checkout_event(
+            "evt_checkout_subscription_b_delayed",
+            created=1_700_000_020,
+            customer_id="cus_subscription_b",
+            subscription_id="sub_subscription_b",
+        ),
+    )
+
+    assert delayed_checkout.status_code == 200
+    assert _subscription_state(engine, DEMO_FREE_TENANT_ID) == (
+        "free",
+        "canceled",
+        "sub_subscription_b",
+    )
+
+    activation = _post_signed(
+        client,
+        _subscription_event(
+            "evt_update_subscription_b",
+            "customer.subscription.updated",
+            created=1_700_000_025,
+            customer_id="cus_subscription_b",
+            subscription_id="sub_subscription_b",
+        ),
+    )
+
+    assert activation.status_code == 200
+    assert _subscription_state(engine, DEMO_FREE_TENANT_ID) == (
+        "pro",
+        "active",
+        "sub_subscription_b",
+    )
 
 
 def test_same_second_updates_reconcile_authoritative_stripe_state(

@@ -44,6 +44,7 @@ class _PreparedEvent:
     tenant_id: uuid.UUID
     subscription: Subscription
     apply: Callable[[], None]
+    replaces_stripe_subscription_link: bool = False
 
 
 def process_verified_stripe_event(
@@ -85,7 +86,9 @@ def process_verified_stripe_event(
                 pro_price_id=pro_price_id,
                 event_created_at=event_created_at,
             )
-            if _requires_authoritative_reconciliation(
+            if prepared.replaces_stripe_subscription_link:
+                pass
+            elif _requires_authoritative_reconciliation(
                 prepared.subscription, event_created_at
             ) or _has_ambiguous_stripe_event_order(
                 prepared.subscription, event_created_at
@@ -180,6 +183,10 @@ def _prepare_checkout_completion(
 
     customer_id = _required_text(event_object, "customer")
     subscription_id = _required_text(event_object, "subscription")
+    if _required_text(event_object, "mode") != "subscription":
+        raise WebhookEventProcessingError(
+            "Checkout completion is not a subscription-mode session."
+        )
     conflicting_subscription = session.scalar(
         select(Subscription).where(
             Subscription.stripe_subscription_id == subscription_id,
@@ -192,19 +199,25 @@ def _prepare_checkout_completion(
         )
 
     subscription = _latest_subscription_for_tenant(session, tenant_id)
-    pro_plan = _plan_by_code(session, "pro")
+    replaces_stripe_subscription_link = (
+        subscription.stripe_subscription_id != subscription_id
+    )
 
     def apply() -> None:
-        subscription.plan_id = pro_plan.id
-        subscription.status = "active"
         subscription.stripe_customer_id = customer_id
         subscription.stripe_subscription_id = subscription_id
-        _record_stripe_event_order(subscription, event_created_at, event_type)
+        if replaces_stripe_subscription_link:
+            subscription.stripe_last_event_created_at = None
+            subscription.stripe_last_event_type = None
+            subscription.stripe_authoritative_reconciled_at = None
+        else:
+            _record_stripe_event_order(subscription, event_created_at, event_type)
 
     return _PreparedEvent(
         tenant_id=tenant_id,
         subscription=subscription,
         apply=apply,
+        replaces_stripe_subscription_link=replaces_stripe_subscription_link,
     )
 
 
