@@ -1,1 +1,20 @@
-Generic single-database configuration.
+# Database migrations
+
+Use the `DATABASE_URL` from `.env` and run migrations from the repository root:
+
+```bash
+set -a && . ./.env && set +a
+uv run alembic upgrade head
+uv run alembic current
+uv run alembic check
+```
+
+For local development, start the Compose PostgreSQL service first:
+
+```bash
+docker compose -f compose.yml up -d postgres
+```
+
+After upgrading, seed the deterministic Free/Pro plans and demo tenant with
+`uv run python -m app.data.seed`. Do not edit generated revisions after they
+have been applied; create a new revision for future schema changes.

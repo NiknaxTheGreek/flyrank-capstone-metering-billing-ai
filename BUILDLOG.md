@@ -116,3 +116,23 @@ This is the dedicated AI-generated implementation workspace for the FlyRank Back
 
 - The existing FastAPI/Pydantic literal validation for the real generation endpoint already allows only `api_call` and `ai_token`, so no production behavior was changed.
 - A focused API regression now proves an unsupported type receives a validation error before metering and produces no usage event for its idempotency key.
+
+## Phase 4 hardening and reproducibility
+
+- AI assistance reused the existing runtime-only HMAC proof mechanism for `generate` and `usage`, with endpoint-specific proof audiences. This closes caller-supplied tenant UUID access without introducing an authentication system or changing Checkout proof compatibility.
+- Request-level validation now rejects storage-invalid usage combinations before services or database writes. Focused API coverage verifies invalid type/category/boundary inputs have zero durable events and cross-tenant generate/usage attempts return `403`; the focused run completed successfully: `14 passed`.
+- Existing webhook code was left intact because its signature-first rejection, valid unsupported-event acknowledgement, duplicate receipt, and Free-to-Pro safeguards already had deterministic coverage. The single final regression run completed successfully: `105 passed`.
+- The stale initial README, generic migration note, incomplete environment contract, and Phase 1 control-file status were corrected with a reproducibility runbook covering setup, migrations, seed data, endpoints, error semantics, quotas, pricing, Stripe test flow, usage, rollups, security boundary, architecture, and non-goals.
+
+## T15 evidence review
+
+- Existing verified PostgreSQL and deterministic evidence was mapped to idempotency, quota boundaries, pricing, forged/duplicate webhooks, Free-to-Pro entitlement, tenant isolation, and rollup reconciliation. No expensive proof was rerun when its prior evidence remained applicable.
+- A tracked source/documentation scan for common live credential prefixes completed with `live_credential_scan=clear`. Published configuration remains placeholder-only.
+
+## T16 AI-assisted review
+
+- **Major decisions:** retain usage events as the source of truth; use UTC calendar months; keep pricing integer-only with one final rounding; keep Checkout separate from entitlement; use endpoint-bound tenant proofs rather than a new auth subsystem.
+- **AI mistakes corrected:** the original README and migration note still described an unimplemented workspace, and the control file still reported Phase 1 despite implemented billing behavior. They were updated to match the verified capstone.
+- **Nicholas's corrections:** Nicholas required the missing C5 labels not be invented, demanded a low-credit focused-then-one-full-suite verification strategy, and required no claim of personal understanding without his demonstration.
+- **Important learning:** tenant scoping in repositories is not sufficient when a public API accepts a tenant UUID; ownership must be checked at the request boundary before any metering or disclosure.
+- **T16.5 status: incomplete.** Nicholas has not personally demonstrated that he can explain the retained critical code, so no such claim is made.

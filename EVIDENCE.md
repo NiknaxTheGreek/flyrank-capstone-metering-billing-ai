@@ -119,4 +119,26 @@ This document records only command output and facts that have actually been veri
 - The real `POST /api/generate` request-validation boundary rejects an unsupported `usage_type` with `HTTP 422` before metering or persistence.
 - The focused deterministic API regression completed successfully: `1 passed`; it verifies the validation error is attached to `body.usage_type` and the rejected idempotency key has zero persisted usage events.
 
+## Phase 4 hardening and runbook verification
+
+- Tenant-scoped `POST /api/generate` and `GET /usage` now require endpoint-bound HMAC tenant proofs. A proof for one tenant or endpoint cannot authorize another; missing or wrong proofs return a clear `403`, and an absent runtime signing secret returns `503`.
+- Request validation rejects unsupported types, non-positive quantities, AI-token requests without a token category, and API-call requests with one before metering or persistence. The focused deterministic API tests completed successfully: `14 passed`.
+- The final deterministic regression suite completed successfully after the Phase 4 change: `105 passed`.
+- The final suite retains the existing signature-first forged/stale webhook safety, unsupported verified-event acknowledgement, duplicate Stripe receipt, duplicate usage-event, quota, pricing, Stripe synchronization, usage-summary, and monthly-rollup coverage.
+- No new PostgreSQL proof was needed for the HMAC boundary because the changed behavior is request validation and authorization covered by deterministic API tests. Existing PostgreSQL proofs remain the source of truth for quotas, Stripe upgrade/order handling, tenant usage isolation, and repeated rollups.
+- A tracked application/documentation scan for live Stripe, GitHub, and AWS credential patterns returned `live_credential_scan=clear`. Published configuration continues to use placeholders only.
+
+## T15 C3 checklist evidence map
+
+- **T15.1:** This section maps each requested proof to its genuine source; no checklist item is claimed solely from prose.
+- **T15.2 idempotency:** `tests/test_generate_api.py` verifies first-write/retry behavior; the Phase 4 focused run passed. T6 PostgreSQL evidence confirms one persistent event for a duplicate key.
+- **T15.3 quota boundary:** T7 PostgreSQL evidence confirms exact-limit acceptance, over-limit rejection, and no rejected-event persistence for both dimensions.
+- **T15.4 pricing:** T10 evidence and the final `105 passed` suite retain category-separated, integer-cent, one-rounding pricing coverage.
+- **T15.5 forged webhook:** T9 evidence and the final suite retain missing/forged/wrong-secret/stale signature `400` handling with no local mutation.
+- **T15.6 duplicate webhook:** T9 evidence and the final suite retain the successful idempotent duplicate response and one persisted Stripe receipt.
+- **T15.7 Free to Pro:** T9/T11 PostgreSQL evidence confirms Checkout only links a subscription and a later verified active configured-price update grants Pro.
+- **T15.8 tenant isolation:** The Phase 4 focused run proves cross-tenant generate and usage requests receive `403`; prior PostgreSQL usage evidence confirms isolated tenant totals.
+- **T15.9 background job:** T12 PostgreSQL evidence confirms two reconciliation executions create one tenant/month rollup; job tests cover retries and exhausted failure.
+- **T15.10 secret hygiene:** the Phase 4 tracked live-credential scan was clear; `.env.example`, README, Evidence Log, and Build Log contain placeholders or non-sensitive descriptions only.
+
 Invoicing, charging, taxes, and proration remain out of scope and have not been implemented.

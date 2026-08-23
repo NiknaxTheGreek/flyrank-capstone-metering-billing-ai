@@ -5,7 +5,7 @@ from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, Header, HTTPException, status
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 from sqlalchemy.orm import Session
 
 from app.data.session import get_session
@@ -14,6 +14,11 @@ from app.services.metering import (
     SubscriptionNotEligibleError,
     TenantNotFoundError,
     meter_usage,
+)
+from app.services.checkout_authorization import (
+    TenantAuthorizationError,
+    TenantAuthorizationNotConfiguredError,
+    require_tenant_proof,
 )
 from app.services.quota import QuotaExceededError
 
@@ -27,6 +32,15 @@ class GenerateRequest(BaseModel):
     usage_type: Literal["api_call", "ai_token"]
     quantity: Annotated[int, Field(gt=0)]
     token_category: Literal["input", "cached_input", "output", "reasoning"] | None = None
+
+    @model_validator(mode="after")
+    def validate_usage_combination(self) -> "GenerateRequest":
+        """Reject combinations that cannot be stored or priced safely."""
+        if self.usage_type == "ai_token" and self.token_category is None:
+            raise ValueError("AI-token usage requires a token_category.")
+        if self.usage_type == "api_call" and self.token_category is not None:
+            raise ValueError("API-call usage cannot include a token_category.")
+        return self
 
 
 class GenerateResponse(BaseModel):
@@ -64,8 +78,36 @@ def generate(
         ),
     ],
     session: Annotated[Session, Depends(get_session)],
+    tenant_proof: Annotated[
+        str | None,
+        Header(
+            alias="X-Tenant-Proof",
+            description=(
+                "Endpoint-bound tenant proof issued by the trusted authentication "
+                "or gateway layer."
+            ),
+        ),
+    ] = None,
 ) -> JSONResponse:
     """Simulate generation and record at most one durable usage event per key."""
+    try:
+        require_tenant_proof(request.tenant_id, tenant_proof, audience="generate")
+    except TenantAuthorizationNotConfiguredError as error:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail={
+                "code": "tenant_authorization_not_configured",
+                "message": "Tenant request authorization is not configured.",
+            },
+        ) from error
+    except TenantAuthorizationError as error:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail={
+                "code": "tenant_not_authorized",
+                "message": "The request is not authorized for the stated tenant.",
+            },
+        ) from error
     try:
         result = meter_usage(
             session,

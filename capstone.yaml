@@ -4,8 +4,8 @@ project:
   implementation_origin: ai-generated
 
 status:
-  phase: 1
-  state: stripe-webhooks-and-pricing-verified
+  phase: 4
+  state: hardening-and-runbook-verified
   implementation_started: true
 
 planned_stack:
@@ -37,7 +37,11 @@ core_scope:
     - Kubernetes
     - Paid infrastructure
     - Production Stripe
+    - Production authentication and authorization
+    - Background scheduling
+    - Refunds and taxes
 
 implementation_note: >
-  This control file describes the planned capstone contract only. It does not
-  claim that later implementation, infrastructure, or acceptance tasks are complete.
+  This control file records the implemented capstone boundary. The generation
+  route is simulated; tenant proofs are issued by a trusted local gateway or
+  authentication layer and are not a production identity system.

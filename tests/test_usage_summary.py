@@ -17,17 +17,30 @@ from app.data.models import Base, Plan, Subscription, Tenant, UsageEvent
 from app.data.seed import DEMO_FREE_SUBSCRIPTION_ID, DEMO_FREE_TENANT_ID, seed_database
 from app.data.session import get_session
 from app.main import app
+from app.services.checkout_authorization import create_tenant_proof
 from app.services.usage_summary import get_usage_summary
 
 FIXED_NOW = datetime(2026, 8, 23, 12, tzinfo=UTC)
 SIGNING_SECRET = "whsec_usage_summary_test_secret"
 PRO_PRICE_ID = "price_usage_summary_pro"
+TEST_SESSION_SECRET = "test-usage-tenant-proof-secret"
+
+
+def _usage_headers(tenant_id: uuid.UUID = DEMO_FREE_TENANT_ID) -> dict[str, str]:
+    return {
+        "X-Tenant-Proof": create_tenant_proof(
+            tenant_id,
+            TEST_SESSION_SECRET,
+            audience="usage",
+        )
+    }
 
 
 @pytest.fixture
 def usage_client(
     monkeypatch: pytest.MonkeyPatch,
 ) -> tuple[TestClient, object]:
+    monkeypatch.setenv("SESSION_SECRET", TEST_SESSION_SECRET)
     engine = create_engine(
         "sqlite+pysqlite://",
         connect_args={"check_same_thread": False},
@@ -224,6 +237,40 @@ def test_usage_summary_isolated_to_requested_tenant() -> None:
     engine.dispose()
 
 
+def test_usage_endpoint_rejects_another_tenants_proof_without_disclosure(
+    usage_client: tuple[TestClient, object],
+) -> None:
+    client, engine = usage_client
+    other_tenant_id = uuid.uuid4()
+    with Session(engine) as session:
+        free_plan = session.scalar(select(Plan).where(Plan.code == "free"))
+        assert free_plan is not None
+        session.add(Tenant(id=other_tenant_id, name="Other tenant"))
+        session.flush()
+        session.add(
+            Subscription(
+                tenant_id=other_tenant_id,
+                plan_id=free_plan.id,
+                status="active",
+            )
+        )
+        _add_usage(
+            session,
+            tenant_id=other_tenant_id,
+            usage_type="api_call",
+            quantity=700,
+            key="other-tenant-private-usage",
+        )
+
+    response = client.get(
+        f"/usage?tenant_id={other_tenant_id}",
+        headers=_usage_headers(),
+    )
+
+    assert response.status_code == 403
+    assert response.json()["detail"]["code"] == "tenant_not_authorized"
+
+
 def _signed_post(client: TestClient, event: dict[str, object]) -> object:
     payload = json.dumps(event, separators=(",", ":")).encode()
     timestamp = int(time.time())
@@ -282,7 +329,10 @@ def test_get_usage_reflects_verified_stripe_pro_upgrade(
 
     assert _signed_post(client, checkout).status_code == 200
     assert _signed_post(client, update).status_code == 200
-    response = client.get(f"/usage?tenant_id={DEMO_FREE_TENANT_ID}")
+    response = client.get(
+        f"/usage?tenant_id={DEMO_FREE_TENANT_ID}",
+        headers=_usage_headers(),
+    )
 
     assert response.status_code == 200
     body = response.json()

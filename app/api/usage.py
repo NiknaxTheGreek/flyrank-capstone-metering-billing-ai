@@ -3,12 +3,17 @@
 import uuid
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, Header, HTTPException, Query, status
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app.data.session import get_session
 from app.services.usage_summary import UsageSummaryNotFoundError, get_usage_summary
+from app.services.checkout_authorization import (
+    TenantAuthorizationError,
+    TenantAuthorizationNotConfiguredError,
+    require_tenant_proof,
+)
 
 router = APIRouter()
 
@@ -52,8 +57,36 @@ class UsageResponse(BaseModel):
 def get_usage(
     tenant_id: Annotated[uuid.UUID, Query()],
     session: Annotated[Session, Depends(get_session)],
+    tenant_proof: Annotated[
+        str | None,
+        Header(
+            alias="X-Tenant-Proof",
+            description=(
+                "Endpoint-bound tenant proof issued by the trusted authentication "
+                "or gateway layer."
+            ),
+        ),
+    ] = None,
 ) -> UsageResponse:
     """Return only the requested tenant's current verified monthly summary."""
+    try:
+        require_tenant_proof(tenant_id, tenant_proof, audience="usage")
+    except TenantAuthorizationNotConfiguredError as error:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail={
+                "code": "tenant_authorization_not_configured",
+                "message": "Tenant request authorization is not configured.",
+            },
+        ) from error
+    except TenantAuthorizationError as error:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail={
+                "code": "tenant_not_authorized",
+                "message": "The request is not authorized for the stated tenant.",
+            },
+        ) from error
     try:
         summary = get_usage_summary(session, tenant_id=tenant_id)
     except UsageSummaryNotFoundError as error:
