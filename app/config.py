@@ -19,6 +19,14 @@ class StripeTestSettings:
     cancel_url: str
 
 
+@dataclass(frozen=True)
+class StripeWebhookSettings:
+    """Validated settings needed to verify and synchronize Stripe webhooks."""
+
+    signing_secret: str
+    pro_price_id: str
+
+
 def get_database_url() -> str:
     """Return the required SQLAlchemy database URL."""
     database_url = os.getenv("DATABASE_URL")
@@ -35,18 +43,35 @@ def get_stripe_test_settings() -> StripeTestSettings:
             "STRIPE_SECRET_KEY must be a Stripe test-mode secret key."
         )
 
+    return StripeTestSettings(
+        secret_key=secret_key,
+        pro_price_id=_validated_stripe_pro_price_id(),
+        success_url=_validated_https_url("STRIPE_SUCCESS_URL"),
+        cancel_url=_validated_https_url("STRIPE_CANCEL_URL"),
+    )
+
+
+def get_stripe_webhook_settings() -> StripeWebhookSettings:
+    """Return the runtime-only signing secret and configured Pro Stripe price."""
+    signing_secret = _required_environment_value("STRIPE_WEBHOOK_SECRET")
+    if not signing_secret.startswith("whsec_") or len(signing_secret) <= len("whsec_"):
+        raise StripeConfigurationError(
+            "STRIPE_WEBHOOK_SECRET must be a Stripe webhook signing secret beginning with 'whsec_'."
+        )
+    return StripeWebhookSettings(
+        signing_secret=signing_secret,
+        pro_price_id=_validated_stripe_pro_price_id(),
+    )
+
+
+def _validated_stripe_pro_price_id() -> str:
+    """Return a structurally valid Stripe Price identifier from runtime settings."""
     pro_price_id = _required_environment_value("STRIPE_PRO_PRICE_ID")
     if not pro_price_id.startswith("price_") or len(pro_price_id) <= len("price_"):
         raise StripeConfigurationError(
             "STRIPE_PRO_PRICE_ID must be a Stripe Price identifier beginning with 'price_'."
         )
-
-    return StripeTestSettings(
-        secret_key=secret_key,
-        pro_price_id=pro_price_id,
-        success_url=_validated_https_url("STRIPE_SUCCESS_URL"),
-        cancel_url=_validated_https_url("STRIPE_CANCEL_URL"),
-    )
+    return pro_price_id
 
 
 def _required_environment_value(variable_name: str) -> str:

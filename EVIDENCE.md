@@ -80,6 +80,25 @@ This document records only command output and facts that have actually been veri
 - This live proof was created through the connected Stripe sandbox Payment Link because its available API surface did not expose Checkout Session creation directly and the Replit runtime did not contain Stripe credentials. The application Checkout implementation itself remains verified by deterministic mocked tests.
 - No webhook route, signature verification, event deduplication, subscription synchronization, pricing behavior, usage summary, or background job was added.
 
+## T9 verified Stripe webhook payment synchronization
+
+- The `POST /webhooks/stripe` boundary reads the raw request body and uses Stripe Python SDK `Webhook.construct_event` before calling local synchronization. Missing, forged, wrong-secret, stale, and malformed-signature deliveries return `HTTP 400` with no local mutation.
+- Deterministic, correctly HMAC-signed Stripe-compatible event fixtures exercised the real SDK verifier: valid Checkout completion upgrades only the referenced tenant and records Stripe customer/subscription identifiers; mapped subscription updates apply Pro access only for the configured Pro Price; deletion restores the Free plan.
+- Subscription synchronization records the latest applied Stripe event creation time and event type under a subscription row lock. Older valid deliveries are acknowledged and receipted but cannot resurrect access after a newer deletion. Because Stripe event timestamps are second-granular, a same-second distinct delivery retrieves the current Stripe subscription before the receipt is claimed, records an authoritative reconciliation watermark, and routes any later potentially subsumed delivery through that same current-state read instead of trusting stale arrival order.
+- Valid duplicate deliveries return `HTTP 200` with `idempotent_replay=true`. The existing globally unique processed-event identifier is claimed transactionally before subscription mutation, so only one business effect is durable.
+- Valid unsupported event types return `HTTP 200` with `handled=false` and do not create a receipt or alter subscription state. Safely unprocessable but signature-valid mapped events return `HTTP 422` without mutation.
+- `uv run --locked pytest -q tests/test_stripe_config.py tests/test_webhooks.py tests/test_pricing.py` completed successfully: `49 passed`.
+- An isolated PostgreSQL verification database migrated and seeded successfully. Through the HTTP endpoint, an SDK-verified Checkout completion, its duplicate delivery, a verified deletion, and two older delayed deliveries completed with `receipts=4`, `final_plan=free`, and `final_status=canceled`. `alembic check` reported `No new upgrade operations detected.`
+- Stripe CLI was installed without credentials and version-checked as `stripe version 1.27.0`. This environment was not authenticated to Stripe and no Stripe CLI delivery proof was attempted or fabricated.
+
+## T10 verified Gemini 2.5 Flash-Lite Standard pricing engine
+
+- The standalone pricing service is pure and integer-only. API-call variable cost is pinned to `0` cents; the denominator is `1,000,000` tokens; and ordinary input, cached input, output, and reasoning are retained separately.
+- The pinned Gemini 2.5 Flash-Lite Standard text rates are input `10`, cached input `1`, output `40`, and reasoning `40` cents per million tokens, as supplied from Google AI pricing and checked on `2026-08-23`.
+- All category numerators are combined first; one final non-negative integer half-up rounding to whole cents is applied. No binary floating-point money is used.
+- Independent deterministic tests cover each category, zero-cost API calls, mixed totals, exact and below-half-cent boundaries, large values, invalid counts, and immutability.
+- The full deterministic suite completed successfully after the final reconciliation change: `89 passed`.
+
 ## Pending evidence
 
-Live Checkout Session creation, webhook processing, pricing calculations, usage summaries, background jobs, and later acceptance evidence will be added only after those items exist and their commands have been run successfully.
+Usage summaries, invoicing, charging, taxes, proration, and background jobs remain out of scope and have not been implemented.

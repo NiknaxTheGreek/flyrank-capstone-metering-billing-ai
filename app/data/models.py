@@ -93,6 +93,13 @@ class Subscription(Base):
         DateTime(timezone=True)
     )
     current_period_end: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    stripe_last_event_created_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True)
+    )
+    stripe_last_event_type: Mapped[str | None] = mapped_column(String(255))
+    stripe_authoritative_reconciled_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True)
+    )
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False, server_default=func.now()
     )
