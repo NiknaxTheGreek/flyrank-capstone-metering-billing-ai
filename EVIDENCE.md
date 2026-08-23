@@ -51,6 +51,15 @@ This document records only command output and facts that have actually been veri
 - The managed API workflow served the same first-request/retry behavior against the documented local Compose database and retained `GET /api/healthz` at `HTTP 200`.
 - The deterministic test suite completed successfully: `12 passed`.
 
+## T7 verified quota enforcement
+
+- Quota evaluation uses the deterministic UTC calendar month: the first day at `00:00:00+00:00` is inclusive and the next month boundary is exclusive.
+- A dedicated clean PostgreSQL verification database migrated and seeded successfully before exercising `/api/generate`.
+- Free API-call usage at `999` accepted one final request with `HTTP 201`, a same-key retry returned `HTTP 200` with the original event, and the next key returned `HTTP 429` with no persistent event.
+- Free AI-token usage at `99,999` accepted one final request with `HTTP 201`, and the next key returned `HTTP 429` with no persistent event.
+- Direct PostgreSQL totals after the boundary proof were `api_calls:1000 ai_tokens:100000`; rejected-key counts were both zero.
+- The deterministic test suite completed successfully: `30 passed`.
+
 ## Pending evidence
 
-Webhook processing, quota behavior, pricing calculations, usage summaries, background jobs, and later acceptance evidence will be added only after those items exist and their commands have been run successfully.
+Webhook processing, pricing calculations, usage summaries, background jobs, and later acceptance evidence will be added only after those items exist and their commands have been run successfully.

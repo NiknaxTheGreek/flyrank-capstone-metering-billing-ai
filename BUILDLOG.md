@@ -51,3 +51,12 @@ This is the dedicated AI-generated implementation workspace for the FlyRank Back
 - The API requires a tenant-scoped request body and `Idempotency-Key` header. A first request returns `201`; a safe retry returns `200`, the original usage event, and `idempotent_replay=true`.
 - The service coordinates metering behavior, while the repository owns persistence, transaction handling, and the existing tenant/idempotency database uniqueness constraint as the final duplicate-prevention backstop.
 - No quota enforcement, Stripe processing, pricing calculation, usage summary, or background job behavior was added.
+
+## T7 quota enforcement
+
+- AI assistance added tenant-scoped, current-period usage aggregation and active-plan lookup in the data layer.
+- The quota service uses an explicit UTC calendar month, inclusive at the month start and exclusive at the next month start, so period evaluation remains deterministic.
+- API-call and AI-token quotas are evaluated independently. Requests are accepted when current usage plus attempted quantity is less than or equal to the plan limit, including the exact limit; requests that would exceed it return `429` with `quota_exhausted` details and create no usage event.
+- Existing successful idempotency keys are replayed before plan or quota evaluation, preserving exactly-once behavior even when current usage has subsequently reached a limit.
+- `402` is reserved for a tenant without an active eligible subscription plan; ordinary quota exhaustion remains `429`.
+- No Stripe Checkout or webhook processing, pricing engine, usage-summary route, or background job behavior was added.

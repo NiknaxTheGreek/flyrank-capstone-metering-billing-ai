@@ -9,7 +9,13 @@ from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
 from app.data.session import get_session
-from app.services.metering import MeterUsageCommand, TenantNotFoundError, meter_usage
+from app.services.metering import (
+    MeterUsageCommand,
+    SubscriptionNotEligibleError,
+    TenantNotFoundError,
+    meter_usage,
+)
+from app.services.quota import QuotaExceededError
 
 router = APIRouter(prefix="/api")
 
@@ -72,6 +78,32 @@ def generate(
     except TenantNotFoundError as error:
         session.rollback()
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Unknown tenant.") from error
+    except SubscriptionNotEligibleError as error:
+        session.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_402_PAYMENT_REQUIRED,
+            detail={
+                "code": "subscription_not_eligible",
+                "message": "An active subscription plan is required to record usage.",
+            },
+        ) from error
+    except QuotaExceededError as error:
+        session.rollback()
+        evaluation = error.evaluation
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail={
+                "code": "quota_exhausted",
+                "message": (
+                    f"The {evaluation.usage_type} quota is exhausted for the "
+                    "current UTC calendar month."
+                ),
+                "usage_type": evaluation.usage_type,
+                "limit": evaluation.limit,
+                "current_usage": evaluation.current_usage,
+                "attempted_quantity": evaluation.attempted_quantity,
+            },
+        ) from error
 
     response = GenerateResponse(
         generated_text="simulated-generation",

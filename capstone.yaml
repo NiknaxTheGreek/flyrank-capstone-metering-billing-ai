@@ -5,7 +5,7 @@ project:
 
 status:
   phase: 1
-  state: core-metering-ready
+  state: quota-enforcement-ready
   implementation_started: true
 
 planned_stack:
