@@ -75,7 +75,9 @@ This document records only command output and facts that have actually been veri
 - An eligible active Free tenant produces a subscription-mode Checkout request with one configured Pro Price line item, configured success/cancel URLs, and the tenant identifier in both `client_reference_id` and `metadata.tenant_id`.
 - The public Checkout route requires a tenant-bound HMAC proof derived from the runtime-only `SESSION_SECRET`; tests confirm a missing or proof-for-another-tenant request is rejected before Checkout creation.
 - Tests confirm unknown and non-Free tenants are rejected, Stripe failures map to the Checkout-unavailable path, and creating Checkout leaves the persisted tenant subscription active on Free with no Stripe subscription identifier.
-- Live Stripe test-mode Checkout verification is pending: `STRIPE_SECRET_KEY`, `STRIPE_PRO_PRICE_ID`, `STRIPE_SUCCESS_URL`, and `STRIPE_CANCEL_URL` are not configured in this Replit environment. No live Checkout Session was created or claimed.
+- Live Stripe sandbox acceptance was verified through the connected Stripe sandbox Payment Link workaround. The completed Checkout Session had `livemode=false`, `mode=subscription`, `amount_total=0`, `payment_status=paid`, and `status=complete`; its metadata included the demo tenant ID `1fcf89e3-0f0d-5eff-b8bd-432931feac25`, and Stripe created a real test subscription.
+- The verified session line item used the intended FlyRank Capstone Pro test product and configured sandbox Price `price_1U7Y4NKCXHTirgTqAUC7EMvi`: recurring monthly, quantity `1`, `unit_amount=0`, and `livemode=false`.
+- This live proof was created through the connected Stripe sandbox Payment Link because its available API surface did not expose Checkout Session creation directly and the Replit runtime did not contain Stripe credentials. The application Checkout implementation itself remains verified by deterministic mocked tests.
 - No webhook route, signature verification, event deduplication, subscription synchronization, pricing behavior, usage summary, or background job was added.
 
 ## Pending evidence
