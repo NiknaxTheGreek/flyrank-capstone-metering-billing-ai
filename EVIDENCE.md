@@ -105,6 +105,7 @@ This document records only command output and facts that have actually been veri
 - `GET /usage` returns a tenant-scoped UTC-calendar-month summary with verified plan/status, configured plan limits, remaining API-call/token allowance, distinguishable input/cached-input/output/reasoning token totals, and the T10 integer-cent estimate.
 - Focused deterministic T11/T12 tests completed successfully: `7 passed`.
 - The requested one full-suite run observed `98 passed, 1 failed`; the sole failure was the existing metadata-table inventory missing the new required rollup table. That expectation was corrected and the isolated test file then completed successfully: `4 passed`.
+- The final full deterministic-suite rerun against the corrected committed code completed successfully: `99 passed`.
 - PostgreSQL proof passed with Free limits `1000/100000`, verified Stripe Pro limits `10000/1000000`, an isolated second tenant with `777` API calls, and unchanged historical usage through the upgrade.
 
 ## T12 verified monthly usage reconciliation job

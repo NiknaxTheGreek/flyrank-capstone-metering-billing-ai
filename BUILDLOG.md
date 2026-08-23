@@ -110,3 +110,4 @@ This is the dedicated AI-generated implementation workspace for the FlyRank Back
 - AI assistance added a directly runnable `python -m app.jobs.monthly_usage_rollup` job outside FastAPI request handling.
 - The job reuses the same summary/pricing functions as `GET /usage`, retries transient database failures with a small bounded budget, logs only safe failure labels, and raises a nonzero CLI exit after exhausted retries.
 - A monthly rollup table with a tenant-plus-UTC-month uniqueness constraint allows repeated execution to reconcile one row rather than create duplicates.
+- The final deterministic regression-suite rerun against the corrected committed T11/T12 milestone completed successfully: `99 passed`.
