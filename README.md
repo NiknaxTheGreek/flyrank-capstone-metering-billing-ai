@@ -44,6 +44,19 @@ uv run --locked pytest -q
 `alembic upgrade head` is repeatable. The seed command is also repeat-safe and
 creates the Free/Pro plans plus the deterministic demo Free tenant.
 
+## Deterministic demo rehearsal
+
+Run the complete local T18 demonstration twice without live Stripe credentials:
+
+```bash
+uv run --locked python -m scripts.rehearse_t18_demo
+```
+
+The rehearsal uses a temporary file-backed SQLite database and the real HTTP
+routes. It visibly exercises near-quota refusal, idempotent retry, durable row
+counts, signed Stripe Free-to-Pro synchronization, forged/duplicate webhook
+handling, an exact usage summary, and one selected pytest result per run.
+
 ## Environment
 
 Copy `.env.example`; it contains placeholders only. Never commit `.env` or put

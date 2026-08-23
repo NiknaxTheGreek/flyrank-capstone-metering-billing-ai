@@ -151,4 +151,19 @@ This document records only command output and facts that have actually been veri
 - **T17.5 — tenant isolation and rollup:** cross-tenant generate and usage proofs return `403` without a usage write or disclosure; monthly-job tests retain retry and one-row-per-tenant/month reconciliation coverage.
 - No additional PostgreSQL command was run for T17. Existing PostgreSQL evidence remains the durable proof for one usage event, quota persistence boundaries, Free-to-Pro synchronization, isolated tenant totals, and repeated monthly rollups.
 
+## T18 deterministic demo preparation
+
+- Reproducible command: `uv run --locked python -m scripts.rehearse_t18_demo`.
+- **T18.1:** Each run seeded the Free tenant at `999/1000` API calls.
+- **T18.2:** Each run accepted the exact-limit request and then refused the next API request with `429`.
+- **T18.3:** Each run sent the same AI-token idempotency key twice; the retry returned the original usage event.
+- **T18.4:** Each file-backed database query proved `retry rows=1` and `blocked rows=0`.
+- **T18.5:** Each verified, locally signed Stripe test event sequence transitioned the tenant from Free to Pro.
+- **T18.6:** Each forged Stripe webhook was refused with `400`.
+- **T18.7:** Each duplicate valid Checkout webhook was acknowledged as a replay with exactly one receipt row.
+- **T18.8:** Each `/usage` response exactly reported `plan=pro`, `api_calls=1000`, `input_tokens=2`, and `remaining_api=9000`.
+- **T18.9:** The selected rounding regression printed `1 passed` in each run; the accepted full-suite baseline remains `105 passed`.
+- **T18.10:** The complete demo sequence passed twice consecutively. The output contained no live Stripe credentials, tenant proofs, environment secrets, or personal data.
+- No new PostgreSQL command was required: this temporary file-backed rehearsal makes its own persistent-row proof, while the existing PostgreSQL evidence remains retained for the production-shaped database acceptance cases.
+
 Invoicing, charging, taxes, and proration remain out of scope and have not been implemented.
