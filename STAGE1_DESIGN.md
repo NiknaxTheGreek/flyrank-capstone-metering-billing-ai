@@ -36,3 +36,14 @@ The core domain is intentionally small and uses four related concepts:
 - **Usage event** — an immutable record of billable activity. Every usage event belongs to exactly one tenant and contributes to the tenant's view of usage, cost, and limits.
 
 At a high level, a tenant has a current subscription, and that subscription selects the plan that governs the tenant's entitlement and pricing policy. The tenant's usage events are recorded independently as activity occurs. Those events are interpreted through the tenant's current plan context to answer the service's three core questions about usage, cost, and limits.
+
+## T1.4 Architecture
+
+The capstone uses the simplest layered architecture that clearly separates HTTP concerns, business rules, persistence, and Stripe-specific work:
+
+- **API layer** — owns HTTP handling, request validation, headers, status codes, and dependency wiring. Route handlers should stay thin: they translate between HTTP and the service layer rather than carrying business logic where practical.
+- **Service layer** — owns metering, quotas, pricing, subscription rules, idempotency, and the business logic that coordinates the domain.
+- **Data layer** — owns PostgreSQL persistence, queries, transactions, and database constraints. It provides reliable data access without deciding product or billing rules.
+- **Stripe integration layer** — owns Stripe Checkout, webhook signature verification, and Stripe-specific object and event handling. It isolates Stripe concerns from the rest of the service.
+
+The API layer calls the service layer to perform product decisions. The service layer uses the data layer for durable records and uses the Stripe integration layer when Stripe-specific behavior is needed. This keeps transport, business, persistence, and third-party integration concerns distinct without introducing unnecessary services or infrastructure.
