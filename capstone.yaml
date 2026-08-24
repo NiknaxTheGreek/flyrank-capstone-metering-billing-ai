@@ -36,7 +36,7 @@ core_scope:
     - Invoicing
     - Overage billing
     - Proration
-    - Dashboards
+    - Production dashboards
     - Microservices
     - Kubernetes
     - Paid infrastructure
@@ -44,6 +44,19 @@ core_scope:
     - Production authentication and authorization
     - Background scheduling
     - Refunds and taxes
+
+demo:
+  optional_demo_mode: true
+  route: /demo
+  tenant_scope: deterministic seeded demo tenant only
+  real_metering_requests: true
+  report_exports:
+    - JSON
+    - CSV
+  note: >
+    The demo page is an opt-in reviewer convenience, not a production dashboard.
+    It is disabled unless DEMO_MODE=true and does not weaken the normal protected
+    tenant-scoped API endpoints.
 
 implementation_note: >
   This control file records the implemented capstone boundary. The generation
