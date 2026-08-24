@@ -3,8 +3,8 @@ databases:
     plan: free
     region: frankfurt
     postgresMajorVersion: "16"
-    databaseName: flyrank_metering
-    user: flyrank
+    databaseName: flyrank_capstone_metering_billing_db
+    user: flyrank_capstone_metering_billing_db_user
 
 services:
   - type: web
