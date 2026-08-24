@@ -1,8 +1,17 @@
+databases:
+  - name: flyrank-capstone-metering-billing-db
+    plan: free
+    region: frankfurt
+    postgresMajorVersion: "16"
+    databaseName: flyrank_metering
+    user: flyrank
+
 services:
   - type: web
     name: flyrank-capstone-metering-billing-ai
     runtime: python
     plan: free
+    region: frankfurt
     branch: main
     autoDeployTrigger: commit
     buildCommand: pip install uv && uv sync --locked
@@ -16,4 +25,6 @@ services:
       - key: SESSION_SECRET
         generateValue: true
       - key: DATABASE_URL
-        sync: false
+        fromDatabase:
+          name: flyrank-capstone-metering-billing-db
+          property: connectionString
