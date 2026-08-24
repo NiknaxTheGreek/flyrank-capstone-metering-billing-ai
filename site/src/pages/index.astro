@@ -1,0 +1,95 @@
+---
+import '../styles/global.css';
+const cases = [
+  {
+    title:'Term Deposit Customer Ranking',
+    href:'/case-studies/term-deposit',
+    tag:'Applied ML · Ranking',
+    body:'A practical modelling workflow for prioritising customers before a call, with leakage control, time-aware validation and interpretable decision support.'
+  },
+  {
+    title:'ATLAS TileCal Predictive Maintenance',
+    href:'/case-studies/atlas-tilecal',
+    tag:'Physics · Time Series · ML',
+    body:'Research-led work on alert-signal classification and prediction for detector operations, connecting scientific context with machine-learning methods.'
+  },
+  {
+    title:'NLP Stance Detection',
+    href:'/case-studies/nlp-stance',
+    tag:'NLP · Research · Public Health',
+    body:'A research programme spanning COVID-19 vaccine hesitancy and Mpox, using NLP to classify stance and extract defensible insight from messy text data.'
+  }
+];
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <meta name="description" content="Nicholas Perikli — data science, applied machine learning and NLP portfolio." />
+  <title>Nicholas Perikli — Data Science & Applied ML</title>
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <a class="brand" href="/" aria-label="Nicholas Perikli home"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a>
+    <nav aria-label="Primary"><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="https://github.com/NiknaxTheGreek" target="_blank" rel="noreferrer">Contact</a></nav>
+  </div>
+</header>
+<main>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="eyebrow">Data Science · Applied ML · NLP</div>
+        <h1>From messy data to credible, useful machine-learning decisions.</h1>
+        <p>I use data analysis and machine learning to solve real-world problems where the data is messy, the obvious answer is not always the right one, and technical results need to translate into practical value.</p>
+        <div class="actions"><a class="cta" href="/case-studies">View case studies</a><a class="cta secondary" href="#agent">Ask my portfolio agent</a></div>
+      </div>
+      <aside class="hero-aside"><strong>What this portfolio proves</strong>I can take a real-world data problem from analysis through modelling and validation to a credible, useful ML solution.</aside>
+    </div>
+  </section>
+
+  <section class="proof">
+    <div class="container proof-grid"><blockquote>Evidence first. Method before hype. Decisions that survive scrutiny.</blockquote><p>My work spans applied ML, time-series modelling and published NLP research, with an emphasis on rigorous validation and defensible decisions.</p></div>
+  </section>
+
+  <section class="section" id="case-studies">
+    <div class="container">
+      <div class="eyebrow">Selected work</div><h2 class="section-title">Case studies</h2><p class="section-lead">Three projects that show how I frame problems, protect against misleading signals, validate decisions and explain what the result actually means.</p>
+      <div class="cards">{cases.map((c)=><article class="card"><span class="tag">{c.tag}</span><h3>{c.title}</h3><p>{c.body}</p><a href={c.href}>Read case study →</a></article>)}</div>
+      <div class="evidence"><div><strong>3</strong>core case studies</div><div><strong>End-to-end</strong>problem → model → validation</div><div><strong>Grounded</strong>portfolio agent</div></div>
+    </div>
+  </section>
+
+  <section class="section navy" id="agent">
+    <div class="container agent-grid">
+      <div><div class="eyebrow">Personal agent</div><h2 class="section-title">Ask about my work.</h2><p>This recruiter-focused assistant is grounded in the portfolio content on this site. It answers concise questions about skills, research and projects, and it refuses to invent unsupported details.</p></div>
+      <div class="agent-panel">
+        <form id="agent-form"><input id="agent-input" placeholder="Ask about projects, skills or research…" autocomplete="off" /><button type="submit">Ask</button></form>
+        <div class="starters"><button type="button" data-q="What are Nicholas's strongest ML skills?">Strongest ML skills</button><button type="button" data-q="Tell me about the term deposit project">Term deposit project</button><button type="button" data-q="What NLP research has Nicholas done?">NLP research</button></div>
+        <div class="answer" id="agent-answer">Try a starter question, or ask what the case studies demonstrate.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container about-grid"><aside><div class="eyebrow">Working style</div><h3>Direct. Analytical. Evidence-led.</h3><p>I prefer clear assumptions, explicit trade-offs and results that can be defended rather than merely presented.</p></aside><div><div class="eyebrow">About</div><h2 class="section-title">Research discipline, applied to practical ML.</h2><p>My background connects physics research, data science and NLP. I am most interested in work where model quality depends on careful problem framing, leakage control, validation and interpretation—not just fitting an algorithm.</p><p><a href="/about">More about my background →</a></p></div></div>
+  </section>
+</main>
+<footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small">Data Science · Applied ML · NLP · <a href="https://github.com/NiknaxTheGreek" target="_blank" rel="noreferrer">GitHub</a></div></div></footer>
+<script is:inline>
+const knowledge=[
+ {keys:['term','deposit','customer','ranking','bank'],answer:'The Term Deposit Customer Ranking case focuses on prioritising customers before a call. The key methodological points are leakage control, pre-call feature discipline, time-aware validation, ranking quality and interpretable decision support.'},
+ {keys:['atlas','tilecal','physics','detector','predictive','maintenance'],answer:'The ATLAS TileCal project applies machine-learning and time-series thinking to detector alert signals. It connects domain knowledge from experimental physics with classification and prediction for operational decision support.'},
+ {keys:['nlp','stance','covid','mpox','vaccine','research','publication'],answer:'Nicholas has worked on NLP stance detection across COVID-19 vaccine hesitancy and Mpox. The programme uses text classification to extract defensible public-health insight from noisy real-world language data.'},
+ {keys:['skill','skills','machine learning','ml','python','data science'],answer:'The portfolio demonstrates Python-based data analysis and machine learning, NLP, time-series modelling, validation design, leakage control, interpretation and evidence-focused communication.'},
+ {keys:['hire','role','job','position','candidate'],answer:'The portfolio is aimed at early-career Data Scientist and Applied ML opportunities. The strongest evidence is the end-to-end handling of messy data, modelling, validation and interpretation across three distinct domains.'},
+ {keys:['about','background','who'],answer:'Nicholas combines a physics research background with applied data science and NLP. The common thread is rigorous validation, explicit assumptions and practical interpretation.'}
+];
+const input=document.getElementById('agent-input');const answer=document.getElementById('agent-answer');
+function reply(q){const t=q.toLowerCase();let best=null,score=0;for(const item of knowledge){let s=0;for(const k of item.keys){if(t.includes(k))s++;}if(s>score){score=s;best=item;}}answer.textContent=best&&score>0?best.answer:'I do not have enough grounded portfolio information to answer that confidently. Try asking about the three case studies, ML skills, NLP research, physics research or role fit.';}
+document.getElementById('agent-form').addEventListener('submit',e=>{e.preventDefault();if(input.value.trim())reply(input.value.trim());});
+document.querySelectorAll('[data-q]').forEach(b=>b.addEventListener('click',()=>{input.value=b.dataset.q;reply(b.dataset.q);}));
+</script>
+</body>
+</html>
