@@ -23,6 +23,8 @@ jobs:
         with:
           fetch-depth: 0
 
+      # The submission archive always packages the current main commit, including
+      # permanent-deployment documentation, while excluding generated/stale ZIPs.
       - name: Build current submission ZIP
         shell: bash
         run: |
