@@ -1,10 +1,14 @@
-name: Package AI capstone ZIP
+name: Package capstone submission ZIP
 
 on:
   push:
     branches: [main]
     paths-ignore:
+      - 'FlyRank_Backend_Capstone_Submission.zip'
       - 'flyrank-capstone-metering-billing-ai.zip'
+      - '.github/TEMP_TEST_APP_URL.txt'
+      - '.github/TEMP_HEALTH_URL.txt'
+      - '.github/TEMP_TEST_STATUS.txt'
   workflow_dispatch:
 
 permissions:
@@ -14,34 +18,38 @@ jobs:
   package:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository with history
+      - name: Check out current main
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Build exact synchronized AI capstone ZIP
+      - name: Build current submission ZIP
         shell: bash
         run: |
           set -euo pipefail
-          SOURCE_COMMIT='8d47cff799426532d492b522e9125aa784a5a91a'
-          OUTPUT='flyrank-capstone-metering-billing-ai.zip'
-          git cat-file -e "${SOURCE_COMMIT}^{commit}"
+          OUTPUT='FlyRank_Backend_Capstone_Submission.zip'
           rm -f "$OUTPUT"
-          git archive --format=zip --output="$OUTPUT" "$SOURCE_COMMIT"
+          git archive --format=zip --output="$OUTPUT" HEAD -- \
+            . \
+            ':(exclude)FlyRank_Backend_Capstone_Submission.zip' \
+            ':(exclude)flyrank-capstone-metering-billing-ai.zip' \
+            ':(exclude).github/TEMP_TEST_APP_URL.txt' \
+            ':(exclude).github/TEMP_HEALTH_URL.txt' \
+            ':(exclude).github/TEMP_TEST_STATUS.txt'
           unzip -t "$OUTPUT"
           sha256sum "$OUTPUT"
 
-      - name: Commit ZIP to main
+      - name: Commit refreshed ZIP to main
         shell: bash
         run: |
           set -euo pipefail
-          OUTPUT='flyrank-capstone-metering-billing-ai.zip'
+          OUTPUT='FlyRank_Backend_Capstone_Submission.zip'
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -f "$OUTPUT"
           if git diff --cached --quiet; then
-            echo 'ZIP already matches the synchronized AI capstone snapshot.'
+            echo 'Submission ZIP already matches current main.'
             exit 0
           fi
-          git commit -m 'Add synchronized AI capstone ZIP [skip ci]'
+          git commit -m 'Refresh capstone submission ZIP [skip ci]'
           git push origin HEAD:main
