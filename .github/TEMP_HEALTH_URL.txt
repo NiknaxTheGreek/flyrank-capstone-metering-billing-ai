@@ -1,1 +1,1 @@
-https://promotion-cliff-ata-fixtures.trycloudflare.com/api/healthz
+https://edit-dropped-kept-reliance.trycloudflare.com/api/healthz
