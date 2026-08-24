@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: flyrank-capstone-metering-billing-ai
+    runtime: python
+    plan: free
+    branch: main
+    autoDeployTrigger: commit
+    buildCommand: pip install uv && uv sync --locked
+    startCommand: uv run alembic upgrade head && uv run python -m app.data.seed && uv run uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/healthz
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: DEMO_MODE
+        value: "true"
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
