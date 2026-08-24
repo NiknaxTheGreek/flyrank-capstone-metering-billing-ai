@@ -82,7 +82,7 @@ jobs:
           cat /tmp/uvicorn.log
           exit 1
 
-      - name: Smoke-test interactive demo
+      - name: Smoke-test interactive demo locally
         shell: bash
         run: |
           set -euo pipefail
@@ -109,7 +109,7 @@ jobs:
           curl -fsSL -o cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
           sudo dpkg -i cloudflared.deb
 
-      - name: Publish temporary demo URL
+      - name: Publish externally verified temporary demo URL
         shell: bash
         run: |
           set -euo pipefail
@@ -126,14 +126,35 @@ jobs:
             cat /tmp/cloudflared.log
             exit 1
           fi
+
+          PUBLIC_READY='false'
+          for i in {1..30}; do
+            if curl -fsS "$URL/demo" | grep -q 'Make a real metering request'; then
+              PUBLIC_READY='true'
+              break
+            fi
+            sleep 1
+          done
+          test "$PUBLIC_READY" = 'true'
+
+          PUBLIC_STATUS=$(curl -sS -o /tmp/public-demo.json -w '%{http_code}' \
+            -H 'Content-Type: application/json' \
+            -d '{"usage_type":"api_call","quantity":1,"idempotency_key":"gha-public-demo-smoke"}' \
+            "$URL/demo/api/generate")
+          test "$PUBLIC_STATUS" = '201'
+          grep -q '"idempotent_replay":false' /tmp/public-demo.json
+          curl -fsS "$URL/demo/report.csv" | grep -q 'tenant_id'
+          curl -fsS -X POST "$URL/demo/api/reset" | grep -q '"reset":true'
+          curl -fsS "$URL/api/healthz" | grep -q '"status":"ok"'
+
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git pull --rebase origin main
           printf '%s\n' "$URL/demo" > .github/TEMP_TEST_APP_URL.txt
           printf '%s\n' "$URL/api/healthz" > .github/TEMP_HEALTH_URL.txt
-          printf 'success\n' > .github/TEMP_TEST_STATUS.txt
+          printf 'success-public-request-verified\n' > .github/TEMP_TEST_STATUS.txt
           git add .github/TEMP_TEST_APP_URL.txt .github/TEMP_HEALTH_URL.txt .github/TEMP_TEST_STATUS.txt
-          git commit -m 'Publish temporary capstone demo URL [skip ci]'
+          git commit -m 'Publish verified capstone demo URL [skip ci]'
           git push origin HEAD:main
 
       - name: Report launch failure
