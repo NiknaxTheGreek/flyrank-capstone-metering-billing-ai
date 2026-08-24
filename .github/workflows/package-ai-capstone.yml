@@ -1,0 +1,47 @@
+name: Package AI capstone ZIP
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'flyrank-capstone-metering-billing-ai.zip'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository with history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build exact synchronized AI capstone ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE_COMMIT='8d47cff799426532d492b522e9125aa784a5a91a'
+          OUTPUT='flyrank-capstone-metering-billing-ai.zip'
+          git cat-file -e "${SOURCE_COMMIT}^{commit}"
+          rm -f "$OUTPUT"
+          git archive --format=zip --output="$OUTPUT" "$SOURCE_COMMIT"
+          unzip -t "$OUTPUT"
+          sha256sum "$OUTPUT"
+
+      - name: Commit ZIP to main
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUTPUT='flyrank-capstone-metering-billing-ai.zip'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -f "$OUTPUT"
+          if git diff --cached --quiet; then
+            echo 'ZIP already matches the synchronized AI capstone snapshot.'
+            exit 0
+          fi
+          git commit -m 'Add synchronized AI capstone ZIP [skip ci]'
+          git push origin HEAD:main
