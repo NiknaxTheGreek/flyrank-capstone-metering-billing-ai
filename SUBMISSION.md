@@ -9,9 +9,9 @@ Repository: `NiknaxTheGreek/flyrank-capstone-metering-billing-ai`
 
 - Source repository: `https://github.com/NiknaxTheGreek/flyrank-capstone-metering-billing-ai`
 - Current submission archive: `FlyRank_Backend_Capstone_Submission.zip`
-- Interactive demo route after deployment: `/demo`
-- FastAPI API documentation after deployment: `/docs`
-- Health check after deployment: `/api/healthz`
+- Permanent interactive demo: `https://flyrank-capstone-metering-billing-ai.onrender.com/demo`
+- FastAPI API documentation: `https://flyrank-capstone-metering-billing-ai.onrender.com/docs`
+- Health check: `https://flyrank-capstone-metering-billing-ai.onrender.com/api/healthz`
 
 ## Required submission files
 
@@ -47,31 +47,28 @@ Repository: `NiknaxTheGreek/flyrank-capstone-metering-billing-ai`
 - deterministic pytest regression suite
 - opt-in reviewer demo page with live usage requests and JSON/CSV report export
 
-## Deployment
+## Permanent deployment
 
-`render.yaml` defines a free Render Blueprint with:
+The reviewer-facing application is deployed as a free Render Python/FastAPI web service backed by a separate Neon PostgreSQL database.
 
-- a free Python/FastAPI web service
-- the existing free PostgreSQL 16 database in Frankfurt
-- automatic `DATABASE_URL` injection from that Render database
-- automatic dependency installation
-- Alembic migrations on start
-- repeat-safe seed data
-- `/api/healthz` health check
-- `/demo` enabled in explicit demo mode
-- generated runtime `SESSION_SECRET`
+- Render provides the stable public `onrender.com` hostname.
+- Neon provides the persistent PostgreSQL data layer without the 30-day expiry of Render's free Postgres tier.
+- The database connection string is stored only as a Render environment variable and is not committed to GitHub.
+- Alembic migrations and repeat-safe seed data run before Uvicorn starts.
+- `DEMO_MODE=true` exposes only the fixed seeded reviewer tenant through `/demo`; the normal tenant-scoped API remains protected.
+- `render.yaml` intentionally marks `DATABASE_URL` as `sync: false` because the external database credential must never be committed.
 
-Render Blueprint deployment:
+Permanent demo:
 
-`https://dashboard.render.com/blueprint/new?repo=https://github.com/NiknaxTheGreek/flyrank-capstone-metering-billing-ai`
-
-Render's free web-service hostname is stable, but its free PostgreSQL database expires after 30 days. For long-lived $0 data beyond the submission/review window, replace `DATABASE_URL` with a free persistent PostgreSQL provider such as Neon; never commit the connection string.
+`https://flyrank-capstone-metering-billing-ai.onrender.com/demo`
 
 ## Verification status
 
 The committed evidence records the completed deterministic regression suite, acceptance probes, PostgreSQL-backed boundary/idempotency proofs, Stripe signature/deduplication tests, tenant isolation, background-job repeat safety, and two successful deterministic demo rehearsals.
 
-The public reviewer demo is an additional presentation layer and does not replace the protected production-shaped API boundary.
+The permanent Render deployment reached `live` state after a deployment-specific connection-driver issue was corrected. The Neon database was then verified to contain the Alembic schema plus the expected seed counts: two plans, one demo tenant, and one subscription. Public-path verification is recorded separately by the permanent deployment verification workflow.
+
+The public reviewer demo is an additional presentation layer and does not replace the protected production-shaped API boundary. Stripe credentials are not configured on the public reviewer deployment, so the public demo is for metering, idempotency, quota, pricing and report behavior; the Stripe flow remains demonstrated by the committed deterministic and test-mode evidence.
 
 ## Owner-review item
 
