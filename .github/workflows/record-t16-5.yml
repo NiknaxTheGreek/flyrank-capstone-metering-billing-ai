@@ -1,3 +1,4 @@
+# Triggered after owner review completion on 2026-08-24.
 name: Record T16.5 owner review
 
 on:
@@ -57,6 +58,7 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --rebase origin main
           git add BUILDLOG.md EVIDENCE.md SUBMISSION.md
           if git diff --cached --quiet; then
             exit 0
