@@ -1,0 +1,65 @@
+name: Record T16.5 owner review
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/record-t16-5.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Record owner review
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          buildlog = Path('BUILDLOG.md')
+          text = buildlog.read_text()
+          old = '- **T16.5 status: incomplete.** Nicholas has not personally demonstrated that he can explain the retained critical code, so no such claim is made.'
+          new = '''- **T16.5 status: complete — owner review demonstrated 2026-08-24.** Nicholas explained the retained critical logic for idempotency, quota boundaries, money/pricing, Stripe authority and webhook deduplication, tenant isolation, and monthly rollup retry safety in his own words. Three implementation-specific corrections were identified and accepted during review: this code evaluates quota from persisted usage-event totals using `current + attempted <= limit` rather than an atomic counter-row update; token pricing combines integer category numerators and rounds once to cents rather than persisting per-event micro-unit prices; and tenant authorization uses endpoint-bound HMAC proofs plus tenant-scoped queries rather than deriving tenant identity from an API key. The review therefore demonstrates understanding while accurately distinguishing the implemented design from alternative designs.'''
+          if old in text:
+              text = text.replace(old, new)
+          elif 'T16.5 status: complete' not in text:
+              text += '\n\n' + new + '\n'
+          buildlog.write_text(text)
+
+          evidence = Path('EVIDENCE.md')
+          etext = evidence.read_text()
+          marker = '## T16.5 owner review verification'
+          if marker not in etext:
+              etext += '''\n\n## T16.5 owner review verification\n\n- Date: `2026-08-24`.\n- Nicholas personally explained the critical retained code paths for request idempotency, exact quota boundaries, integer-safe token pricing, Stripe subscription authority and webhook deduplication, tenant isolation, and retry-safe monthly rollups.\n- The review surfaced three differences between Nicholas's initial explanation and the actual implementation, and those were corrected rather than hidden: quota enforcement reads persisted usage-event totals and applies `current + attempted <= limit`; pricing combines integer rate numerators and performs one final half-up cent rounding; and public tenant authorization uses endpoint-bound HMAC proofs with tenant-scoped data access rather than API-key-derived identity.\n- Outcome: `T16.5 = complete`. The owner demonstrated the concepts and could distinguish the retained implementation from reasonable alternative designs.\n'''
+              evidence.write_text(etext)
+
+          submission = Path('SUBMISSION.md')
+          stext = submission.read_text()
+          old_heading = '## Manual owner-review item\n\n`T16.5` remains a manual owner-verification item until the owner personally demonstrates that they can explain the retained critical billing logic. This is intentionally not fabricated or auto-completed.'
+          new_heading = '## Owner-review item\n\n`T16.5` is complete. On 2026-08-24 the owner personally explained the retained critical billing logic; implementation-specific corrections are recorded in `BUILDLOG.md`, `EVIDENCE.md`, and `capstone.yaml`.'
+          if old_heading in stext:
+              stext = stext.replace(old_heading, new_heading)
+          submission.write_text(stext)
+          PY
+
+      - name: Commit review evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add BUILDLOG.md EVIDENCE.md SUBMISSION.md
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m 'Complete T16.5 owner review [skip ci]'
+          git push origin HEAD:main
