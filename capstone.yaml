@@ -5,12 +5,19 @@ project:
 
 status:
   phase: 5
-  state: completed-pending-review
+  state: completed
   implementation_started: true
   review_note: >
-    Completed — Pending Review. T16.5 remains pending: the owner must personally
-    explain the retained critical billing logic before a reviewer can verify it.
-    This manual verification was not auto-completed.
+    Completed. T16.5 owner review was demonstrated on 2026-08-24: the owner
+    explained idempotency, quota boundaries, integer-safe pricing, Stripe
+    authority and webhook deduplication, tenant isolation, and retry-safe
+    monthly rollups in their own words. Three implementation-specific
+    corrections were recorded rather than silently accepted: quota enforcement
+    uses persisted usage-event totals with current + attempted <= limit rather
+    than an atomic counter-row update; pricing combines integer category
+    numerators and rounds once to cents rather than persisting per-event
+    micro-unit prices; and tenant authorization uses endpoint-bound HMAC proofs
+    plus tenant-scoped queries rather than API-key-derived tenant identity.
 
 planned_stack:
   language: Python
