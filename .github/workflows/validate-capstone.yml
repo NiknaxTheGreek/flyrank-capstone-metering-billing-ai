@@ -1,0 +1,87 @@
+name: Validate capstone
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'flyrank-capstone-metering-billing-ai.zip'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: flyrank_metering
+          POSTGRES_USER: flyrank
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U flyrank -d flyrank_metering"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql+psycopg://flyrank@127.0.0.1:5432/flyrank_metering
+      SESSION_SECRET: ci-only-session-secret-not-for-production
+      STRIPE_SECRET_KEY: sk_test_ci_placeholder
+      STRIPE_PRO_PRICE_ID: price_ci_placeholder
+      STRIPE_WEBHOOK_SECRET: whsec_ci_placeholder
+      STRIPE_SUCCESS_URL: https://example.com/success
+      STRIPE_CANCEL_URL: https://example.com/cancel
+
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Verify dependency lock
+        run: uv sync --locked
+
+      - name: Validate Compose configuration
+        run: docker compose -f compose.yml config --quiet
+
+      - name: Apply PostgreSQL migrations
+        run: uv run alembic upgrade head
+
+      - name: Verify migrations are current
+        run: uv run alembic check
+
+      - name: Seed reproducible data twice
+        run: |
+          uv run python -m app.data.seed
+          uv run python -m app.data.seed
+
+      - name: Run deterministic regression suite
+        run: uv run --locked pytest -q
+
+      - name: Smoke-test FastAPI health endpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          uv run uvicorn app.main:app --host 127.0.0.1 --port 8000 > /tmp/uvicorn.log 2>&1 &
+          PID=$!
+          trap 'kill $PID || true' EXIT
+          for i in {1..20}; do
+            if curl --fail --silent http://127.0.0.1:8000/api/healthz | grep -q '"status":"ok"'; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/uvicorn.log
+          exit 1
