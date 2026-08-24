@@ -30,7 +30,6 @@ jobs:
           --health-retries 10
     env:
       DATABASE_URL: postgresql+psycopg://flyrank@127.0.0.1:5432/flyrank_metering
-      SESSION_SECRET: ephemeral-github-actions-demo-only
       STRIPE_SECRET_KEY: sk_test_ephemeral_placeholder
       STRIPE_PRO_PRICE_ID: price_ephemeral_placeholder
       STRIPE_WEBHOOK_SECRET: whsec_ephemeral_placeholder
@@ -51,12 +50,18 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v6
 
+      - name: Generate ephemeral tenant-proof secret
+        shell: bash
+        run: echo "SESSION_SECRET=$(openssl rand -hex 32)" >> "$GITHUB_ENV"
+
       - name: Install and verify project
         run: |
           set -euo pipefail
           uv sync --locked
+          docker compose -f compose.yml config --quiet
           uv run alembic upgrade head
           uv run alembic check
+          uv run python -m app.data.seed
           uv run python -m app.data.seed
           uv run --locked pytest -q
 
@@ -98,13 +103,28 @@ jobs:
             cat /tmp/cloudflared.log
             exit 1
           fi
-          printf '%s\n' "$URL/docs" > .github/TEMP_TEST_APP_URL.txt
-          printf '%s\n' "$URL/api/healthz" > .github/TEMP_HEALTH_URL.txt
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add .github/TEMP_TEST_APP_URL.txt .github/TEMP_HEALTH_URL.txt
+          git pull --rebase origin main
+          printf '%s\n' "$URL/docs" > .github/TEMP_TEST_APP_URL.txt
+          printf '%s\n' "$URL/api/healthz" > .github/TEMP_HEALTH_URL.txt
+          printf 'success\n' > .github/TEMP_TEST_STATUS.txt
+          git add .github/TEMP_TEST_APP_URL.txt .github/TEMP_HEALTH_URL.txt .github/TEMP_TEST_STATUS.txt
           git commit -m 'Publish temporary capstone test URL [skip ci]'
           git push origin HEAD:main
+
+      - name: Report launch failure
+        if: failure()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --rebase origin main || true
+          printf 'failed\n' > .github/TEMP_TEST_STATUS.txt
+          git add .github/TEMP_TEST_STATUS.txt
+          git commit -m 'Record temporary capstone launch failure [skip ci]' || true
+          git push origin HEAD:main || true
 
       - name: Keep temporary test app available
         run: sleep 6300
