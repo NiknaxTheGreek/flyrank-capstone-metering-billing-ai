@@ -4,6 +4,7 @@ from app.api.checkout import router as checkout_router
 from app.api.demo import router as demo_router
 from app.api.generate import router as generate_router
 from app.api.health import router as health_router
+from app.api.submission_download import router as submission_download_router
 from app.api.usage import router as usage_router
 from app.api.webhooks import router as webhook_router
 
@@ -14,3 +15,4 @@ app.include_router(checkout_router)
 app.include_router(webhook_router)
 app.include_router(usage_router)
 app.include_router(demo_router)
+app.include_router(submission_download_router)
