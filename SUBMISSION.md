@@ -49,11 +49,11 @@ Repository: `NiknaxTheGreek/flyrank-capstone-metering-billing-ai`
 
 ## Deployment
 
-`render.yaml` defines a self-contained free Render Blueprint with:
+`render.yaml` defines a free Render Blueprint with:
 
 - a free Python/FastAPI web service
-- a free PostgreSQL 16 database in the same region
-- automatic `DATABASE_URL` injection from the Render database
+- the existing free PostgreSQL 16 database in Frankfurt
+- automatic `DATABASE_URL` injection from that Render database
 - automatic dependency installation
 - Alembic migrations on start
 - repeat-safe seed data
@@ -61,9 +61,9 @@ Repository: `NiknaxTheGreek/flyrank-capstone-metering-billing-ai`
 - `/demo` enabled in explicit demo mode
 - generated runtime `SESSION_SECRET`
 
-One-click Render deployment:
+Render Blueprint deployment:
 
-`https://render.com/deploy?repo=https://github.com/NiknaxTheGreek/flyrank-capstone-metering-billing-ai`
+`https://dashboard.render.com/blueprint/new?repo=https://github.com/NiknaxTheGreek/flyrank-capstone-metering-billing-ai`
 
 Render's free web-service hostname is stable, but its free PostgreSQL database expires after 30 days. For long-lived $0 data beyond the submission/review window, replace `DATABASE_URL` with a free persistent PostgreSQL provider such as Neon; never commit the connection string.
 
@@ -73,6 +73,6 @@ The committed evidence records the completed deterministic regression suite, acc
 
 The public reviewer demo is an additional presentation layer and does not replace the protected production-shaped API boundary.
 
-## Manual owner-review item
+## Owner-review item
 
-`T16.5` remains a manual owner-verification item until the owner personally demonstrates that they can explain the retained critical billing logic. This is intentionally not fabricated or auto-completed.
+`T16.5` is complete. On 2026-08-24 the owner personally explained the retained critical billing logic. Three implementation-specific corrections were recorded rather than hidden: quota enforcement uses persisted usage-event totals and `current + attempted <= limit`; pricing combines integer rate numerators and rounds once to cents; and tenant authorization uses endpoint-bound HMAC proofs plus tenant-scoped queries rather than API-key-derived tenant identity.
