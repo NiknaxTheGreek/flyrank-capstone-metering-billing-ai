@@ -66,7 +66,7 @@ Permanent demo:
 
 The committed evidence records the completed deterministic regression suite, acceptance probes, PostgreSQL-backed boundary/idempotency proofs, Stripe signature/deduplication tests, tenant isolation, background-job repeat safety, and two successful deterministic demo rehearsals.
 
-The permanent Render deployment reached `live` state after a deployment-specific connection-driver issue was corrected. The Neon database was then verified to contain the Alembic schema plus the expected seed counts: two plans, one demo tenant, and one subscription. Public-path verification is recorded separately by the permanent deployment verification workflow.
+The permanent Render deployment reached `live` state after a deployment-specific connection-driver issue was corrected. The Neon database was then verified to contain the Alembic schema plus the expected seed counts: two plans, one demo tenant, and one subscription. The repository also includes a public-path verification workflow that checks health, the demo page, first-write/replay behavior, CSV export, and reset when run.
 
 The public reviewer demo is an additional presentation layer and does not replace the protected production-shaped API boundary. Stripe credentials are not configured on the public reviewer deployment, so the public demo is for metering, idempotency, quota, pricing and report behavior; the Stripe flow remains demonstrated by the committed deterministic and test-mode evidence.
 
