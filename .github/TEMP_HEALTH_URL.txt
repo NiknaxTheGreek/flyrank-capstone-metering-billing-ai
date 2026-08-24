@@ -1,1 +1,1 @@
-https://lol-fleet-markets-here.trycloudflare.com/api/healthz
+https://cancelled-giants-eagles-organization.trycloudflare.com/api/healthz
