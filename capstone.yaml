@@ -52,6 +52,13 @@ core_scope:
     - Background scheduling
     - Refunds and taxes
 
+deployment:
+  web_service: Render free web service
+  database: Neon PostgreSQL
+  permanent_base_url: https://flyrank-capstone-metering-billing-ai.onrender.com
+  permanent_demo_url: https://flyrank-capstone-metering-billing-ai.onrender.com/demo
+  database_credentials_committed: false
+
 demo:
   optional_demo_mode: true
   route: /demo
