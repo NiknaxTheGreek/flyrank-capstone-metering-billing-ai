@@ -49,22 +49,23 @@ Repository: `NiknaxTheGreek/flyrank-capstone-metering-billing-ai`
 
 ## Deployment
 
-`render.yaml` defines a free Render web service with:
+`render.yaml` defines a self-contained free Render Blueprint with:
 
-- Python/FastAPI runtime
+- a free Python/FastAPI web service
+- a free PostgreSQL 16 database in the same region
+- automatic `DATABASE_URL` injection from the Render database
 - automatic dependency installation
 - Alembic migrations on start
 - repeat-safe seed data
 - `/api/healthz` health check
 - `/demo` enabled in explicit demo mode
 - generated runtime `SESSION_SECRET`
-- externally supplied `DATABASE_URL`
-
-For long-lived $0 PostgreSQL, use an external free PostgreSQL provider such as Neon and set its connection string as Render's `DATABASE_URL`. Do not commit the connection string.
 
 One-click Render deployment:
 
 `https://render.com/deploy?repo=https://github.com/NiknaxTheGreek/flyrank-capstone-metering-billing-ai`
+
+Render's free web-service hostname is stable, but its free PostgreSQL database expires after 30 days. For long-lived $0 data beyond the submission/review window, replace `DATABASE_URL` with a free persistent PostgreSQL provider such as Neon; never commit the connection string.
 
 ## Verification status
 
