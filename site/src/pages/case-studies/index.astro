@@ -1,0 +1,12 @@
+---
+import '../../styles/global.css';
+const cases=[
+ {title:'Term Deposit Customer Ranking',href:'/case-studies/term-deposit',tag:'Applied ML · Ranking',body:'Prioritising customers before a call using leakage-aware features, ranking metrics and time-aware validation.'},
+ {title:'ATLAS TileCal Predictive Maintenance',href:'/case-studies/atlas-tilecal',tag:'Physics · Time Series · ML',body:'Alert-signal classification and prediction for detector operations, grounded in experimental-physics context.'},
+ {title:'NLP Stance Detection',href:'/case-studies/nlp-stance',tag:'NLP · Research · Public Health',body:'Stance classification across COVID-19 vaccine hesitancy and Mpox, focused on defensible insight from messy language data.'}
+];
+---
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><title>Case Studies — Nicholas Perikli</title></head><body>
+<header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="https://github.com/NiknaxTheGreek" target="_blank" rel="noreferrer">Contact</a></nav></div></header>
+<main><section class="page-head"><div class="container"><div class="eyebrow">Selected work</div><h1>Case studies</h1><p class="section-lead">Projects selected for what they prove about problem framing, modelling, validation and interpretation.</p></div></section><section class="section"><div class="container"><div class="cards">{cases.map(c=><article class="card"><span class="tag">{c.tag}</span><h3>{c.title}</h3><p>{c.body}</p><a href={c.href}>Read case study →</a></article>)}</div></div></section></main>
+<footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small">Data Science · Applied ML · NLP</div></div></footer></body></html>
