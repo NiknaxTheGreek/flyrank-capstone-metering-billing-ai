@@ -1,0 +1,1 @@
+https://lol-fleet-markets-here.trycloudflare.com/api/healthz
