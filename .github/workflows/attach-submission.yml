@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   attach:
@@ -29,3 +29,17 @@ jobs:
           path: FlyRank_Backend_Capstone_Submission.zip
           if-no-files-found: error
           retention-days: 30
+
+      - name: Publish attachment run ID
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s\n' "$GITHUB_RUN_ID" > .github/ATTACHMENT_RUN_ID.txt
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .github/ATTACHMENT_RUN_ID.txt
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m 'Publish submission attachment run [skip ci]'
+          git push origin HEAD:main
