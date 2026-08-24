@@ -1,0 +1,75 @@
+name: Verify permanent deployment
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/verify-permanent-deployment.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify permanent public demo
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='https://flyrank-capstone-metering-billing-ai.onrender.com'
+          KEY="permanent-gha-${GITHUB_RUN_ID}"
+
+          health="$(curl --retry 8 --retry-all-errors --retry-delay 10 --fail-with-body -sS "$BASE/api/healthz")"
+          test "$(printf '%s' "$health" | python -c 'import json,sys; print(json.load(sys.stdin).get("status"))')" = 'ok'
+
+          curl --retry 8 --retry-all-errors --retry-delay 10 --fail-with-body -sS "$BASE/demo" | grep -q 'Usage Metering & Billing Engine'
+
+          first_file="$(mktemp)"
+          first_code="$(curl --retry 8 --retry-all-errors --retry-delay 10 -sS -o "$first_file" -w '%{http_code}' \
+            -H 'content-type: application/json' \
+            -d "{\"usage_type\":\"api_call\",\"quantity\":1,\"idempotency_key\":\"$KEY\"}" \
+            "$BASE/demo/api/generate")"
+          test "$first_code" = '201'
+          test "$(python -c 'import json,sys; print(str(json.load(open(sys.argv[1]))["result"]["idempotent_replay"]).lower())' "$first_file")" = 'false'
+
+          replay_file="$(mktemp)"
+          replay_code="$(curl -sS -o "$replay_file" -w '%{http_code}' \
+            -H 'content-type: application/json' \
+            -d "{\"usage_type\":\"api_call\",\"quantity\":1,\"idempotency_key\":\"$KEY\"}" \
+            "$BASE/demo/api/generate")"
+          test "$replay_code" = '200'
+          test "$(python -c 'import json,sys; print(str(json.load(open(sys.argv[1]))["result"]["idempotent_replay"]).lower())' "$replay_file")" = 'true'
+
+          curl --fail-with-body -sS "$BASE/demo/report.csv" | grep -q 'tenant_id'
+          reset_code="$(curl -sS -o /tmp/reset.json -w '%{http_code}' -X POST "$BASE/demo/api/reset")"
+          test "$reset_code" = '200'
+          test "$(python -c 'import json; print(str(json.load(open("/tmp/reset.json"))["reset"]).lower())')" = 'true'
+
+          cat > .github/PERMANENT_DEPLOYMENT_STATUS.txt <<EOF
+          success-public-request-verified
+          base=$BASE
+          health=200-ok
+          demo=200
+          first_metering_request=201
+          idempotent_replay=200-true
+          csv_report=200
+          reset=200
+          verified_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          EOF
+
+      - name: Commit verification status
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .github/PERMANENT_DEPLOYMENT_STATUS.txt
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m 'Record permanent deployment verification [skip ci]'
+          git push origin HEAD:main
