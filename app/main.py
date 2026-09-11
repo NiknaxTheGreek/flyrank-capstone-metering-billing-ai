@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.responses import RedirectResponse
 
 from app.api.checkout import router as checkout_router
 from app.api.demo import router as demo_router
@@ -9,6 +10,13 @@ from app.api.usage import router as usage_router
 from app.api.webhooks import router as webhook_router
 
 app = FastAPI(title="FlyRank Usage Metering & Billing Engine")
+
+
+@app.get("/", include_in_schema=False)
+def root() -> RedirectResponse:
+    return RedirectResponse(url="/demo", status_code=307)
+
+
 app.include_router(health_router)
 app.include_router(generate_router)
 app.include_router(checkout_router)
