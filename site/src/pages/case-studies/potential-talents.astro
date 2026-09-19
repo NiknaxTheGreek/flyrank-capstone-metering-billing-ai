@@ -1,0 +1,46 @@
+---
+import '../../styles/global.css';
+---
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="Potential Talents HR candidate ranking case study — Nicholas Perikli."/><title>Potential Talents — Nicholas Perikli</title></head><body>
+<header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="https://github.com/NiknaxTheGreek" target="_blank" rel="noreferrer">Contact</a></nav></div></header>
+<main>
+<section class="page-head"><div class="container"><div class="eyebrow">NLP · Ranking · Human-in-the-loop</div><h1>Potential Talents — HR Candidate Ranking</h1><p class="section-lead">A small-data ranking project that turns messy candidate titles into a reproducible HR screening and prioritisation pipeline, then tests whether management feedback improves ranking quality out of sample.</p></div></section>
+<section><div class="container content">
+<h2>Problem</h2>
+<p>The supplied data contained 104 candidate records but no observed fitness labels. The task was therefore not simply to fit a classifier: it was to define a defensible HR relevance target, remove invalid and irrelevant profiles, rank the viable candidates, and test whether human feedback should actually change the model.</p>
+
+<h2>Data & screening</h2>
+<ul>
+<li>104 source records were reduced to 52 distinct job-title profiles after deduplication.</li>
+<li>Two non-candidate records were removed, leaving 50 valid profiles.</li>
+<li>Explicit occupational rules retained 34 HR-relevant candidates: 33 direct HR profiles and one adjacent profile.</li>
+<li>Candidate IDs were retained only for traceability and deterministic tie-breaking.</li>
+</ul>
+
+<h2>Target & modelling</h2>
+<p>Because the supplied <code>fit</code> field was empty, the project constructed a transparent analytical target rather than pretending a ground truth existed. Occupational relevance <code>H</code> was combined with semantic relevance <code>W</code> as <code>G = (H + W) / 2</code>.</p>
+<ul>
+<li>Job titles and two locked HR search queries were embedded with 100-dimensional pretrained Word2Vec vectors.</li>
+<li>PCA retained 95% of training-set variance, followed by standardisation and Ridge regression.</li>
+<li>Ridge regularisation was tuned inside inner cross-validation.</li>
+<li>Repeated nested cross-validation produced genuine out-of-sample predictions for ranking evaluation.</li>
+<li>NDCG was the primary metric, supported by MAE, RMSE, Spearman and Kendall.</li>
+</ul>
+
+<div class="callout">The important modelling decision was not to reward feedback simply because it changed the fitted ranking. Feedback only earned promotion if it improved held-out ranking quality.</div>
+
+<h2>Result</h2>
+<p>The pre-feedback PCA–Ridge model achieved mean out-of-sample NDCG of 0.9897 @4, 0.9910 @7, 0.9921 @10, 0.9947 @17 and 0.9974 @34. A W-only baseline was slightly higher, which is expected because semantic relevance W is itself one half of the constructed target G.</p>
+<p>Management feedback was tested at roughly 10%, 20% and 50% review depths. In every case, held-out NDCG decreased rather than improved. The evidence therefore supported retaining the frozen automated ranking as the production basis while keeping management review in the loop without automatically retraining on individual preferences.</p>
+
+<h2>What this case proves</h2>
+<p>I can construct an auditable target when labels are absent, separate screening from ranking, validate a small-data NLP model honestly, test human feedback rather than assuming it helps, and preserve human oversight without weakening the evidence standard.</p>
+
+<h2>Repository</h2>
+<p>The repository contains the authoritative end-to-end notebook, reusable pipeline modules, tests, source data, generated rankings and figures, plus clean-run reproduction instructions.</p>
+<p><a class="cta" href="https://github.com/NiknaxTheGreek/cWlHr8Z9ljWQfhU0" target="_blank" rel="noreferrer">View Potential Talents repository →</a></p>
+<p><a href="/case-studies">← Back to case studies</a></p>
+</div></section>
+</main>
+<footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small">Evidence-led applied ML</div></div></footer>
+</body></html>
