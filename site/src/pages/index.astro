@@ -24,6 +24,12 @@ const cases = [
     href:'/case-studies/potential-talents',
     tag:'NLP · Ranking · Human-in-the-loop',
     body:'A candidate-screening and ranking pipeline that combines occupational rules, Word2Vec semantics, PCA and Ridge regression, then tests whether management feedback genuinely improves held-out ranking quality.'
+  },
+  {
+    title:'FlyRank Usage Metering & Billing Engine',
+    href:'/case-studies/api-metering-billing',
+    tag:'Backend · FastAPI · PostgreSQL · Stripe',
+    body:'A tenant-scoped API and AI-token metering service with quotas, idempotent usage recording, Stripe test-mode subscription sync, cost estimation and monthly reconciliation.'
   }
 ];
 ---
@@ -61,9 +67,9 @@ const cases = [
 
   <section class="section" id="case-studies">
     <div class="container">
-      <div class="eyebrow">Selected work</div><h2 class="section-title">Case studies</h2><p class="section-lead">Four projects that show how I frame problems, protect against misleading signals, validate decisions and explain what the result actually means.</p>
+      <div class="eyebrow">Selected work</div><h2 class="section-title">Case studies</h2><p class="section-lead">Five projects that show how I frame problems, protect against misleading signals, validate decisions and explain what the result actually means.</p>
       <div class="cards">{cases.map((c)=><article class="card"><span class="tag">{c.tag}</span><h3>{c.title}</h3><p>{c.body}</p><a href={c.href}>Read case study →</a></article>)}</div>
-      <div class="evidence"><div><strong>4</strong>core case studies</div><div><strong>End-to-end</strong>problem → model → validation</div><div><strong>Grounded</strong>portfolio agent</div></div>
+      <div class="evidence"><div><strong>5</strong>core case studies</div><div><strong>End-to-end</strong>problem → model → validation</div><div><strong>Grounded</strong>portfolio agent</div></div>
     </div>
   </section>
 
@@ -91,10 +97,11 @@ const knowledge=[
  {keys:['skill','skills','machine learning','ml','python','data science'],answer:'The portfolio demonstrates Python-based data analysis and machine learning, NLP, time-series modelling, validation design, leakage control, interpretation and evidence-focused communication.'},
  {keys:['hire','role','job','position','candidate'],answer:'The portfolio is aimed at early-career Data Scientist and Applied ML opportunities. The strongest evidence is the end-to-end handling of messy data, modelling, validation and interpretation across three distinct domains.'},
  {keys:['potential','talents','candidate','hr','human resources','recruitment','ranking'],answer:'The Potential Talents project builds an HR candidate-ranking pipeline from 104 source records. It screens to 34 HR-relevant candidates, constructs a transparent proxy target from occupational and semantic relevance, evaluates a PCA–Ridge ranker with repeated nested cross-validation, and tests management feedback out of sample before deciding whether to retrain.'},
+ {keys:['backend','api','metering','billing','fastapi','postgres','postgresql','stripe','quota','idempotency','tokens'],answer:'The FlyRank Usage Metering & Billing Engine is a FastAPI/PostgreSQL backend for tenant-scoped API and AI-token metering. It implements Free/Pro quotas, exactly-once usage recording with tenant-scoped idempotency, tenant-bound HMAC proofs, Stripe test-mode Checkout and signed webhook entitlement sync, integer-cent AI cost estimates, and an idempotent monthly reconciliation job.'},
  {keys:['about','background','who'],answer:'Nicholas combines a physics research background with applied data science and NLP. The common thread is rigorous validation, explicit assumptions and practical interpretation.'}
 ];
 const input=document.getElementById('agent-input');const answer=document.getElementById('agent-answer');
-function reply(q){const t=q.toLowerCase();let best=null,score=0;for(const item of knowledge){let s=0;for(const k of item.keys){if(t.includes(k))s++;}if(s>score){score=s;best=item;}}answer.textContent=best&&score>0?best.answer:'I do not have enough grounded portfolio information to answer that confidently. Try asking about the three case studies, ML skills, NLP research, physics research or role fit.';}
+function reply(q){const t=q.toLowerCase();let best=null,score=0;for(const item of knowledge){let s=0;for(const k of item.keys){if(t.includes(k))s++;}if(s>score){score=s;best=item;}}answer.textContent=best&&score>0?best.answer:'I do not have enough grounded portfolio information to answer that confidently. Try asking about the five case studies, ML skills, NLP research, backend engineering, physics research or role fit.';}
 document.getElementById('agent-form').addEventListener('submit',e=>{e.preventDefault();if(input.value.trim())reply(input.value.trim());});
 document.querySelectorAll('[data-q]').forEach(b=>b.addEventListener('click',()=>{input.value=b.dataset.q;reply(b.dataset.q);}));
 </script>
