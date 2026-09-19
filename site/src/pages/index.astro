@@ -18,6 +18,12 @@ const cases = [
     href:'/case-studies/nlp-stance',
     tag:'NLP · Research · Public Health',
     body:'A research programme spanning COVID-19 vaccine hesitancy and Mpox, using NLP to classify stance and extract defensible insight from messy text data.'
+  },
+  {
+    title:'Potential Talents — HR Candidate Ranking',
+    href:'/case-studies/potential-talents',
+    tag:'NLP · Ranking · Human-in-the-loop',
+    body:'A candidate-screening and ranking pipeline that combines occupational rules, Word2Vec semantics, PCA and Ridge regression, then tests whether management feedback genuinely improves held-out ranking quality.'
   }
 ];
 ---
@@ -55,9 +61,9 @@ const cases = [
 
   <section class="section" id="case-studies">
     <div class="container">
-      <div class="eyebrow">Selected work</div><h2 class="section-title">Case studies</h2><p class="section-lead">Three projects that show how I frame problems, protect against misleading signals, validate decisions and explain what the result actually means.</p>
+      <div class="eyebrow">Selected work</div><h2 class="section-title">Case studies</h2><p class="section-lead">Four projects that show how I frame problems, protect against misleading signals, validate decisions and explain what the result actually means.</p>
       <div class="cards">{cases.map((c)=><article class="card"><span class="tag">{c.tag}</span><h3>{c.title}</h3><p>{c.body}</p><a href={c.href}>Read case study →</a></article>)}</div>
-      <div class="evidence"><div><strong>3</strong>core case studies</div><div><strong>End-to-end</strong>problem → model → validation</div><div><strong>Grounded</strong>portfolio agent</div></div>
+      <div class="evidence"><div><strong>4</strong>core case studies</div><div><strong>End-to-end</strong>problem → model → validation</div><div><strong>Grounded</strong>portfolio agent</div></div>
     </div>
   </section>
 
@@ -84,6 +90,7 @@ const knowledge=[
  {keys:['nlp','stance','covid','mpox','vaccine','research','publication'],answer:'Nicholas has worked on NLP stance detection across COVID-19 vaccine hesitancy and Mpox. The programme uses text classification to extract defensible public-health insight from noisy real-world language data.'},
  {keys:['skill','skills','machine learning','ml','python','data science'],answer:'The portfolio demonstrates Python-based data analysis and machine learning, NLP, time-series modelling, validation design, leakage control, interpretation and evidence-focused communication.'},
  {keys:['hire','role','job','position','candidate'],answer:'The portfolio is aimed at early-career Data Scientist and Applied ML opportunities. The strongest evidence is the end-to-end handling of messy data, modelling, validation and interpretation across three distinct domains.'},
+ {keys:['potential','talents','candidate','hr','human resources','recruitment','ranking'],answer:'The Potential Talents project builds an HR candidate-ranking pipeline from 104 source records. It screens to 34 HR-relevant candidates, constructs a transparent proxy target from occupational and semantic relevance, evaluates a PCA–Ridge ranker with repeated nested cross-validation, and tests management feedback out of sample before deciding whether to retrain.'},
  {keys:['about','background','who'],answer:'Nicholas combines a physics research background with applied data science and NLP. The common thread is rigorous validation, explicit assumptions and practical interpretation.'}
 ];
 const input=document.getElementById('agent-input');const answer=document.getElementById('agent-answer');
