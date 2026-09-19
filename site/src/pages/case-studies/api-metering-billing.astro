@@ -1,0 +1,53 @@
+---
+import '../../styles/global.css';
+---
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="FlyRank Usage Metering and Billing Engine case study — Nicholas Perikli."/><title>FlyRank Usage Metering & Billing Engine — Nicholas Perikli</title></head><body>
+<header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="https://github.com/NiknaxTheGreek" target="_blank" rel="noreferrer">Contact</a></nav></div></header>
+<main>
+<section class="page-head"><div class="container"><div class="eyebrow">Backend · FastAPI · PostgreSQL · Stripe</div><h1>FlyRank Usage Metering & Billing Engine</h1><p class="section-lead">A small backend capstone for tenant-scoped API and AI-token metering, plan quotas, Stripe test-mode subscription synchronization, cost estimation and monthly usage reconciliation.</p></div></section>
+
+<section><div class="container content">
+<h2>Problem</h2>
+<p>A multi-tenant AI product needs more than a usage counter. It needs to know which tenant consumed what, prevent accidental double counting, enforce plan limits consistently, synchronize paid entitlements safely, and make usage auditable enough to reconcile later.</p>
+
+<h2>System design</h2>
+<ul>
+<li>FastAPI service with SQLAlchemy-backed persistence and PostgreSQL as the target database.</li>
+<li>Two seeded plans: Free at 1,000 API calls and 100,000 AI tokens per UTC month; Pro at 10,000 calls and 1,000,000 tokens.</li>
+<li>Tenant-bound HMAC proofs on tenant-scoped public endpoints.</li>
+<li>Exactly-once usage recording through a database uniqueness constraint on tenant plus idempotency key.</li>
+<li>Independent API-call and AI-token quota enforcement with exact-limit requests accepted.</li>
+<li>Current-period usage summaries with remaining allowance and integer-cent AI cost estimates.</li>
+</ul>
+
+<h2>Stripe entitlement flow</h2>
+<p>Checkout runs in Stripe test mode. Creating a Checkout Session does not grant Pro access locally. Entitlements change only after verified subscription webhooks are received and processed.</p>
+<ul>
+<li>Raw request bodies are verified against <code>Stripe-Signature</code> before database work.</li>
+<li>Supported subscription events link customer/subscription state, grant Pro only for an active subscription containing the configured Pro Price, and restore Free access on deletion.</li>
+<li>Stripe event IDs are globally deduplicated so valid webhook retries are idempotent.</li>
+<li>Forged, stale, malformed or wrong-secret events are rejected without local state mutation.</li>
+</ul>
+
+<div class="callout">A key boundary is deliberate: Checkout initiation is not an entitlement grant. Verified subscription state is the authority.</div>
+
+<h2>Metering & cost estimates</h2>
+<p>AI usage is categorized as input, cached input, output or reasoning tokens. Estimated cost uses integer arithmetic and one final half-up rounding step, avoiding floating-point billing drift. The estimate is explicitly not an invoice, tax calculation, charge or overage bill.</p>
+
+<h2>Monthly reconciliation</h2>
+<p>A separately runnable rollup job derives each tenant/month summary from the same source-event logic used by the live usage endpoint. Unique tenant-and-period rows make reruns idempotent, and transient database failures retry before exiting nonzero.</p>
+
+<h2>Testing & scope control</h2>
+<p>The project includes deterministic tests and a repeatable demo rehearsal that exercises near-quota refusal, idempotent retries, durable usage rows, signed Stripe Free-to-Pro synchronization, forged and duplicate webhook handling, exact usage summaries and a selected pytest result.</p>
+<p>Deliberate non-goals include real AI-provider calls, invoices, collections, refunds, taxes, proration, overage billing, a dashboard, production Stripe, production identity, Kubernetes and paid infrastructure.</p>
+
+<h2>What this case proves</h2>
+<p>I can design and implement a small but disciplined backend service where correctness depends on tenancy boundaries, idempotency, quota semantics, signed third-party events, reproducible tests and clear separation between estimates, entitlements and real billing.</p>
+
+<h2>Repository</h2>
+<p><a class="cta" href="https://github.com/NiknaxTheGreek/flyrank-capstone-metering-billing-ai" target="_blank" rel="noreferrer">View metering & billing repository →</a></p>
+<p><a href="/case-studies">← Back to case studies</a></p>
+</div></section>
+</main>
+<footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small">Backend systems · Evidence-led engineering</div></div></footer>
+</body></html>
