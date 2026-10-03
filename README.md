@@ -1,5 +1,11 @@
 # FlyRank Usage Metering & Billing Engine
 
+## Live demo
+
+**[Open the Usage Metering & Billing demo](https://flyrank-capstone-metering-billing-ai.onrender.com/demo)**
+
+Hosted on Render's free tier. After inactivity, the server may take about a minute to wake up; wait and refresh if needed. The demo simulates AI usage and uses Stripe test mode only.
+
 Small FastAPI/PostgreSQL capstone for tenant-scoped API and AI-token metering,
 Free/Pro quotas, Stripe **test-mode** Checkout and entitlement synchronization,
 integer-cent AI cost estimates, and a monthly usage reconciliation job.
