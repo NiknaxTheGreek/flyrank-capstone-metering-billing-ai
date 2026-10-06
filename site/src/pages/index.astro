@@ -5,25 +5,25 @@ const cases = [
     title:'Term Deposit Customer Ranking',
     href:'/case-studies/term-deposit',
     tag:'Applied ML · Ranking',
-    body:'A practical modelling workflow for prioritising customers before a call, with leakage control, time-aware validation and interpretable decision support.'
+    body:'Ranking 40,000 historical bank calls with leakage-safe pre-call features, ordered validation and call-depth lift to decide who should be contacted first.'
   },
   {
-    title:'ATLAS TileCal Predictive Maintenance',
+    title:'Predictive Maintenance for the ATLAS Tile Calorimeter',
     href:'/case-studies/atlas-tilecal',
-    tag:'Physics · Time Series · ML',
-    body:'Research-led work on alert-signal classification and prediction for detector operations, connecting scientific context with machine-learning methods.'
+    tag:'Physics · NLP · Time Series · ML',
+    body:'Detector-control alarm logs transformed into structured spatial and temporal data for LSTM forecasting and dominant alarm-type classification.'
   },
   {
-    title:'NLP Stance Detection',
+    title:'From COVID-19 Vaccine Hesitancy to Mpox',
     href:'/case-studies/nlp-stance',
-    tag:'NLP · Research · Public Health',
-    body:'A research programme spanning COVID-19 vaccine hesitancy and Mpox, using NLP to classify stance and extract defensible insight from messy text data.'
+    tag:'NLP · Transformers · Public Health',
+    body:'A comparative synthesis of two published studies on human stance labelling, transformer classification and cross-crisis domain adaptation.'
   },
   {
     title:'Potential Talents — HR Candidate Ranking',
     href:'/case-studies/potential-talents',
     tag:'NLP · Ranking · Human-in-the-loop',
-    body:'A candidate-screening and ranking pipeline that combines occupational rules, Word2Vec semantics, PCA and Ridge regression, then tests whether management feedback genuinely improves held-out ranking quality.'
+    body:'A candidate-screening and ranking pipeline that combines semantic relevance, explicit HR-domain rules, Word2Vec, PCA and Ridge regression, then validates management feedback out of sample.'
   },
   {
     title:'FlyRank Usage Metering & Billing Engine',
@@ -50,7 +50,7 @@ const cases = [
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width" />
-  <meta name="description" content="Nicholas Perikli — data science, applied machine learning and NLP portfolio." />
+  <meta name="description" content="Nicholas Perikli — data science, applied machine learning, data engineering and NLP portfolio." />
   <title>Nicholas Perikli — Data Science & Applied ML</title>
 </head>
 <body>
@@ -66,22 +66,22 @@ const cases = [
       <div>
         <div class="eyebrow">Data Science · Applied ML · Data Engineering · NLP</div>
         <h1>From messy data to credible, useful machine-learning decisions.</h1>
-        <p>I use data analysis and machine learning to solve real-world problems where the data is messy, the obvious answer is not always the right one, and technical results need to translate into practical value.</p>
+        <p>I use data analysis, machine learning and data engineering to solve real-world problems where the data is messy, the obvious answer is not always the right one, and technical results need to translate into practical value.</p>
         <div class="actions"><a class="cta" href="/case-studies">View case studies</a><a class="cta secondary" href="#agent">Ask my portfolio agent</a></div>
       </div>
-      <aside class="hero-aside"><strong>What this portfolio proves</strong>I can take a real-world data problem from analysis through modelling and validation to a credible, useful ML solution.</aside>
+      <aside class="hero-aside"><strong>What this portfolio proves</strong>I can take real-world problems from data and system design through modelling, validation and implementation to a credible, useful technical decision.</aside>
     </div>
   </section>
 
   <section class="proof">
-    <div class="container proof-grid"><blockquote>Evidence first. Method before hype. Decisions that survive scrutiny.</blockquote><p>My work spans applied ML, data engineering, time-series modelling and published NLP research, with an emphasis on rigorous validation, reproducibility and defensible decisions.</p></div>
+    <div class="container proof-grid"><blockquote>Evidence first. Method before hype. Decisions that survive scrutiny.</blockquote><p>My work spans applied ML, data engineering, backend systems, time-series modelling and published NLP research, with an emphasis on rigorous validation, reproducibility and defensible decisions.</p></div>
   </section>
 
   <section class="section" id="case-studies">
     <div class="container">
       <div class="eyebrow">Selected work</div><h2 class="section-title">Case studies</h2><p class="section-lead">Seven projects that show how I frame problems, engineer reliable data flows, protect against misleading signals, validate decisions and explain what the result actually means.</p>
       <div class="cards">{cases.map((c)=><article class="card"><span class="tag">{c.tag}</span><h3>{c.title}</h3><p>{c.body}</p><a href={c.href}>Read case study →</a></article>)}</div>
-      <div class="evidence"><div><strong>7</strong>core case studies</div><div><strong>End-to-end</strong>problem → model → validation</div><div><strong>Grounded</strong>portfolio agent</div></div>
+      <div class="evidence"><div><strong>7</strong>core case studies</div><div><strong>End-to-end</strong>problem → implementation → validation</div><div><strong>Grounded</strong>portfolio agent</div></div>
     </div>
   </section>
 
@@ -97,22 +97,22 @@ const cases = [
   </section>
 
   <section class="section">
-    <div class="container about-grid"><aside><div class="eyebrow">Working style</div><h3>Direct. Analytical. Evidence-led.</h3><p>I prefer clear assumptions, explicit trade-offs and results that can be defended rather than merely presented.</p></aside><div><div class="eyebrow">About</div><h2 class="section-title">Research discipline, applied to practical ML.</h2><p>My background connects physics research, data science and NLP. I am most interested in work where model quality depends on careful problem framing, leakage control, validation and interpretation—not just fitting an algorithm.</p><p><a href="/about">More about my background →</a></p></div></div>
+    <div class="container about-grid"><aside><div class="eyebrow">Working style</div><h3>Direct. Analytical. Evidence-led.</h3><p>I prefer clear assumptions, explicit trade-offs and results that can be defended rather than merely presented.</p></aside><div><div class="eyebrow">About</div><h2 class="section-title">Research discipline, applied to practical ML and data systems.</h2><p>My background connects physics research, data science, NLP, backend engineering and data engineering. I am most interested in work where quality depends on careful problem framing, leakage control, validation, reliability and interpretation—not just fitting an algorithm.</p><p><a href="/about">More about my background →</a></p></div></div>
   </section>
 </main>
 <footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small">Data Science · Applied ML · Data Engineering · NLP · <a href="https://github.com/NiknaxTheGreek" target="_blank" rel="noreferrer">GitHub</a></div></div></footer>
 <script is:inline>
 const knowledge=[
- {keys:['term','deposit','customer','ranking','bank'],answer:'The Term Deposit Customer Ranking case focuses on prioritising customers before a call. The key methodological points are leakage control, pre-call feature discipline, time-aware validation, ranking quality and interpretable decision support.'},
- {keys:['atlas','tilecal','physics','detector','predictive','maintenance'],answer:'The ATLAS TileCal project applies machine-learning and time-series thinking to detector alert signals. It connects domain knowledge from experimental physics with classification and prediction for operational decision support.'},
- {keys:['nlp','stance','covid','mpox','vaccine','research','publication'],answer:'Nicholas has worked on NLP stance detection across COVID-19 vaccine hesitancy and Mpox. The programme uses text classification to extract defensible public-health insight from noisy real-world language data.'},
- {keys:['skill','skills','machine learning','ml','python','data science'],answer:'The portfolio demonstrates Python-based data analysis and machine learning, NLP, time-series modelling, validation design, leakage control, interpretation and evidence-focused communication.'},
- {keys:['hire','role','job','position','candidate'],answer:'The portfolio is aimed at early-career Data Scientist and Applied ML opportunities. The strongest evidence is the end-to-end handling of messy data, modelling, validation and interpretation across machine learning, NLP, data engineering, backend systems and scientific computing.'},
- {keys:['potential','talents','candidate','hr','human resources','recruitment','ranking'],answer:'The Potential Talents project builds an HR candidate-ranking pipeline from 104 source records. It screens to 34 HR-relevant candidates, constructs a transparent proxy target from occupational and semantic relevance, evaluates a PCA–Ridge ranker with repeated nested cross-validation, and tests management feedback out of sample before deciding whether to retrain.'},
+ {keys:['term','deposit','customer','ranking','bank'],answer:'The Term Deposit Customer Ranking project uses 40,000 historical calls and 12 valid pre-call predictors. Post-call duration is excluded as leakage. Logistic Regression and HistGradientBoosting are compared on holdout and ordered validation; LR is recommended for a controlled pilot because it is more robust over ordered blocks and delivered 1.853857× lift at 5% call depth.'},
+ {keys:['atlas','tilecal','physics','detector','predictive','maintenance'],answer:'The ATLAS TileCal study converts semi-structured Detector Control System alarm logs into detector-aware spatial and temporal datasets. LSTMs forecast module-level alarm counts and classify dominant alarm types. Forecasting MAPE was about 12.8–22.9%; after chattering-alarm reduction, macro-F1 improved from 0.27 to 0.57.'},
+ {keys:['nlp','stance','covid','mpox','vaccine','research','publication'],answer:'Nicholas co-authored published work spanning COVID-19 vaccine hesitancy and Mpox stance classification. The synthesis covers 30,000 South African vaccine-related tweets and 20,604 Mpox tweets, human annotation, classical and neural baselines, BERT/RoBERTa, and cross-crisis transfer followed by domain-specific fine-tuning.'},
+ {keys:['skill','skills','machine learning','ml','python','data science'],answer:'The portfolio demonstrates Python-based data analysis and machine learning, NLP, ranking, time-series modelling, data engineering, backend systems, validation design, leakage control, interpretation and evidence-focused communication.'},
+ {keys:['hire','role','job','position','candidate'],answer:'The portfolio is aimed at Data Scientist, Applied ML and adjacent data roles. The strongest evidence is end-to-end handling of messy data, modelling, validation and implementation across machine learning, NLP, data engineering, backend systems and scientific computing.'},
+ {keys:['potential','talents','candidate','hr','human resources','recruitment'],answer:'Potential Talents begins with 104 rows, reduces them to 52 unique titles and 50 valid profiles, applies a mean raw-cosine floor of 0.50 to retain 49, then an explicit HR-domain phrase check to reach 34 HR-relevant candidates. A Word2Vec → PCA → StandardScaler → Ridge pipeline is evaluated with repeated nested cross-validation, and management feedback is only promoted if held-out NDCG improves.'},
  {keys:['backend','api','metering','billing','fastapi','postgres','postgresql','stripe','quota','idempotency','tokens'],answer:'The FlyRank Usage Metering & Billing Engine is a FastAPI/PostgreSQL backend for tenant-scoped API and AI-token metering. It implements Free/Pro quotas, exactly-once usage recording with tenant-scoped idempotency, tenant-bound HMAC proofs, Stripe test-mode Checkout and signed webhook entitlement sync, integer-cent AI cost estimates, and an idempotent monthly reconciliation job.'},
- {keys:['pet','insurance','snowflake','dbt','cdc','estuary','dagster','data engineering','warehouse','pipeline'],answer:'The Pet Insurance Data Platform is a production-style data-engineering project for mutable insurance data. It combines PostgreSQL operational data, Python incremental ingestion and reconciliation, Snowflake RAW/CONTROL history, dbt staging/intermediate/marts, customer SCD2, soft-delete and late-arrival handling, Dagster orchestration, Estuary WAL CDC and BigQuery reconciliation. Verified evidence includes 25 Python tests and 78/78 dbt build nodes passing.'},
+ {keys:['pet','insurance','snowflake','dbt','cdc','estuary','dagster','data engineering','warehouse','pipeline'],answer:'The Pet Insurance Data Platform is a production-style data-engineering project for mutable insurance data. It combines PostgreSQL operational data, Python incremental ingestion and reconciliation, Snowflake RAW/CONTROL history, dbt staging/intermediate/marts, customer SCD2, soft-delete and late-arrival handling, Dagster orchestration, Estuary WAL CDC and BigQuery reconciliation. Verified evidence includes 25 Python tests, 78/78 dbt build nodes and an 82,956-row scale benchmark.'},
  {keys:['search','seo','flyrank','content','review','discoverability','april','march','risk'],answer:'The FlyRank Applied Search Intelligence capstone asks which content pages should be reviewed first. It uses March decision-time features to estimate April performance change, combines classification and signed regression into a top-50 human-review ranking, and validates with client-separated grouped evaluation. Development validation improved over frozen baselines, while the six-client stress test showed only modest regression improvement and no classification or ranking improvement over transparent baselines.'},
- {keys:['about','background','who'],answer:'Nicholas combines a physics research background with applied data science and NLP. The common thread is rigorous validation, explicit assumptions and practical interpretation.'}
+ {keys:['about','background','who'],answer:'Nicholas combines a physics research background with applied data science, NLP, backend engineering and data engineering. The common thread is rigorous validation, explicit assumptions and practical interpretation.'}
 ];
 const input=document.getElementById('agent-input');const answer=document.getElementById('agent-answer');
 function reply(q){const t=q.toLowerCase();let best=null,score=0;for(const item of knowledge){let s=0;for(const k of item.keys){if(t.includes(k))s++;}if(s>score){score=s;best=item;}}answer.textContent=best&&score>0?best.answer:'I do not have enough grounded portfolio information to answer that confidently. Try asking about the seven case studies, ML skills, data engineering, search intelligence, NLP research, backend engineering, physics research or role fit.';}
