@@ -4,7 +4,7 @@ import '../../styles/global.css';
 <!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="FlyRank Usage Metering and Billing Engine case study — Nicholas Perikli."/><title>FlyRank Usage Metering & Billing Engine — Nicholas Perikli</title></head><body>
 <header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="https://github.com/NiknaxTheGreek" target="_blank" rel="noreferrer">Contact</a></nav></div></header>
 <main>
-<section class="page-head"><div class="container"><div class="eyebrow">Backend · FastAPI · PostgreSQL · Stripe</div><h1>FlyRank Usage Metering & Billing Engine</h1><p class="section-lead">A small backend capstone for tenant-scoped API and AI-token metering, plan quotas, Stripe test-mode subscription synchronization, cost estimation and monthly usage reconciliation.</p></div></section>
+<section class="page-head"><div class="container"><div class="eyebrow">Backend · FastAPI · PostgreSQL · Stripe</div><h1>FlyRank Usage Metering & Billing Engine</h1><p class="section-lead">A backend capstone for tenant-scoped API and AI-token metering, plan quotas, Stripe test-mode subscription synchronization, cost estimation and monthly usage reconciliation.</p><div class="actions"><a class="cta" href="https://flyrank-capstone-metering-billing-ai.onrender.com/demo" target="_blank" rel="noreferrer">Open live demo →</a><a class="cta secondary" href="https://github.com/NiknaxTheGreek/flyrank-capstone-metering-billing-ai" target="_blank" rel="noreferrer">View GitHub repository →</a></div></div></section>
 
 <section><div class="container content">
 <h2>Problem</h2>
@@ -39,13 +39,14 @@ import '../../styles/global.css';
 
 <h2>Testing & scope control</h2>
 <p>The project includes deterministic tests and a repeatable demo rehearsal that exercises near-quota refusal, idempotent retries, durable usage rows, signed Stripe Free-to-Pro synchronization, forged and duplicate webhook handling, exact usage summaries and a selected pytest result.</p>
-<p>Deliberate non-goals include real AI-provider calls, invoices, collections, refunds, taxes, proration, overage billing, a dashboard, production Stripe, production identity, Kubernetes and paid infrastructure.</p>
+<p>The public demo simulates AI usage and uses <strong>Stripe test mode only</strong>. It is hosted on Render's free tier, so after inactivity the service may take about a minute to wake up. Deliberate non-goals include real AI-provider calls, real invoices or collections, production Stripe, production identity, Kubernetes and paid infrastructure.</p>
 
 <h2>What this case proves</h2>
-<p>I can design and implement a small but disciplined backend service where correctness depends on tenancy boundaries, idempotency, quota semantics, signed third-party events, reproducible tests and clear separation between estimates, entitlements and real billing.</p>
+<p>I can design and implement a disciplined backend service where correctness depends on tenancy boundaries, idempotency, quota semantics, signed third-party events, reproducible tests and clear separation between estimates, entitlements and real billing.</p>
 
-<h2>Repository</h2>
-<p><a class="cta" href="https://github.com/NiknaxTheGreek/flyrank-capstone-metering-billing-ai" target="_blank" rel="noreferrer">View metering & billing repository →</a></p>
+<h2>Evidence</h2>
+<p><a class="cta" href="https://flyrank-capstone-metering-billing-ai.onrender.com/demo" target="_blank" rel="noreferrer">Open live demo →</a></p>
+<p><a class="cta secondary" href="https://github.com/NiknaxTheGreek/flyrank-capstone-metering-billing-ai" target="_blank" rel="noreferrer">View GitHub repository →</a></p>
 <p><a href="/case-studies">← Back to case studies</a></p>
 </div></section>
 </main>
