@@ -1,0 +1,40 @@
+---
+import '../../styles/global.css';
+---
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="FlyRank Applied Search Intelligence capstone case study — Nicholas Perikli."/><title>FlyRank Applied Search Intelligence — Nicholas Perikli</title></head><body>
+<header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="https://github.com/NiknaxTheGreek" target="_blank" rel="noreferrer">Contact</a></nav></div></header>
+<main>
+<section class="page-head"><div class="container"><div class="eyebrow">Applied ML · Ranking · Search Intelligence</div><h1>FlyRank Applied Search Intelligence</h1><p class="section-lead">Which content pages should be reviewed first? A leakage-safe framework for estimating future performance risk and converting model outputs into a top-50 human-review queue.</p></div></section>
+<section><div class="container content">
+<h2>Decision problem</h2>
+<p>The capstone uses decision-time information from March 2026 to estimate April performance change. The goal is not to claim a model of Google's algorithm; it is to provide directional decision support about which pages deserve human review first.</p>
+
+<h2>Approach</h2>
+<ul>
+<li>Use only features available at the decision date to prevent future-information leakage.</li>
+<li>Frame the task across classification, signed regression and ranking rather than forcing one metric to answer every business question.</li>
+<li>Combine classification and signed regression into a top-50 review ranking.</li>
+<li>Separate clients during evaluation so validation measures transfer to unseen clients rather than memorisation of client-specific patterns.</li>
+<li>Keep transparent frozen baselines as the standard the learned models must beat.</li>
+</ul>
+
+<div class="callout">The ranking is designed for human review: the model prioritises attention, while the final content decision remains with a person.</div>
+
+<h2>Validation result</h2>
+<p>Development validation improved over the frozen baselines. The later six-client stress test was deliberately retained in the final framing because it showed weaker transfer: regression improved modestly, while classification and ranking did not improve over their transparent baselines.</p>
+<p>That mixed result is part of the value of the project. It distinguishes a promising development result from evidence that genuinely transfers to new clients.</p>
+
+<h2>Reproducibility & data safety</h2>
+<p>The public repository contains the executed capstone notebook, assignment work, a runnable reference pipeline and an anonymised dataset path. The workflow explicitly avoids raw private client data and frames outputs as observed, measured, directional decision support.</p>
+
+<h2>What this case proves</h2>
+<p>I can turn a search-performance problem into a leakage-safe ML decision system, build transparent baselines, evaluate transfer across client groups, combine multiple prediction tasks into an operational ranking and keep negative or mixed generalisation evidence in the final conclusion rather than hiding it.</p>
+
+<h2>Evidence</h2>
+<p><a class="cta" href="https://flyrank-content-review-capstone.onrender.com" target="_blank" rel="noreferrer">Open published research paper →</a></p>
+<p><a class="cta secondary" href="https://github.com/NiknaxTheGreek/flyrank-ml-internship" target="_blank" rel="noreferrer">View GitHub repository →</a></p>
+<p><a href="/case-studies">← Back to case studies</a></p>
+</div></section>
+</main>
+<footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small">Applied ML · Ranking · Search intelligence</div></div></footer>
+</body></html>
