@@ -1,7 +1,48 @@
 ---
 import '../../styles/global.css';
 ---
-<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><title>Term Deposit Customer Ranking — Nicholas Perikli</title></head><body>
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="Term Deposit Customer Ranking case study — Nicholas Perikli."/><title>Term Deposit Customer Ranking — Nicholas Perikli</title></head><body>
 <header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="https://github.com/NiknaxTheGreek" target="_blank" rel="noreferrer">Contact</a></nav></div></header>
-<main><section class="page-head"><div class="container"><div class="eyebrow">Applied ML · Ranking</div><h1>Term Deposit Customer Ranking</h1><p class="section-lead">Turning a low-conversion calling problem into a pre-call ranking problem without letting post-call information leak into the model.</p></div></section><section><div class="container content"><h2>Problem</h2><p>The practical question is not simply whether a customer will subscribe. It is which customers should be contacted first, using only information that would genuinely be known before the call.</p><h2>Approach</h2><ul><li>Separate deployable pre-call features from post-call information.</li><li>Use a transparent baseline alongside a nonlinear challenger.</li><li>Evaluate ranking quality and lift, not accuracy alone.</li><li>Use time-aware validation to test whether performance survives changing conditions.</li></ul><div class="callout">The central modelling decision was to treat prediction timing as part of the problem definition, not as an afterthought.</div><h2>What this case proves</h2><p>I can identify leakage, align modelling choices with a business decision, compare models under realistic validation and translate scores into a usable prioritisation strategy.</p><p><a href="/case-studies">← Back to case studies</a></p></div></section></main>
-<footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small">Evidence-led applied ML</div></div></footer></body></html>
+<main>
+<section class="page-head"><div class="container"><div class="eyebrow">Applied ML · Ranking · Leakage Control</div><h1>Term Deposit Customer Ranking</h1><p class="section-lead">Can a bank get more term-deposit subscriptions from the same calling capacity by ranking already eligible customers before the call?</p></div></section>
+<section><div class="container content">
+<h2>Business decision</h2>
+<p>The output is not primarily a yes/no classifier. It is a pre-call ranking score used to order eligible customers so limited calling capacity is spent on the most promising records first.</p>
+
+<h2>Data & decision timing</h2>
+<ul>
+<li>40,000 historical calls.</li>
+<li>2,896 subscriptions: a 7.24% conversion rate.</li>
+<li>13 original predictor fields; 12 are valid before the call.</li>
+<li><code>duration</code> is only known after the call finishes, so it is retained solely as a leakage diagnostic and excluded from every deployable model.</li>
+</ul>
+
+<h2>Models & validation</h2>
+<p>Logistic Regression provides the transparent linear candidate and HistGradientBoosting the nonlinear challenger. Model selection uses PR-AUC as the primary objective, but deployment judgement also considers ordered robustness, lift, interpretability and monitoring simplicity.</p>
+<ul>
+<li>Untouched 20% holdout: tuned HGB PR-AUC / ROC-AUC = <strong>0.272820 / 0.733930</strong>; tuned LR = <strong>0.240265 / 0.709681</strong>.</li>
+<li>Expanding-window ordered validation: LR = <strong>0.112626 / 0.566290</strong>; HGB = <strong>0.096333 / 0.551600</strong>.</li>
+<li>The large shuffled-to-ordered performance drop is treated as a central robustness warning, not hidden.</li>
+</ul>
+
+<div class="callout">Prediction timing is part of the model definition. The post-call <code>duration</code> feature produces a large retrospective performance jump, which is exactly why it is evidence of leakage rather than a deployable predictor.</div>
+
+<h2>Business-facing result</h2>
+<p>Across eight eligible forward blocks, Logistic Regression captured <strong>228 subscribers in the top-ranked 5%</strong> of calls versus about <strong>123 expected under random calling</strong> at the same volume: <strong>1.853857× lift</strong>.</p>
+<ul>
+<li>5% call depth: <strong>1.853857×</strong> lift.</li>
+<li>10% call depth: <strong>1.606389×</strong> lift.</li>
+<li>20% call depth: <strong>1.401474×</strong> lift.</li>
+</ul>
+
+<h2>Recommendation</h2>
+<p>Use <strong>unweighted Logistic Regression with all 12 valid pre-call features</strong> as the primary candidate in a controlled prospective pilot, with HGB retained as a challenger. Treat raw scores as ranking signals rather than literal subscription probabilities until prospective recalibration is available.</p>
+
+<h2>What this case proves</h2>
+<p>I can identify leakage, align modelling choices with the actual decision point, compare transparent and nonlinear models under conventional and ordered validation, and translate model scores into a capacity-aware operating recommendation.</p>
+
+<h2>Evidence</h2>
+<p><a class="cta" href="https://github.com/NiknaxTheGreek/Term-Deposit-Customer-Ranking" target="_blank" rel="noreferrer">View GitHub repository →</a></p>
+<p><a href="/case-studies">← Back to case studies</a></p>
+</div></section></main>
+<footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small">Applied ML · Ranking · Evidence</div></div></footer></body></html>
