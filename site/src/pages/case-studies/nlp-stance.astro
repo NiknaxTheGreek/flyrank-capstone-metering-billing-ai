@@ -1,7 +1,52 @@
 ---
 import '../../styles/global.css';
 ---
-<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><title>NLP Stance Detection — Nicholas Perikli</title></head><body>
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="From COVID-19 Vaccine Hesitancy to Mpox — NLP research case study by Nicholas Perikli."/><title>From COVID-19 Vaccine Hesitancy to Mpox — Nicholas Perikli</title></head><body>
 <header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="https://github.com/NiknaxTheGreek" target="_blank" rel="noreferrer">Contact</a></nav></div></header>
-<main><section class="page-head"><div class="container"><div class="eyebrow">NLP · Research · Public Health</div><h1>NLP Stance Detection</h1><p class="section-lead">A research programme using natural-language processing to classify stance and study public-health discourse across COVID-19 and Mpox.</p></div></section><section><div class="container content"><h2>Problem</h2><p>Real-world public-health text is noisy, ambiguous and context dependent. Useful analysis requires more than sentiment: it needs a defensible definition of stance and a classification process that can be inspected and validated.</p><h2>Approach</h2><ul><li>Define stance labels around the research question.</li><li>Use modern NLP classification methods on messy real-world text.</li><li>Compare behaviour across related health contexts rather than treating each dataset in isolation.</li><li>Keep interpretation tied to what the data and model can actually support.</li></ul><div class="callout">The research emphasis is on extracting useful structure from language without overstating what an automated classifier can infer about people or populations.</div><h2>What this case proves</h2><p>I can take an NLP research question from framing through classification, validation and interpretation, while communicating results in a form suitable for research and practical discussion.</p><p><a href="/case-studies">← Back to case studies</a></p></div></section></main>
-<footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small">NLP · Research · Evidence</div></div></footer></body></html>
+<main>
+<section class="page-head"><div class="container"><div class="eyebrow">NLP · Transformers · Public Health</div><h1>From COVID-19 Vaccine Hesitancy to Mpox</h1><p class="section-lead">A Comparative Study of Stance Labelling and Machine-Learning Classification across two published collaborative public-health NLP studies.</p></div></section>
+<section><div class="container content">
+<h2>Research questions</h2>
+<p>The synthesis examines how reliably context-sensitive human labelling can support stance classification in noisy public-health social-media data, and how well transformer models adapted to COVID-19 health discourse transfer to Mpox before and after Mpox-specific fine-tuning.</p>
+
+<h2>Datasets & annotation</h2>
+<ul>
+<li><strong>30,000</strong> manually labelled South African vaccine-related tweets in the COVID-19 study.</li>
+<li><strong>20,604</strong> manually labelled tweets from the 2022 Mpox outbreak.</li>
+<li>The COVID-19 annotation process used <strong>11 annotators</strong> and iterative consensus refinement.</li>
+<li>Mean Cohen's kappa improved from <strong>0.67 to 0.85</strong> as annotation rules were reviewed and clarified.</li>
+<li>The framework explicitly considered slang, sarcasm, punctuation, emojis and tone.</li>
+</ul>
+
+<h2>Models</h2>
+<p>The COVID-19 study compared SVM, LSTM, Bidirectional LSTM, BERT-base-cased and RoBERTa-base. The Mpox study evaluated NLP-Town BERT, Cardiff-NLP RoBERTa, COVID-19 BERT and COVID-19 RoBERTa before and after Mpox-specific fine-tuning. VADER and TextBlob were also evaluated against human labels.</p>
+
+<h2>Published results</h2>
+<ul>
+<li>COVID-19 three-class classification: strongest overall F1 was <strong>60% for BERT</strong> and <strong>61% for RoBERTa</strong>.</li>
+<li>Removing the neutral class increased both transformer models to approximately <strong>80% F1</strong>.</li>
+<li>For Mpox, COVID-19 BERT and COVID-19 RoBERTa each achieved <strong>45% F1 / 47% accuracy</strong> before Mpox-specific fine-tuning.</li>
+<li>After fine-tuning on labelled Mpox data, performance increased to <strong>68% F1 for BERT</strong> and <strong>69% F1 for RoBERTa</strong>.</li>
+<li>VADER achieved <strong>47% F1 / 50% accuracy</strong>; TextBlob achieved <strong>37% F1 / 40% accuracy</strong> against the manually assigned Mpox stance labels.</li>
+</ul>
+
+<div class="callout">The combined result supports a layered view of cross-crisis adaptation: prior training on related health discourse is useful, but it does not remove the need for new domain-specific human supervision.</div>
+
+<h2>Scope</h2>
+<p>The repository is a <strong>synthesis of published results</strong>, not a new modelling experiment. It introduces no new model training or unreported performance claims; the figures and comparisons are reconstructed from the two source publications.</p>
+
+<h2>Publications</h2>
+<ul>
+<li>N. Perikli et al., “Detecting the Presence of COVID-19 Vaccination Hesitancy From South African Twitter Data Using Machine Learning,” <em>IEEE Transactions on Computational Social Systems</em>. DOI: <a href="https://doi.org/10.1109/TCSS.2025.3608636" target="_blank" rel="noreferrer">10.1109/TCSS.2025.3608636</a>.</li>
+<li>N. Perikli et al., “Evaluating automatic annotation of lexicon-based models for stance detection of M-pox tweets from May 1st to Sep 5th, 2022,” <em>PLOS Digital Health</em> 3(7), e0000545 (2024). DOI: <a href="https://doi.org/10.1371/journal.pdig.0000545" target="_blank" rel="noreferrer">10.1371/journal.pdig.0000545</a>.</li>
+</ul>
+
+<h2>What this case proves</h2>
+<p>I can work across human annotation, classical ML, recurrent neural networks and transformers; evaluate cross-domain transfer; and interpret public-health NLP results without reducing nuanced stance to simplistic sentiment.</p>
+
+<h2>Evidence</h2>
+<p><a class="cta" href="https://github.com/NiknaxTheGreek/covid19-mpox-stance-classification-synthesis" target="_blank" rel="noreferrer">View GitHub repository →</a></p>
+<p><a class="cta secondary" href="https://github.com/NiknaxTheGreek/covid19-mpox-stance-classification-synthesis/blob/main/From_COVID19_Vaccine_Hesitancy_to_Mpox_Comparative_Synthesis_FINAL.pdf" target="_blank" rel="noreferrer">Read synthesis report →</a></p>
+<p><a href="/case-studies">← Back to case studies</a></p>
+</div></section></main>
+<footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small">NLP · Research · Published evidence</div></div></footer></body></html>
