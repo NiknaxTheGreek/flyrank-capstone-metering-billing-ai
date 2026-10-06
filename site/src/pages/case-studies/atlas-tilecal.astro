@@ -1,7 +1,42 @@
 ---
 import '../../styles/global.css';
 ---
-<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><title>ATLAS TileCal Predictive Maintenance — Nicholas Perikli</title></head><body>
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="Predictive Maintenance for the ATLAS Tile Calorimeter case study — Nicholas Perikli."/><title>Predictive Maintenance for the ATLAS Tile Calorimeter — Nicholas Perikli</title></head><body>
 <header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="https://github.com/NiknaxTheGreek" target="_blank" rel="noreferrer">Contact</a></nav></div></header>
-<main><section class="page-head"><div class="container"><div class="eyebrow">Physics · Time Series · ML</div><h1>ATLAS TileCal Predictive Maintenance</h1><p class="section-lead">Using machine-learning methods to classify and predict detector alert signals in a high-stakes scientific operating environment.</p></div></section><section><div class="container content"><h2>Context</h2><p>Detector monitoring produces operational signals that need to be understood in context. The modelling challenge is to distinguish useful patterns from noise while preserving the physical meaning of the system being monitored.</p><h2>Approach</h2><ul><li>Frame alert signals as a classification and prediction problem.</li><li>Use time-series structure rather than treating observations as exchangeable rows.</li><li>Connect model behaviour back to detector operations and physics context.</li><li>Evaluate whether a prediction could support earlier, better-informed intervention.</li></ul><div class="callout">This work sits at the boundary between scientific research and applied predictive maintenance: the model only matters if its output remains meaningful in the operating context.</div><h2>What this case proves</h2><p>I can work with technically complex domain data, translate scientific context into a machine-learning formulation, and evaluate predictive systems with the operational decision in mind.</p><p><a href="/case-studies">← Back to case studies</a></p></div></section></main>
+<main>
+<section class="page-head"><div class="container"><div class="eyebrow">Physics · NLP · Time Series · ML</div><h1>Predictive Maintenance for the ATLAS Tile Calorimeter</h1><p class="section-lead">Technical work based on the MSc dissertation “Alert Signal Classification and Prediction Using Natural Language Processing for the Tile Calorimeter of ATLAS.”</p></div></section>
+<section><div class="container content">
+<h2>Problem</h2>
+<p>The study asks whether archived ATLAS Tile Calorimeter Detector Control System alarm logs can provide a predictive-maintenance layer in addition to their existing monitoring and protection role.</p>
+
+<h2>Workflow</h2>
+<ul>
+<li>Select Error-level DCS alarms and normalise the semi-structured alarm text.</li>
+<li>Use targeted NLP and rule-based extraction to recover detector partition, hardware and module information.</li>
+<li>Consolidate alarms into five classes: <strong>ALERT, EMR, NO CONNECTION, NO TOGGLE and TRIPPED</strong>.</li>
+<li>Construct module-level alarm-count time series for forecasting and partition-level sequences for dominant alarm-type classification.</li>
+<li>Preserve chronological order, scale from the training portion, generate sliding-window sequences, tune LSTM models and evaluate forecasting and multiclass classification.</li>
+</ul>
+
+<h2>Results</h2>
+<ul>
+<li>LSTM alarm-count forecasting produced MAPE of approximately <strong>12.8–22.9%</strong> across the four selected forecasting cases.</li>
+<li>The raw dominant-alarm classifier achieved <strong>88% accuracy</strong>, but the result was strongly affected by class imbalance.</li>
+<li>After chattering-alarm reduction, accuracy was <strong>75%</strong> while macro-F1 improved from <strong>0.27 to 0.57</strong>, giving a more informative view of minority alarm classes.</li>
+<li>TileCal alarm activity was strongly spatially non-uniform across partitions and modules.</li>
+</ul>
+
+<div class="callout">The LBA forecasting result is interpreted cautiously because overlapping sequences near the chronological split reduced independence between training and evaluation samples.</div>
+
+<h2>Scope & interpretation</h2>
+<p>This is a <strong>proof-of-concept predictive-maintenance study</strong>, not a deployed ATLAS operational system. Limited sample sizes, class imbalance, validation design and the absence of live DCS testing constrain operational conclusions. The underlying ATLAS/TileCal DCS alarm data are not released publicly; the repository provides the technical report, methodology, derived statistics and study results.</p>
+
+<h2>What this case proves</h2>
+<p>I can translate technically complex detector-control data into a machine-learning formulation, combine NLP extraction with time-series modelling, and interpret model results in the context of scientific operations rather than treating metrics in isolation.</p>
+
+<h2>Evidence</h2>
+<p><a class="cta" href="https://github.com/NiknaxTheGreek/predictive-maintenance-atlas-tilecal" target="_blank" rel="noreferrer">View GitHub repository →</a></p>
+<p><a class="cta secondary" href="https://github.com/NiknaxTheGreek/predictive-maintenance-atlas-tilecal/blob/main/Predictive_Maintenance_ATLAS_TileCal_Report_FINAL_v2.pdf" target="_blank" rel="noreferrer">Read technical report →</a></p>
+<p><a href="/case-studies">← Back to case studies</a></p>
+</div></section></main>
 <footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small">Research-led predictive modelling</div></div></footer></body></html>
