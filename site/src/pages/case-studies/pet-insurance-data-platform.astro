@@ -1,0 +1,53 @@
+---
+import '../../styles/global.css';
+---
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="Pet Insurance Claims & Portfolio Data Platform case study — Nicholas Perikli."/><title>Pet Insurance Data Platform — Nicholas Perikli</title></head><body>
+<header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="https://github.com/NiknaxTheGreek" target="_blank" rel="noreferrer">Contact</a></nav></div></header>
+<main>
+<section class="page-head"><div class="container"><div class="eyebrow">Data Engineering · Snowflake · dbt · CDC</div><h1>Pet Insurance Claims & Portfolio Data Platform</h1><p class="section-lead">A production-style data platform for mutable insurance records, designed to preserve history, recover late-arriving changes and make analytical transformations reproducible and testable.</p></div></section>
+<section><div class="container content">
+<h2>Problem</h2>
+<p>Operational insurance data changes after creation: claims move through states, approved amounts change, payments arrive later, customer attributes change and rows can be soft-deleted. Simple overwrite pipelines can lose history, while timestamp-only incrementals can miss late data.</p>
+
+<h2>Architecture</h2>
+<ul>
+<li>PostgreSQL acts as the operational relational source for customers, pets, policies, claims and payments.</li>
+<li>Python performs incremental extraction, version identity, hashing, batching, reconciliation and reliability logic.</li>
+<li>Snowflake stores RAW history and CONTROL state before dbt transforms data through staging, intermediate and business-facing marts.</li>
+<li>A second path uses Neon PostgreSQL logical replication, Estuary Flow and Snowflake to prove WAL-based CDC for inserts, updates and physical deletes.</li>
+<li>Dagster demonstrates dependency ordering and retries, while GitHub Actions provides CI and Snowflake OIDC.</li>
+</ul>
+
+<h2>Correctness under change</h2>
+<p>The ingestion design combines a fast composite-watermark path with a full source-version reconciliation path. That allows the pipeline to recover both new keys and changed versions that arrive behind the high watermark without duplicating unchanged data.</p>
+<ul>
+<li>Set-based Snowflake MERGE per table.</li>
+<li>Atomic RAW + watermark + success-audit commit.</li>
+<li>Transaction rollback proof between RAW MERGE and watermark advancement.</li>
+<li>Soft-delete propagation.</li>
+<li>Additive schema evolution accepted and logged; breaking changes rejected.</li>
+<li>Customer SCD2 history and PII boundaries tested in dbt.</li>
+</ul>
+
+<div class="callout">The design treats replay, late-arrival recovery and failure atomicity as first-class correctness requirements, not edge cases.</div>
+
+<h2>Verified evidence</h2>
+<ul>
+<li>Live PostgreSQL → Snowflake ingestion: PASS.</li>
+<li>Estuary WAL capture and Estuary → Snowflake materialisation: PASS.</li>
+<li>BigQuery Sandbox reconciliation: PASS.</li>
+<li>25 Python tests passed.</li>
+<li>11 dbt models + 67 tests; 78/78 build nodes passed.</li>
+<li>Controlled benchmark loaded and reconciled 82,956 rows, followed by a zero-change replay with zero new inserts.</li>
+</ul>
+
+<h2>What this case proves</h2>
+<p>I can design a data platform around mutable operational data, separate operational and analytical workloads, preserve history, reason about incremental correctness, validate failure modes and document an auditable path from source systems to analytical marts.</p>
+
+<h2>Repository</h2>
+<p><a class="cta" href="https://github.com/NiknaxTheGreek/pet-insurance-data-platform" target="_blank" rel="noreferrer">View pet insurance data platform →</a></p>
+<p><a href="/case-studies">← Back to case studies</a></p>
+</div></section>
+</main>
+<footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small">Data engineering · Reliability · Evidence</div></div></footer>
+</body></html>
