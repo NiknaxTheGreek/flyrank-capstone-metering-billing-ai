@@ -1,13 +1,16 @@
 ---
 import '../../styles/global.css';
 ---
-<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="Pet Insurance Claims & Portfolio Data Platform case study — Nicholas Perikli."/><title>Pet Insurance Data Platform — Nicholas Perikli</title></head><body>
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="Pet Insurance Claims & Portfolio Data Platform case study — Nicholas Perikli."/><title>Pet Insurance Claims & Portfolio Data Platform — Nicholas Perikli</title></head><body>
 <header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="https://github.com/NiknaxTheGreek" target="_blank" rel="noreferrer">Contact</a></nav></div></header>
 <main>
 <section class="page-head"><div class="container"><div class="eyebrow">Data Engineering · Snowflake · dbt · CDC</div><h1>Pet Insurance Claims & Portfolio Data Platform</h1><p class="section-lead">A production-style data platform for mutable insurance records, designed to preserve history, recover late-arriving changes and make analytical transformations reproducible and testable.</p></div></section>
 <section><div class="container content">
 <h2>Problem</h2>
 <p>Operational insurance data changes after creation: claims move through states, approved amounts change, payments arrive later, customer attributes change and rows can be soft-deleted. Simple overwrite pipelines can lose history, while timestamp-only incrementals can miss late data.</p>
+
+<h2>Architecture at a glance</h2>
+<div class="callout"><strong>PostgreSQL → Python incremental capture + reconciliation → Snowflake RAW / CONTROL → dbt STAGING → INTERMEDIATE → MARTS</strong><br/><br/><strong>Neon PostgreSQL WAL → Estuary Flow → Snowflake change history</strong></div>
 
 <h2>Architecture</h2>
 <ul>
@@ -29,23 +32,23 @@ import '../../styles/global.css';
 <li>Customer SCD2 history and PII boundaries tested in dbt.</li>
 </ul>
 
-<div class="callout">The design treats replay, late-arrival recovery and failure atomicity as first-class correctness requirements, not edge cases.</div>
-
 <h2>Verified evidence</h2>
 <ul>
-<li>Live PostgreSQL → Snowflake ingestion: PASS.</li>
-<li>Estuary WAL capture and Estuary → Snowflake materialisation: PASS.</li>
-<li>BigQuery Sandbox reconciliation: PASS.</li>
-<li>25 Python tests passed.</li>
-<li>11 dbt models + 67 tests; 78/78 build nodes passed.</li>
-<li>Controlled benchmark loaded and reconciled 82,956 rows, followed by a zero-change replay with zero new inserts.</li>
+<li>Live PostgreSQL → Snowflake ingestion: <strong>PASS</strong>.</li>
+<li>Estuary WAL capture and Estuary → Snowflake materialisation: <strong>PASS</strong>.</li>
+<li>BigQuery Sandbox reconciliation: <strong>PASS</strong>.</li>
+<li><strong>25 Python tests passed.</strong></li>
+<li><strong>11 dbt models + 67 tests; 78/78 build nodes passed.</strong></li>
+<li>A controlled benchmark loaded and reconciled <strong>82,956 rows</strong>, followed by a zero-change replay with zero new inserts.</li>
 </ul>
+
+<div class="callout">Replay, late-arrival recovery, schema change, soft deletes and failure atomicity are treated as first-class correctness requirements rather than edge cases.</div>
 
 <h2>What this case proves</h2>
 <p>I can design a data platform around mutable operational data, separate operational and analytical workloads, preserve history, reason about incremental correctness, validate failure modes and document an auditable path from source systems to analytical marts.</p>
 
-<h2>Repository</h2>
-<p><a class="cta" href="https://github.com/NiknaxTheGreek/pet-insurance-data-platform" target="_blank" rel="noreferrer">View pet insurance data platform →</a></p>
+<h2>Evidence</h2>
+<p><a class="cta" href="https://github.com/NiknaxTheGreek/pet-insurance-data-platform" target="_blank" rel="noreferrer">View GitHub repository →</a></p>
 <p><a href="/case-studies">← Back to case studies</a></p>
 </div></section>
 </main>
