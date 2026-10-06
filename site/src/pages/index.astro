@@ -30,6 +30,18 @@ const cases = [
     href:'/case-studies/api-metering-billing',
     tag:'Backend · FastAPI · PostgreSQL · Stripe',
     body:'A tenant-scoped API and AI-token metering service with quotas, idempotent usage recording, Stripe test-mode subscription sync, cost estimation and monthly reconciliation.'
+  },
+  {
+    title:'Pet Insurance Claims & Portfolio Data Platform',
+    href:'/case-studies/pet-insurance-data-platform',
+    tag:'Data Engineering · Snowflake · dbt · CDC',
+    body:'A production-style data platform for mutable insurance data, combining incremental PostgreSQL ingestion, Snowflake history, dbt marts, late-arrival recovery, CDC, orchestration and reliability testing.'
+  },
+  {
+    title:'FlyRank Applied Search Intelligence',
+    href:'/case-studies/flyrank-search-intelligence',
+    tag:'Applied ML · Ranking · Search Intelligence',
+    body:'A leakage-safe framework that uses March decision-time signals to estimate April content-performance risk and rank the pages that should be reviewed first.'
   }
 ];
 ---
@@ -52,7 +64,7 @@ const cases = [
   <section class="hero">
     <div class="container hero-grid">
       <div>
-        <div class="eyebrow">Data Science · Applied ML · NLP</div>
+        <div class="eyebrow">Data Science · Applied ML · Data Engineering · NLP</div>
         <h1>From messy data to credible, useful machine-learning decisions.</h1>
         <p>I use data analysis and machine learning to solve real-world problems where the data is messy, the obvious answer is not always the right one, and technical results need to translate into practical value.</p>
         <div class="actions"><a class="cta" href="/case-studies">View case studies</a><a class="cta secondary" href="#agent">Ask my portfolio agent</a></div>
@@ -62,14 +74,14 @@ const cases = [
   </section>
 
   <section class="proof">
-    <div class="container proof-grid"><blockquote>Evidence first. Method before hype. Decisions that survive scrutiny.</blockquote><p>My work spans applied ML, time-series modelling and published NLP research, with an emphasis on rigorous validation and defensible decisions.</p></div>
+    <div class="container proof-grid"><blockquote>Evidence first. Method before hype. Decisions that survive scrutiny.</blockquote><p>My work spans applied ML, data engineering, time-series modelling and published NLP research, with an emphasis on rigorous validation, reproducibility and defensible decisions.</p></div>
   </section>
 
   <section class="section" id="case-studies">
     <div class="container">
-      <div class="eyebrow">Selected work</div><h2 class="section-title">Case studies</h2><p class="section-lead">Five projects that show how I frame problems, protect against misleading signals, validate decisions and explain what the result actually means.</p>
+      <div class="eyebrow">Selected work</div><h2 class="section-title">Case studies</h2><p class="section-lead">Seven projects that show how I frame problems, engineer reliable data flows, protect against misleading signals, validate decisions and explain what the result actually means.</p>
       <div class="cards">{cases.map((c)=><article class="card"><span class="tag">{c.tag}</span><h3>{c.title}</h3><p>{c.body}</p><a href={c.href}>Read case study →</a></article>)}</div>
-      <div class="evidence"><div><strong>5</strong>core case studies</div><div><strong>End-to-end</strong>problem → model → validation</div><div><strong>Grounded</strong>portfolio agent</div></div>
+      <div class="evidence"><div><strong>7</strong>core case studies</div><div><strong>End-to-end</strong>problem → model → validation</div><div><strong>Grounded</strong>portfolio agent</div></div>
     </div>
   </section>
 
@@ -88,20 +100,22 @@ const cases = [
     <div class="container about-grid"><aside><div class="eyebrow">Working style</div><h3>Direct. Analytical. Evidence-led.</h3><p>I prefer clear assumptions, explicit trade-offs and results that can be defended rather than merely presented.</p></aside><div><div class="eyebrow">About</div><h2 class="section-title">Research discipline, applied to practical ML.</h2><p>My background connects physics research, data science and NLP. I am most interested in work where model quality depends on careful problem framing, leakage control, validation and interpretation—not just fitting an algorithm.</p><p><a href="/about">More about my background →</a></p></div></div>
   </section>
 </main>
-<footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small">Data Science · Applied ML · NLP · <a href="https://github.com/NiknaxTheGreek" target="_blank" rel="noreferrer">GitHub</a></div></div></footer>
+<footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small">Data Science · Applied ML · Data Engineering · NLP · <a href="https://github.com/NiknaxTheGreek" target="_blank" rel="noreferrer">GitHub</a></div></div></footer>
 <script is:inline>
 const knowledge=[
  {keys:['term','deposit','customer','ranking','bank'],answer:'The Term Deposit Customer Ranking case focuses on prioritising customers before a call. The key methodological points are leakage control, pre-call feature discipline, time-aware validation, ranking quality and interpretable decision support.'},
  {keys:['atlas','tilecal','physics','detector','predictive','maintenance'],answer:'The ATLAS TileCal project applies machine-learning and time-series thinking to detector alert signals. It connects domain knowledge from experimental physics with classification and prediction for operational decision support.'},
  {keys:['nlp','stance','covid','mpox','vaccine','research','publication'],answer:'Nicholas has worked on NLP stance detection across COVID-19 vaccine hesitancy and Mpox. The programme uses text classification to extract defensible public-health insight from noisy real-world language data.'},
  {keys:['skill','skills','machine learning','ml','python','data science'],answer:'The portfolio demonstrates Python-based data analysis and machine learning, NLP, time-series modelling, validation design, leakage control, interpretation and evidence-focused communication.'},
- {keys:['hire','role','job','position','candidate'],answer:'The portfolio is aimed at early-career Data Scientist and Applied ML opportunities. The strongest evidence is the end-to-end handling of messy data, modelling, validation and interpretation across three distinct domains.'},
+ {keys:['hire','role','job','position','candidate'],answer:'The portfolio is aimed at early-career Data Scientist and Applied ML opportunities. The strongest evidence is the end-to-end handling of messy data, modelling, validation and interpretation across machine learning, NLP, data engineering, backend systems and scientific computing.'},
  {keys:['potential','talents','candidate','hr','human resources','recruitment','ranking'],answer:'The Potential Talents project builds an HR candidate-ranking pipeline from 104 source records. It screens to 34 HR-relevant candidates, constructs a transparent proxy target from occupational and semantic relevance, evaluates a PCA–Ridge ranker with repeated nested cross-validation, and tests management feedback out of sample before deciding whether to retrain.'},
  {keys:['backend','api','metering','billing','fastapi','postgres','postgresql','stripe','quota','idempotency','tokens'],answer:'The FlyRank Usage Metering & Billing Engine is a FastAPI/PostgreSQL backend for tenant-scoped API and AI-token metering. It implements Free/Pro quotas, exactly-once usage recording with tenant-scoped idempotency, tenant-bound HMAC proofs, Stripe test-mode Checkout and signed webhook entitlement sync, integer-cent AI cost estimates, and an idempotent monthly reconciliation job.'},
+ {keys:['pet','insurance','snowflake','dbt','cdc','estuary','dagster','data engineering','warehouse','pipeline'],answer:'The Pet Insurance Data Platform is a production-style data-engineering project for mutable insurance data. It combines PostgreSQL operational data, Python incremental ingestion and reconciliation, Snowflake RAW/CONTROL history, dbt staging/intermediate/marts, customer SCD2, soft-delete and late-arrival handling, Dagster orchestration, Estuary WAL CDC and BigQuery reconciliation. Verified evidence includes 25 Python tests and 78/78 dbt build nodes passing.'},
+ {keys:['search','seo','flyrank','content','review','discoverability','april','march','risk'],answer:'The FlyRank Applied Search Intelligence capstone asks which content pages should be reviewed first. It uses March decision-time features to estimate April performance change, combines classification and signed regression into a top-50 human-review ranking, and validates with client-separated grouped evaluation. Development validation improved over frozen baselines, while the six-client stress test showed only modest regression improvement and no classification or ranking improvement over transparent baselines.'},
  {keys:['about','background','who'],answer:'Nicholas combines a physics research background with applied data science and NLP. The common thread is rigorous validation, explicit assumptions and practical interpretation.'}
 ];
 const input=document.getElementById('agent-input');const answer=document.getElementById('agent-answer');
-function reply(q){const t=q.toLowerCase();let best=null,score=0;for(const item of knowledge){let s=0;for(const k of item.keys){if(t.includes(k))s++;}if(s>score){score=s;best=item;}}answer.textContent=best&&score>0?best.answer:'I do not have enough grounded portfolio information to answer that confidently. Try asking about the five case studies, ML skills, NLP research, backend engineering, physics research or role fit.';}
+function reply(q){const t=q.toLowerCase();let best=null,score=0;for(const item of knowledge){let s=0;for(const k of item.keys){if(t.includes(k))s++;}if(s>score){score=s;best=item;}}answer.textContent=best&&score>0?best.answer:'I do not have enough grounded portfolio information to answer that confidently. Try asking about the seven case studies, ML skills, data engineering, search intelligence, NLP research, backend engineering, physics research or role fit.';}
 document.getElementById('agent-form').addEventListener('submit',e=>{e.preventDefault();if(input.value.trim())reply(input.value.trim());});
 document.querySelectorAll('[data-q]').forEach(b=>b.addEventListener('click',()=>{input.value=b.dataset.q;reply(b.dataset.q);}));
 </script>
