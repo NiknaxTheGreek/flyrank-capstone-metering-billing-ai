@@ -2,10 +2,11 @@
 import '../../styles/global.css';
 ---
 <!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="Term Deposit Customer Ranking case study — Nicholas Perikli."/><title>Term Deposit Customer Ranking — Nicholas Perikli</title></head><body>
-<header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="https://github.com/NiknaxTheGreek" target="_blank" rel="noreferrer">Contact</a></nav></div></header>
+<header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="mailto:nicholasperikli@gmail.com">Contact</a></nav></div></header>
 <main>
 <section class="page-head"><div class="container"><div class="eyebrow">Applied ML · Ranking · Leakage Control</div><h1>Term Deposit Customer Ranking</h1><p class="section-lead">Can a bank get more term-deposit subscriptions from the same calling capacity by ranking already eligible customers before the call?</p></div></section>
 <section><div class="container content">
+<div class="plain-grid"><div><h2>In plain English</h2><p>A bank cannot call every eligible customer. This project ranks customers so the sales team can call the people most likely to subscribe first.</p></div><div><h2>Why it matters</h2><p>The business goal is not simply better prediction accuracy. It is getting more subscriptions from the same limited calling capacity.</p></div><div><h2>How it works</h2><p>Historical customer data → remove information only known after the call → score each eligible customer → rank them → call the highest-ranked customers first.</p></div></div>
 <h2>Business decision</h2>
 <p>The output is not primarily a yes/no classifier. It is a pre-call ranking score used to order eligible customers so limited calling capacity is spent on the most promising records first.</p>
 
