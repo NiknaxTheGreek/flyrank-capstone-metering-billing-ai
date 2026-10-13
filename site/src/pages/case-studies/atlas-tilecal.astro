@@ -2,10 +2,11 @@
 import '../../styles/global.css';
 ---
 <!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="Predictive Maintenance for the ATLAS Tile Calorimeter case study — Nicholas Perikli."/><title>Predictive Maintenance for the ATLAS Tile Calorimeter — Nicholas Perikli</title></head><body>
-<header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="https://github.com/NiknaxTheGreek" target="_blank" rel="noreferrer">Contact</a></nav></div></header>
+<header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="mailto:nicholasperikli@gmail.com">Contact</a></nav></div></header>
 <main>
 <section class="page-head"><div class="container"><div class="eyebrow">Physics · NLP · Time Series · ML</div><h1>Predictive Maintenance for the ATLAS Tile Calorimeter</h1><p class="section-lead">Technical work based on the MSc dissertation “Alert Signal Classification and Prediction Using Natural Language Processing for the Tile Calorimeter of ATLAS.”</p></div></section>
 <section><div class="container content">
+<div class="plain-grid"><div><h2>In plain English</h2><p>The ATLAS detector produces large numbers of technical alarm messages. I investigated whether those alarms could be turned into useful data for identifying patterns and forecasting future alarm activity.</p></div><div><h2>Why it matters</h2><p>Large scientific instruments are complex and expensive. Better use of alarm history could help engineers focus attention on unusual equipment behaviour and support earlier maintenance decisions.</p></div><div><h2>How it works</h2><p>Raw detector alarms → extract the affected detector component → group alarm types → build time-series data → use LSTM models to forecast alarm activity and classify alarm types.</p></div></div>
 <h2>Problem</h2>
 <p>The study asks whether archived ATLAS Tile Calorimeter Detector Control System alarm logs can provide a predictive-maintenance layer in addition to their existing monitoring and protection role.</p>
 
