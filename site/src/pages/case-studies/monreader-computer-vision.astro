@@ -1,0 +1,30 @@
+---
+import '../../styles/global.css';
+---
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="MonReader page-flip image classifier in progress — Nicholas Perikli."/><title>MonReader — Page-Flip Image Classifier — Nicholas Perikli</title></head><body>
+<header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="mailto:nicholasperikli@gmail.com">Contact</a></nav></div></header>
+<main>
+<section class="page-head"><div class="container"><span class="status-pill">In progress</span><div class="eyebrow">Computer Vision · CNN · ResNet18</div><h1>MonReader — Page-Flip Image Classifier</h1><p class="section-lead">A computer-vision project testing whether a single image frame can be classified as <code>flip</code> or <code>notflip</code>, with emphasis on whether performance survives harder generalisation conditions.</p></div></section>
+<section><div class="container content">
+<div class="plain-grid"><div><h2>In plain English</h2><p>I am training computer-vision models to recognise whether a camera frame shows a page being flipped or not.</p></div><div><h2>Why it matters</h2><p>This kind of classifier could form part of an automated reading or scanning workflow by helping a system recognise page-turn events from video frames.</p></div><div><h2>How it works</h2><p>Labelled image frames → train scratch CNN models → test on increasingly difficult held-out conditions → compare against a fixed pretrained ResNet18 model.</p></div></div>
+<h2>Why the evaluation is more than one accuracy number</h2>
+<p>The project separates four generalisation regimes because a model that performs well on familiar-looking frames may still fail on a new environment or later frames from a video. The regimes therefore answer different questions rather than being treated as one global leaderboard.</p>
+<h2>Current evidence</h2>
+<ul>
+<li>Scratch-CNN champion F1: <strong>0.9983</strong> in the source-joint O regime.</li>
+<li>Scratch-CNN champion F1: <strong>0.8196</strong> on held-out ENV-03 in the S regime.</li>
+<li>Scratch-CNN champion F1: <strong>0.8800</strong> on later frames of known videos in the T regime.</li>
+<li>Scratch-CNN champion F1: <strong>0.7040</strong> when unseen-source and later-frame stress are combined in the ST regime.</li>
+<li>A prospectively frozen ImageNet ResNet18 comparator was trained independently in all four regimes.</li>
+<li>None of the paired video/group 95% confidence intervals for ResNet18 versus the scratch champions excluded zero, so the current evidence does not justify replacing the frozen scratch champions.</li>
+</ul>
+<h2>Current research direction</h2>
+<p>The next phase focuses on controlled secondary analyses such as shortcut/hand-arm dependence, augmentation, visual/data ablations and temporal/video deployment diagnostics. These analyses are explicitly post-selection and cannot retroactively change the frozen O/S/T/ST champions.</p>
+<div class="progress-note"><strong>Status:</strong> in progress. The underlying research repository remains private while this phase is being completed, so the portfolio does not expose an inaccessible GitHub link or imply that the project is finished.</div>
+<h2>What this project is adding to my portfolio</h2>
+<p>MonReader extends my work into computer vision while keeping the same emphasis seen in my other projects: testing whether apparent performance survives realistic distribution changes instead of relying on one convenient train/test split.</p>
+<p><a href="/case-studies">← Back to case studies</a></p>
+</div></section>
+</main>
+<footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small">In progress · Computer vision</div></div></footer>
+</body></html>
