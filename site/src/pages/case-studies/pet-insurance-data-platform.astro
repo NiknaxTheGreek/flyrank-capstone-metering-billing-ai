@@ -2,10 +2,11 @@
 import '../../styles/global.css';
 ---
 <!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="Pet Insurance Claims & Portfolio Data Platform case study — Nicholas Perikli."/><title>Pet Insurance Claims & Portfolio Data Platform — Nicholas Perikli</title></head><body>
-<header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="https://github.com/NiknaxTheGreek" target="_blank" rel="noreferrer">Contact</a></nav></div></header>
+<header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="mailto:nicholasperikli@gmail.com">Contact</a></nav></div></header>
 <main>
 <section class="page-head"><div class="container"><div class="eyebrow">Data Engineering · Snowflake · dbt · CDC</div><h1>Pet Insurance Claims & Portfolio Data Platform</h1><p class="section-lead">A production-style data platform for mutable insurance records, designed to preserve history, recover late-arriving changes and make analytical transformations reproducible and testable.</p></div></section>
 <section><div class="container content">
+<div class="plain-grid"><div><h2>In plain English</h2><p>Insurance records do not stay fixed. Claims are updated, customers change details and payments arrive later. This platform preserves those changes instead of overwriting history.</p></div><div><h2>Why it matters</h2><p>Insurers need trustworthy historical data for reporting, analytics and auditing. Losing an earlier claim or customer state can create incorrect reports and make problems difficult to trace.</p></div><div><h2>How it works</h2><p>Operational PostgreSQL data → incremental Python ingestion → Snowflake history → dbt cleaning and transformation → tested analytical tables for reporting and analysis.</p></div></div>
 <h2>Problem</h2>
 <p>Operational insurance data changes after creation: claims move through states, approved amounts change, payments arrive later, customer attributes change and rows can be soft-deleted. Simple overwrite pipelines can lose history, while timestamp-only incrementals can miss late data.</p>
 
