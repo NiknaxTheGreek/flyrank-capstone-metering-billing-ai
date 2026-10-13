@@ -2,10 +2,11 @@
 import '../../styles/global.css';
 ---
 <!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="Potential Talents HR candidate ranking case study — Nicholas Perikli."/><title>Potential Talents — HR Candidate Ranking — Nicholas Perikli</title></head><body>
-<header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="https://github.com/NiknaxTheGreek" target="_blank" rel="noreferrer">Contact</a></nav></div></header>
+<header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="mailto:nicholasperikli@gmail.com">Contact</a></nav></div></header>
 <main>
 <section class="page-head"><div class="container"><div class="eyebrow">NLP · Ranking · Human-in-the-loop</div><h1>Potential Talents — HR Candidate Ranking</h1><p class="section-lead">A small-data ranking project that screens noisy candidate titles, constructs a transparent proxy target and tests whether management feedback genuinely improves out-of-sample ranking quality.</p></div></section>
 <section><div class="container content">
+<div class="plain-grid"><div><h2>In plain English</h2><p>A recruiter may receive many candidate profiles. This project filters obviously irrelevant profiles and ranks the remaining candidates according to how closely they match an HR-focused search.</p></div><div><h2>Why it matters</h2><p>The goal is to reduce repetitive manual screening while keeping the final hiring decision with a human reviewer.</p></div><div><h2>How it works</h2><p>Raw candidate profiles → remove duplicates and invalid entries → semantic relevance check → explicit HR-domain rules → ranking model → human review.</p></div></div>
 <h2>Problem</h2>
 <p>The supplied data contain 104 candidate records but no observed values in the intended <code>fit</code> field. The task therefore requires both defensible screening and a transparent analytical target before any ranking model can be evaluated.</p>
 
