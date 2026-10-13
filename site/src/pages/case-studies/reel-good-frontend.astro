@@ -1,0 +1,29 @@
+---
+import '../../styles/global.css';
+---
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="Reel Good frontend project in progress — Nicholas Perikli."/><title>Reel Good — Movie Discovery Web Application — Nicholas Perikli</title></head><body>
+<header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="mailto:nicholasperikli@gmail.com">Contact</a></nav></div></header>
+<main>
+<section class="page-head"><div class="container"><span class="status-pill">In progress</span><div class="eyebrow">Frontend · React · TypeScript · Vite</div><h1>Reel Good — Movie Discovery Web Application</h1><p class="section-lead">A user-facing movie discovery application being developed as part of the FlyRank frontend track.</p></div></section>
+<section><div class="container content">
+<div class="plain-grid"><div><h2>In plain English</h2><p>A web application that lets people browse movies, search for titles, open detailed movie pages and save favourites.</p></div><div><h2>Why it matters</h2><p>It demonstrates the user-facing side of product development: taking data from an external service and turning it into a usable, accessible interface.</p></div><div><h2>How it works</h2><p>React/TypeScript interface → live OMDb search and detail enrichment → routing and UI states → Firebase authentication and user-scoped favourites architecture.</p></div></div>
+<h2>Current implementation</h2>
+<ul>
+<li>React + TypeScript + Vite application architecture.</li>
+<li>Live OMDb title search with pagination, loading, empty and error states, request cancellation and stale-response protection.</li>
+<li>Movie detail pages, genre browsing, poster fallbacks and verified IMDb links.</li>
+<li>Server-side OMDb proxy with caching, request limiting and bounded detail enrichment.</li>
+<li>Firebase email/password authentication and UID-scoped favourites architecture.</li>
+<li>Vitest and React Testing Library coverage for routing, live movie flows and authentication/favourites behaviour.</li>
+</ul>
+<h2>Product context</h2>
+<p>This project broadens my portfolio beyond modelling and backend systems by showing how I structure a user-facing application, integrate an external API, handle asynchronous UI states and design personal account features.</p>
+<div class="progress-note"><strong>Status:</strong> the broader frontend capstone is still in progress. The movie application is publicly previewable, but Firebase/live end-to-end verification and later frontend-capstone work are still being completed. It is therefore intentionally not presented as a finished capstone.</div>
+<h2>Current evidence</h2>
+<p><a class="cta" href="https://nicholas-perikli-reel-good.onrender.com" target="_blank" rel="noreferrer">Open live Reel Good preview →</a></p>
+<p>The source repository is currently private while the frontend capstone is still being developed.</p>
+<p><a href="/case-studies">← Back to case studies</a></p>
+</div></section>
+</main>
+<footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small">In progress · Frontend product development</div></div></footer>
+</body></html>
