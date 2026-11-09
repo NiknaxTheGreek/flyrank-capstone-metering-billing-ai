@@ -6,7 +6,16 @@ import '../../styles/global.css';
 <main>
 <section class="page-head"><div class="container"><div class="eyebrow">NLP · Ranking · Human-in-the-loop</div><h1>Potential Talents — HR Candidate Ranking</h1><p class="section-lead">A small-data ranking project that screens noisy candidate titles, constructs a transparent proxy target and tests whether management feedback genuinely improves out-of-sample ranking quality.</p></div></section>
 <section><div class="container content">
-<div class="plain-grid"><div><h2>In plain English</h2><p>A recruiter may receive many candidate profiles. This project filters obviously irrelevant profiles and ranks the remaining candidates according to how closely they match an HR-focused search.</p></div><div><h2>Why it matters</h2><p>The goal is to reduce repetitive manual screening while keeping the final hiring decision with a human reviewer.</p></div><div><h2>How it works</h2><p>Raw candidate profiles → remove duplicates and invalid entries → semantic relevance check → explicit HR-domain rules → ranking model → human review.</p></div></div>
+<section class="story-section">
+<h2>30-second explanation</h2>
+<div class="story-grid">
+<div class="story-step"><strong>1 · Problem</strong><p>I wanted to reduce the amount of time a recruiter spends manually screening candidate profiles that are not relevant to an HR role.</p></div>
+<div class="story-step"><strong>2 · Data</strong><p>I worked with 104 supplied candidate records and reduced them to a clean, HR-relevant set for ranking.</p></div>
+<div class="story-step"><strong>3 · Approach</strong><p>I removed duplicates and invalid profiles, applied semantic and HR-specific relevance checks, then built a ranking model using the remaining candidates.</p></div>
+<div class="story-step"><strong>4 · Validation</strong><p>I used repeated out-of-sample validation and then tested whether management feedback actually improved the ranking. It changed the fitted rankings but did not improve held-out performance.</p></div>
+<div class="story-step story-impact"><strong>5 · Impact</strong><p>The system could reduce repetitive screening while keeping the final hiring decision with a person. The project also shows why feedback should be tested before it is automatically added to a model.</p></div>
+</div>
+</section>
 <h2>Problem</h2>
 <p>The supplied data contain 104 candidate records but no observed values in the intended <code>fit</code> field. The task therefore requires both defensible screening and a transparent analytical target before any ranking model can be evaluated.</p>
 
