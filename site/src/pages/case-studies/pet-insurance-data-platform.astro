@@ -6,7 +6,16 @@ import '../../styles/global.css';
 <main>
 <section class="page-head"><div class="container"><div class="eyebrow">Data Engineering · Snowflake · dbt · CDC</div><h1>Pet Insurance Claims & Portfolio Data Platform</h1><p class="section-lead">A production-style data platform for mutable insurance records, designed to preserve history, recover late-arriving changes and make analytical transformations reproducible and testable.</p></div></section>
 <section><div class="container content">
-<div class="plain-grid"><div><h2>In plain English</h2><p>Insurance records do not stay fixed. Claims are updated, customers change details and payments arrive later. This platform preserves those changes instead of overwriting history.</p></div><div><h2>Why it matters</h2><p>Insurers need trustworthy historical data for reporting, analytics and auditing. Losing an earlier claim or customer state can create incorrect reports and make problems difficult to trace.</p></div><div><h2>How it works</h2><p>Operational PostgreSQL data → incremental Python ingestion → Snowflake history → dbt cleaning and transformation → tested analytical tables for reporting and analysis.</p></div></div>
+<section class="story-section">
+<h2>30-second explanation</h2>
+<div class="story-grid">
+<div class="story-step"><strong>1 · Problem</strong><p>I wanted to solve the problem of insurance records changing over time and causing inaccurate reporting if earlier states are overwritten.</p></div>
+<div class="story-step"><strong>2 · Data</strong><p>I worked with generated insurance data covering customers, pets, policies, claims and claim payments.</p></div>
+<div class="story-step"><strong>3 · Approach</strong><p>I used Python, SQL, PostgreSQL, Snowflake and dbt to collect, update and organise the data while preserving a history of changes.</p></div>
+<div class="story-step"><strong>4 · Validation</strong><p>I tested late arrivals, replays, schema changes, soft deletes and failure recovery. The platform passed 25 Python tests, 78 out of 78 dbt build nodes, and a controlled 82,956-row scale test without duplicate replay inserts.</p></div>
+<div class="story-step story-impact"><strong>5 · Impact</strong><p>The aim is to make insurance reporting and analytics more accurate, traceable and reliable for business decisions.</p></div>
+</div>
+</section>
 <h2>Problem</h2>
 <p>Operational insurance data changes after creation: claims move through states, approved amounts change, payments arrive later, customer attributes change and rows can be soft-deleted. Simple overwrite pipelines can lose history, while timestamp-only incrementals can miss late data.</p>
 
