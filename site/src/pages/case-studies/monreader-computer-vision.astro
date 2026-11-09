@@ -1,30 +1,58 @@
 ---
 import '../../styles/global.css';
 ---
-<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="MonReader page-flip image classifier in progress — Nicholas Perikli."/><title>MonReader — Page-Flip Image Classifier — Nicholas Perikli</title></head><body>
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="MonReader robust page-turn classification case study — Nicholas Perikli."/><title>MonReader — Robust Page-Turn Classification — Nicholas Perikli</title></head><body>
 <header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="mailto:nicholasperikli@gmail.com">Contact</a></nav></div></header>
 <main>
-<section class="page-head"><div class="container"><span class="status-pill">In progress</span><div class="eyebrow">Computer Vision · CNN · ResNet18</div><h1>MonReader — Page-Flip Image Classifier</h1><p class="section-lead">A computer-vision project testing whether a single image frame can be classified as <code>flip</code> or <code>notflip</code>, with emphasis on whether performance survives harder generalisation conditions.</p></div></section>
+<section class="page-head"><div class="container"><div class="eyebrow">Computer Vision · CNN · ResNet18 · Generalisation</div><h1>MonReader — Robust Page-Turn Classification</h1><p class="section-lead">A completed computer-vision study asking whether page-turn detection still works on later frames and previously unseen recordings—not only on a familiar dataset split.</p></div></section>
 <section><div class="container content">
-<div class="plain-grid"><div><h2>In plain English</h2><p>I am training computer-vision models to recognise whether a camera frame shows a page being flipped or not.</p></div><div><h2>Why it matters</h2><p>This kind of classifier could form part of an automated reading or scanning workflow by helping a system recognise page-turn events from video frames.</p></div><div><h2>How it works</h2><p>Labelled image frames → train scratch CNN models → test on increasingly difficult held-out conditions → compare against a fixed pretrained ResNet18 model.</p></div></div>
-<h2>Why the evaluation is more than one accuracy number</h2>
-<p>The project separates four generalisation regimes because a model that performs well on familiar-looking frames may still fail on a new environment or later frames from a video. The regimes therefore answer different questions rather than being treated as one global leaderboard.</p>
-<h2>Current evidence</h2>
+<section class="story-section">
+<h2>30-second explanation</h2>
+<div class="story-grid">
+<div class="story-step"><strong>1 · Problem</strong><p>I wanted to see whether a computer-vision model could reliably recognise page turns, especially when it was shown recordings it had not seen before.</p></div>
+<div class="story-step"><strong>2 · Data</strong><p>I worked with 2,989 labelled image frames from 117 reconstructed recordings. Each frame was labelled as either a page flip or not a flip.</p></div>
+<div class="story-step"><strong>3 · Approach</strong><p>I trained a custom CNN and compared it with a pretrained ResNet18 model across several increasingly difficult test conditions.</p></div>
+<div class="story-step"><strong>4 · Validation</strong><p>I tested familiar frames, unseen recordings, later video frames and combinations of both. ResNet18 performed better overall, but performance still dropped under harder conditions and missed page turns remained an important issue.</p></div>
+<div class="story-step story-impact"><strong>5 · Impact</strong><p>The work shows how computer vision could support automated reading or scanning systems, while also showing why a strong result on an easy test split is not enough evidence for deployment.</p></div>
+</div>
+</section>
+
+<h2>Evaluation design</h2>
+<p>The study separates four historical regimes because they answer different questions. <strong>O</strong> uses the supplied source-joint split, <strong>S</strong> tests unseen sources, <strong>T</strong> tests later frames from familiar sources, and <strong>ST</strong> combines unseen sources with later-frame stress.</p>
+<p>The dataset contains <strong>2,989 labelled flip/notflip frames from 117 reconstructed recordings</strong>. For the historical ST test, 24 entirely withheld recordings contained 610 frames; their earlier frames were context only and the final 121 frames formed the late-only scored test.</p>
+
+<h2>Model comparison</h2>
+<p>The Scratch CNN was tuned with four independent W&amp;B Bayesian sweeps, one per regime, with 30 qualifying trials in each regime. A separate ImageNet-pretrained ResNet18 was trained for each regime.</p>
 <ul>
-<li>Scratch-CNN champion F1: <strong>0.9983</strong> in the source-joint O regime.</li>
-<li>Scratch-CNN champion F1: <strong>0.8196</strong> on held-out ENV-03 in the S regime.</li>
-<li>Scratch-CNN champion F1: <strong>0.8800</strong> on later frames of known videos in the T regime.</li>
-<li>Scratch-CNN champion F1: <strong>0.7040</strong> when unseen-source and later-frame stress are combined in the ST regime.</li>
-<li>A prospectively frozen ImageNet ResNet18 comparator was trained independently in all four regimes.</li>
-<li>None of the paired video/group 95% confidence intervals for ResNet18 versus the scratch champions excluded zero, so the current evidence does not justify replacing the frozen scratch champions.</li>
+<li>O Macro F1: Scratch CNN <strong>0.990</strong>; ResNet18 <strong>0.995</strong>.</li>
+<li>S Macro F1: Scratch CNN <strong>0.440</strong>; ResNet18 <strong>0.958</strong>.</li>
+<li>T Macro F1: Scratch CNN <strong>0.831</strong>; ResNet18 <strong>0.909</strong>.</li>
+<li>ST Macro F1: Scratch CNN <strong>0.791</strong>; ResNet18 <strong>0.877</strong>.</li>
 </ul>
-<h2>Current research direction</h2>
-<p>The next phase focuses on controlled secondary analyses such as shortcut/hand-arm dependence, augmentation, visual/data ablations and temporal/video deployment diagnostics. These analyses are explicitly post-selection and cannot retroactively change the frozen O/S/T/ST champions.</p>
-<div class="progress-note"><strong>Status:</strong> in progress. The underlying research repository remains private while this phase is being completed, so the portfolio does not expose an inaccessible GitHub link or imply that the project is finished.</div>
-<h2>What this project is adding to my portfolio</h2>
-<p>MonReader extends my work into computer vision while keeping the same emphasis seen in my other projects: testing whether apparent performance survives realistic distribution changes instead of relying on one convenient train/test split.</p>
+<div class="callout">Near-perfect nominal performance did not guarantee reliable page-turn detection under source and temporal shift. The harder validation conditions matter more for deployment judgement than the easiest benchmark alone.</div>
+
+<h2>Failure analysis & uncertainty</h2>
+<p>Source-video bootstrap intervals used 5,000 resamples because nearby frames are correlated. The historical ST 95% interval was approximately <strong>0.747–0.972</strong>. In the historical ResNet18 results, T recorded <strong>27 missed flip frames and no false alarms</strong>, while ST recorded <strong>14 missed flip frames and no false alarms</strong>. Many errors were made with high model confidence, so confidence alone is not a safe fallback signal.</p>
+<p>Grad-CAM inspection highlighted hands, page edges and other page regions. These visualisations motivate controlled tests, but they are not treated as proof that a highlighted region caused the prediction.</p>
+
+<h2>Progressive labelled-history study</h2>
+<p>A completed eight-run ResNet18 study on 3 November 2026 tested whether more observed chronological history improved predictions on a fixed final 10% of frames. The matched late-frame cohorts contained 327 frames from 117 familiar sources for T and 66 frames from 24 withheld sources for ST.</p>
+<ul>
+<li>T Macro F1 increased from <strong>0.338 at 25%</strong> observed history to <strong>0.730 at 90%</strong>.</li>
+<li>ST Macro F1 moved from <strong>0.347 at 25%</strong> to <strong>0.653 at 90%</strong>, with a dip at 50% rather than a perfectly monotonic trend.</li>
+<li>At 90% history, missed-flip rates were still <strong>47.1% for T</strong> and <strong>58.1% for ST</strong>.</li>
+</ul>
+
+<h2>Business decision</h2>
+<p>The project recommendation is <strong>controlled evaluation, not unrestricted deployment</strong>. A missed flip frame could contribute to a skipped-page experience, but this study did not directly measure skipped-page events, customer outcomes or operating cost. A deployment decision would require independent timestamped recordings, event-level page-turn labels, predefined tolerances for missed events and latency, and testing on untouched users, devices and recording conditions.</p>
+
+<h2>What this case proves</h2>
+<p>I can build and compare computer-vision models, design evaluation around realistic distribution shift, quantify uncertainty, investigate failure patterns and resist treating a near-perfect nominal score as sufficient evidence for release.</p>
+
+<h2>Evidence</h2>
+<p><a class="cta" href="https://github.com/NiknaxTheGreek/59ci4Aiix86XHqJ9" target="_blank" rel="noreferrer">View GitHub repository →</a></p>
 <p><a href="/case-studies">← Back to case studies</a></p>
 </div></section>
 </main>
-<footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small">In progress · Computer vision</div></div></footer>
+<footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small">Computer vision · Generalisation · Evidence-led ML</div></div></footer>
 </body></html>
