@@ -4,22 +4,13 @@ import '../../styles/global.css';
 <!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="Term Deposit Customer Ranking case study — Nicholas Perikli."/><title>Term Deposit Customer Ranking — Nicholas Perikli</title></head><body>
 <header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="mailto:nicholasperikli@gmail.com">Contact</a></nav></div></header>
 <main>
-<section class="page-head"><div class="container"><div class="eyebrow">Applied ML · Ranking · Leakage Control</div><h1>Term Deposit Customer Ranking</h1><p class="section-lead">Can a bank get more term-deposit subscriptions from the same calling capacity by ranking already eligible customers before the call?</p></div></section>
+<section class="page-head"><div class="container"><span class="status-pill completed">Completed</span><div class="eyebrow">Applied ML · Ranking · Leakage Control</div><h1>Term Deposit Customer Ranking</h1><p class="section-lead">Can a bank get more term-deposit subscriptions from the same calling capacity by ranking already eligible customers before the call?</p></div></section>
 <section><div class="container content">
-<section class="story-section">
-<h2>30-second explanation</h2>
-<div class="story-grid">
-<div class="story-step"><strong>1 · Problem</strong><p>A bank has limited calling capacity, so I wanted to identify which eligible customers should be contacted first.</p></div>
-<div class="story-step"><strong>2 · Data</strong><p>I worked with 40,000 historical marketing calls. Only 7.24% resulted in a term-deposit subscription.</p></div>
-<div class="story-step"><strong>3 · Approach</strong><p>I compared machine-learning models that ranked customers using only information available before the call. I deliberately excluded call duration because it is only known afterwards.</p></div>
-<div class="story-step"><strong>4 · Validation</strong><p>I used both standard holdout testing and time-ordered validation. The simpler Logistic Regression model was more robust over the ordered periods and produced useful lift at limited call depths.</p></div>
-<div class="story-step story-impact"><strong>5 · Impact</strong><p>The aim is to help a sales team get more subscriptions from the same number of calls, while treating the model as a prioritisation tool rather than a guarantee.</p></div>
-</div>
-</section>
-<h2>Business decision</h2>
+<section class="story-section"><h2>Project at a glance</h2><div class="story-grid"><div class="story-step"><strong>1 · Objective</strong><p>Prioritise already-eligible customers before a sales call so limited calling capacity is focused on the customers most likely to subscribe.</p></div><div class="story-step"><strong>2 · Data</strong><p>40,000 historical marketing calls, including 2,896 subscriptions: a 7.24% conversion rate.</p></div><div class="story-step"><strong>3 · Method</strong><p>Compare Logistic Regression with HistGradientBoosting using only information available before the call; post-call duration is used only as a leakage diagnostic.</p></div><div class="story-step"><strong>4 · Evaluation</strong><p>Use an untouched holdout, expanding-window ordered validation and lift at practical call depths rather than relying on a single classification metric.</p></div><div class="story-step story-impact"><strong>5 · Outcome</strong><p>Logistic Regression was the more robust pilot candidate and achieved 1.853857× lift at 5% call depth and 1.401474× at 20% in retrospective evaluation.</p></div></div></section>
+<h2>Context and objective</h2>
 <p>The output is not primarily a yes/no classifier. It is a pre-call ranking score used to order eligible customers so limited calling capacity is spent on the most promising records first.</p>
 
-<h2>Data & decision timing</h2>
+<h2>Data and constraints</h2>
 <ul>
 <li>40,000 historical calls.</li>
 <li>2,896 subscriptions: a 7.24% conversion rate.</li>
@@ -27,29 +18,33 @@ import '../../styles/global.css';
 <li><code>duration</code> is only known after the call finishes, so it is retained solely as a leakage diagnostic and excluded from every deployable model.</li>
 </ul>
 
-<h2>Models & validation</h2>
-<p>Logistic Regression provides the transparent linear candidate and HistGradientBoosting the nonlinear challenger. Model selection uses PR-AUC as the primary objective, but deployment judgement also considers ordered robustness, lift, interpretability and monitoring simplicity.</p>
+<h2>Technical solution</h2>
+<p>Logistic Regression provides the transparent linear candidate and HistGradientBoosting the nonlinear challenger. Model selection uses PR-AUC as the primary objective, while deployment judgement also considers ordered robustness, lift, interpretability and monitoring simplicity.</p>
+
+<h2>Evaluation and evidence</h2>
 <ul>
 <li>Untouched 20% holdout: tuned HGB PR-AUC / ROC-AUC = <strong>0.272820 / 0.733930</strong>; tuned LR = <strong>0.240265 / 0.709681</strong>.</li>
 <li>Expanding-window ordered validation: LR = <strong>0.112626 / 0.566290</strong>; HGB = <strong>0.096333 / 0.551600</strong>.</li>
 <li>The large shuffled-to-ordered performance drop is treated as a central robustness warning, not hidden.</li>
 </ul>
-
 <div class="callout">Prediction timing is part of the model definition. The post-call <code>duration</code> feature produces a large retrospective performance jump, which is exactly why it is evidence of leakage rather than a deployable predictor.</div>
 
-<h2>Business-facing result</h2>
-<p>Across eight eligible forward blocks, Logistic Regression captured <strong>228 subscribers in the top-ranked 5%</strong> of calls versus about <strong>123 expected under random calling</strong> at the same volume: <strong>1.853857× lift</strong>.</p>
+<h2>Key results</h2>
+<p>Across eight eligible forward blocks, Logistic Regression captured <strong>228 subscribers in the top-ranked 5%</strong> of calls versus about <strong>123 expected under random calling</strong> at the same volume.</p>
 <ul>
 <li>5% call depth: <strong>1.853857×</strong> lift.</li>
 <li>10% call depth: <strong>1.606389×</strong> lift.</li>
 <li>20% call depth: <strong>1.401474×</strong> lift.</li>
 </ul>
 
-<h2>Recommendation</h2>
-<p>Use <strong>unweighted Logistic Regression with all 12 valid pre-call features</strong> as the primary candidate in a controlled prospective pilot, with HGB retained as a challenger. Treat raw scores as ranking signals rather than literal subscription probabilities until prospective recalibration is available.</p>
+<h2>Limitations and scope</h2>
+<p>The evidence is retrospective and the data do not provide a verified customer identifier, campaign identifier or trustworthy timestamp. Raw scores should be treated as ranking signals rather than literal subscription probabilities until prospective recalibration and new-campaign evidence are available.</p>
 
-<h2>What this case proves</h2>
-<p>I can identify leakage, align modelling choices with the actual decision point, compare transparent and nonlinear models under conventional and ordered validation, and translate model scores into a capacity-aware operating recommendation.</p>
+<h2>Practical relevance</h2>
+<p>The recommended next step is a controlled prospective pilot using <strong>unweighted Logistic Regression with all 12 valid pre-call features</strong> as the primary candidate, with HGB retained as a challenger. The intended benefit is more subscriptions from the same calling capacity, not automated customer eligibility or guaranteed conversion.</p>
+
+<h2>What this demonstrates</h2>
+<p>Leakage control, decision-time feature design, comparison of transparent and nonlinear models, ordered validation, ranking evaluation and translation of model scores into a capacity-aware operating recommendation.</p>
 
 <h2>Evidence</h2>
 <p><a class="cta" href="https://github.com/NiknaxTheGreek/Term-Deposit-Customer-Ranking" target="_blank" rel="noreferrer">View GitHub repository →</a></p>
