@@ -6,7 +6,16 @@ import '../../styles/global.css';
 <main>
 <section class="page-head"><div class="container"><div class="eyebrow">Physics · NLP · Time Series · ML</div><h1>Predictive Maintenance for the ATLAS Tile Calorimeter</h1><p class="section-lead">Technical work based on the MSc dissertation “Alert Signal Classification and Prediction Using Natural Language Processing for the Tile Calorimeter of ATLAS.”</p></div></section>
 <section><div class="container content">
-<div class="plain-grid"><div><h2>In plain English</h2><p>The ATLAS detector produces large numbers of technical alarm messages. I investigated whether those alarms could be turned into useful data for identifying patterns and forecasting future alarm activity.</p></div><div><h2>Why it matters</h2><p>Large scientific instruments are complex and expensive. Better use of alarm history could help engineers focus attention on unusual equipment behaviour and support earlier maintenance decisions.</p></div><div><h2>How it works</h2><p>Raw detector alarms → extract the affected detector component → group alarm types → build time-series data → use LSTM models to forecast alarm activity and classify alarm types.</p></div></div>
+<section class="story-section">
+<h2>30-second explanation</h2>
+<div class="story-grid">
+<div class="story-step"><strong>1 · Problem</strong><p>I wanted to see whether equipment alarms from CERN's ATLAS detector could be used to identify patterns and warn about potential problems earlier.</p></div>
+<div class="story-step"><strong>2 · Data</strong><p>I analysed historical alarm records from the Tile Calorimeter's Detector Control System.</p></div>
+<div class="story-step"><strong>3 · Approach</strong><p>I used Python, text-processing rules and LSTM neural networks to turn alarm messages into structured data, classify alarm types and forecast future alarm activity.</p></div>
+<div class="story-step"><strong>4 · Validation</strong><p>After reducing repeated chattering alarms, the classifier achieved about 75% accuracy, while the forecasting models had errors of roughly 12.8% to 22.9%. I also kept an important validation limitation around overlapping time windows explicit.</p></div>
+<div class="story-step story-impact"><strong>5 · Impact</strong><p>The research shows how predictive modelling could support preventative maintenance and help engineers focus attention earlier, but it remains a research proof-of-concept rather than a deployed ATLAS maintenance system.</p></div>
+</div>
+</section>
 <h2>Problem</h2>
 <p>The study asks whether archived ATLAS Tile Calorimeter Detector Control System alarm logs can provide a predictive-maintenance layer in addition to their existing monitoring and protection role.</p>
 
