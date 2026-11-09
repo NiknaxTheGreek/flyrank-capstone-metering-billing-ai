@@ -4,50 +4,47 @@ import '../../styles/global.css';
 <!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="MonReader robust page-turn classification case study — Nicholas Perikli."/><title>MonReader — Robust Page-Turn Classification — Nicholas Perikli</title></head><body>
 <header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="mailto:nicholasperikli@gmail.com">Contact</a></nav></div></header>
 <main>
-<section class="page-head"><div class="container"><div class="eyebrow">Computer Vision · CNN · ResNet18 · Generalisation</div><h1>MonReader — Robust Page-Turn Classification</h1><p class="section-lead">A completed computer-vision study asking whether page-turn detection still works on later frames and previously unseen recordings—not only on a familiar dataset split.</p></div></section>
+<section class="page-head"><div class="container"><span class="status-pill completed">Completed</span><div class="eyebrow">Computer Vision · CNN · ResNet18 · Generalisation</div><h1>MonReader — Robust Page-Turn Classification</h1><p class="section-lead">A completed computer-vision study asking whether page-turn detection still works on later frames and previously unseen recordings—not only on a familiar dataset split.</p></div></section>
 <section><div class="container content">
-<section class="story-section">
-<h2>30-second explanation</h2>
-<div class="story-grid">
-<div class="story-step"><strong>1 · Problem</strong><p>I wanted to see whether a computer-vision model could reliably recognise page turns, especially when it was shown recordings it had not seen before.</p></div>
-<div class="story-step"><strong>2 · Data</strong><p>I worked with 2,989 labelled image frames from 117 reconstructed recordings. Each frame was labelled as either a page flip or not a flip.</p></div>
-<div class="story-step"><strong>3 · Approach</strong><p>I trained a custom CNN and compared it with a pretrained ResNet18 model across several increasingly difficult test conditions.</p></div>
-<div class="story-step"><strong>4 · Validation</strong><p>I tested familiar frames, unseen recordings, later video frames and combinations of both. ResNet18 performed better overall, but performance still dropped under harder conditions and missed page turns remained an important issue.</p></div>
-<div class="story-step story-impact"><strong>5 · Impact</strong><p>The work shows how computer vision could support automated reading or scanning systems, while also showing why a strong result on an easy test split is not enough evidence for deployment.</p></div>
-</div>
-</section>
+<section class="story-section"><h2>Project at a glance</h2><div class="story-grid"><div class="story-step"><strong>1 · Objective</strong><p>Assess whether page-turn detection remains reliable on later frames and previously unseen recordings rather than only on a familiar dataset split.</p></div><div class="story-step"><strong>2 · Data</strong><p>2,989 labelled flip/notflip frames from 117 reconstructed recordings, with source and temporal splits designed to test generalisation.</p></div><div class="story-step"><strong>3 · Method</strong><p>Compare tuned Scratch CNN models with ImageNet-pretrained ResNet18 across four historical evaluation regimes and a separate progressive labelled-history study.</p></div><div class="story-step"><strong>4 · Evaluation</strong><p>Use source-shift and temporal-shift tests, source-video bootstrap uncertainty, failure analysis and a fixed late-frame cohort for the progressive study.</p></div><div class="story-step story-impact"><strong>5 · Outcome</strong><p>ResNet18 was stronger across the historical regimes, but performance declined from 0.995 Macro F1 on the easiest regime to 0.877 under combined source and temporal shift, supporting controlled evaluation rather than unrestricted deployment.</p></div></div></section>
+<h2>Context and objective</h2>
+<p>The research question is whether a model can detect page flips reliably in later frames and previously unseen recordings—not only in the original dataset split. The practical concern is that a hands-free reading system can appear strong on familiar frames while still missing page turns under changed recording conditions.</p>
 
-<h2>Evaluation design</h2>
-<p>The study separates four historical regimes because they answer different questions. <strong>O</strong> uses the supplied source-joint split, <strong>S</strong> tests unseen sources, <strong>T</strong> tests later frames from familiar sources, and <strong>ST</strong> combines unseen sources with later-frame stress.</p>
-<p>The dataset contains <strong>2,989 labelled flip/notflip frames from 117 reconstructed recordings</strong>. For the historical ST test, 24 entirely withheld recordings contained 610 frames; their earlier frames were context only and the final 121 frames formed the late-only scored test.</p>
+<h2>Data and constraints</h2>
+<p>The dataset contains <strong>2,989 labelled flip/notflip frames from 117 reconstructed recordings</strong>. Frame chronology comes from filenames rather than verified capture timestamps. In the historical ST test, 24 entirely withheld recordings contained 610 frames; their earlier frames were context only and the final 121 frames formed the scored late-only test.</p>
 
-<h2>Model comparison</h2>
-<p>The Scratch CNN was tuned with four independent W&amp;B Bayesian sweeps, one per regime, with 30 qualifying trials in each regime. A separate ImageNet-pretrained ResNet18 was trained for each regime.</p>
+<h2>Technical solution</h2>
+<p>The Scratch CNN was tuned with four independent W&amp;B Bayesian sweeps, one per historical regime, with 30 qualifying trials per regime. A separate ImageNet-pretrained ResNet18 was trained for each regime.</p>
+<ul>
+<li><strong>O</strong>: supplied source-joint split.</li>
+<li><strong>S</strong>: unseen sources.</li>
+<li><strong>T</strong>: later frames from familiar sources.</li>
+<li><strong>ST</strong>: unseen sources combined with later-frame stress.</li>
+</ul>
+
+<h2>Evaluation and evidence</h2>
+<p>Source-video bootstrap intervals use 5,000 resamples because nearby frames are correlated. Failure analysis tracks false negatives and false positives by frame, and Grad-CAM examples are used only as diagnostic visual evidence rather than causal proof. A separate completed eight-run ResNet18 study tests whether more observed chronological history improves performance on a fixed final 10% of frames.</p>
+
+<h2>Key results</h2>
 <ul>
 <li>O Macro F1: Scratch CNN <strong>0.990</strong>; ResNet18 <strong>0.995</strong>.</li>
 <li>S Macro F1: Scratch CNN <strong>0.440</strong>; ResNet18 <strong>0.958</strong>.</li>
 <li>T Macro F1: Scratch CNN <strong>0.831</strong>; ResNet18 <strong>0.909</strong>.</li>
 <li>ST Macro F1: Scratch CNN <strong>0.791</strong>; ResNet18 <strong>0.877</strong>.</li>
-</ul>
-<div class="callout">Near-perfect nominal performance did not guarantee reliable page-turn detection under source and temporal shift. The harder validation conditions matter more for deployment judgement than the easiest benchmark alone.</div>
-
-<h2>Failure analysis & uncertainty</h2>
-<p>Source-video bootstrap intervals used 5,000 resamples because nearby frames are correlated. The historical ST 95% interval was approximately <strong>0.747–0.972</strong>. In the historical ResNet18 results, T recorded <strong>27 missed flip frames and no false alarms</strong>, while ST recorded <strong>14 missed flip frames and no false alarms</strong>. Many errors were made with high model confidence, so confidence alone is not a safe fallback signal.</p>
-<p>Grad-CAM inspection highlighted hands, page edges and other page regions. These visualisations motivate controlled tests, but they are not treated as proof that a highlighted region caused the prediction.</p>
-
-<h2>Progressive labelled-history study</h2>
-<p>A completed eight-run ResNet18 study on 3 November 2026 tested whether more observed chronological history improved predictions on a fixed final 10% of frames. The matched late-frame cohorts contained 327 frames from 117 familiar sources for T and 66 frames from 24 withheld sources for ST.</p>
-<ul>
-<li>T Macro F1 increased from <strong>0.338 at 25%</strong> observed history to <strong>0.730 at 90%</strong>.</li>
-<li>ST Macro F1 moved from <strong>0.347 at 25%</strong> to <strong>0.653 at 90%</strong>, with a dip at 50% rather than a perfectly monotonic trend.</li>
+<li>The historical ST 95% source-video bootstrap interval was approximately <strong>0.747–0.972</strong>.</li>
+<li>Historical ResNet18 T recorded <strong>27 missed flip frames and no false alarms</strong>; ST recorded <strong>14 missed flip frames and no false alarms</strong>.</li>
+<li>In the progressive study, T Macro F1 increased from <strong>0.338 at 25%</strong> observed history to <strong>0.730 at 90%</strong>; ST moved from <strong>0.347</strong> to <strong>0.653</strong>, with a dip at 50%.</li>
 <li>At 90% history, missed-flip rates were still <strong>47.1% for T</strong> and <strong>58.1% for ST</strong>.</li>
 </ul>
 
-<h2>Business decision</h2>
-<p>The project recommendation is <strong>controlled evaluation, not unrestricted deployment</strong>. A missed flip frame could contribute to a skipped-page experience, but this study did not directly measure skipped-page events, customer outcomes or operating cost. A deployment decision would require independent timestamped recordings, event-level page-turn labels, predefined tolerances for missed events and latency, and testing on untouched users, devices and recording conditions.</p>
+<h2>Limitations and scope</h2>
+<p>The study measures missed flip frames, not skipped-page events, customer outcomes or operating cost. Regimes use different test populations, so cross-regime score gaps are descriptive rather than controlled causal effects. The progressive study also does not establish that additional data caused the improvements or that online learning occurred.</p>
 
-<h2>What this case proves</h2>
-<p>I can build and compare computer-vision models, design evaluation around realistic distribution shift, quantify uncertainty, investigate failure patterns and resist treating a near-perfect nominal score as sufficient evidence for release.</p>
+<h2>Practical relevance</h2>
+<p>The recommendation is <strong>controlled evaluation, not unrestricted deployment</strong>. A deployment decision would require independent timestamped recordings with event-level page-turn labels, predefined tolerances for missed events and latency, and testing on untouched users, devices and recording conditions.</p>
+
+<h2>What this demonstrates</h2>
+<p>Computer-vision modelling, pretrained-model comparison, validation under distribution shift, uncertainty quantification, failure analysis and disciplined separation between a strong benchmark score and evidence sufficient for release.</p>
 
 <h2>Evidence</h2>
 <p><a class="cta" href="https://github.com/NiknaxTheGreek/59ci4Aiix86XHqJ9" target="_blank" rel="noreferrer">View GitHub repository →</a></p>
