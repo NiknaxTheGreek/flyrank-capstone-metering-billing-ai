@@ -4,52 +4,46 @@ import '../../styles/global.css';
 <!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="Potential Talents HR candidate ranking case study — Nicholas Perikli."/><title>Potential Talents — HR Candidate Ranking — Nicholas Perikli</title></head><body>
 <header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="mailto:nicholasperikli@gmail.com">Contact</a></nav></div></header>
 <main>
-<section class="page-head"><div class="container"><div class="eyebrow">NLP · Ranking · Human-in-the-loop</div><h1>Potential Talents — HR Candidate Ranking</h1><p class="section-lead">A small-data ranking project that screens noisy candidate titles, constructs a transparent proxy target and tests whether management feedback genuinely improves out-of-sample ranking quality.</p></div></section>
+<section class="page-head"><div class="container"><span class="status-pill completed">Completed</span><div class="eyebrow">NLP · Ranking · Human-in-the-loop</div><h1>Potential Talents — HR Candidate Ranking</h1><p class="section-lead">A small-data ranking project that screens noisy candidate titles, constructs a transparent proxy target and tests whether management feedback genuinely improves out-of-sample ranking quality.</p></div></section>
 <section><div class="container content">
-<section class="story-section">
-<h2>30-second explanation</h2>
-<div class="story-grid">
-<div class="story-step"><strong>1 · Problem</strong><p>I wanted to reduce the amount of time a recruiter spends manually screening candidate profiles that are not relevant to an HR role.</p></div>
-<div class="story-step"><strong>2 · Data</strong><p>I worked with 104 supplied candidate records and reduced them to a clean, HR-relevant set for ranking.</p></div>
-<div class="story-step"><strong>3 · Approach</strong><p>I removed duplicates and invalid profiles, applied semantic and HR-specific relevance checks, then built a ranking model using the remaining candidates.</p></div>
-<div class="story-step"><strong>4 · Validation</strong><p>I used repeated out-of-sample validation and then tested whether management feedback actually improved the ranking. It changed the fitted rankings but did not improve held-out performance.</p></div>
-<div class="story-step story-impact"><strong>5 · Impact</strong><p>The system could reduce repetitive screening while keeping the final hiring decision with a person. The project also shows why feedback should be tested before it is automatically added to a model.</p></div>
-</div>
-</section>
-<h2>Problem</h2>
+<section class="story-section"><h2>Project at a glance</h2><div class="story-grid"><div class="story-step"><strong>1 · Objective</strong><p>Reduce repetitive HR candidate screening by identifying and ranking the profiles most relevant to a human-resources search.</p></div><div class="story-step"><strong>2 · Data</strong><p>104 supplied candidate records, reduced through deduplication and validity checks before HR-specific screening and ranking.</p></div><div class="story-step"><strong>3 · Method</strong><p>Combine semantic similarity, explicit HR-domain rules and a PCA–Ridge ranking pipeline built on Word2Vec representations.</p></div><div class="story-step"><strong>4 · Evaluation</strong><p>Use repeated nested cross-validation and separately test whether management feedback improves held-out ranking quality.</p></div><div class="story-step story-impact"><strong>5 · Outcome</strong><p>The pre-feedback model remained the preferred ranking basis because tested management feedback changed fitted rankings but did not improve held-out NDCG.</p></div></div></section>
+<h2>Context and objective</h2>
 <p>The supplied data contain 104 candidate records but no observed values in the intended <code>fit</code> field. The task therefore requires both defensible screening and a transparent analytical target before any ranking model can be evaluated.</p>
 
-<h2>Screening flow</h2>
+<h2>Data and constraints</h2>
 <p><strong>104 supplied rows → 52 unique-title profiles → 50 valid profiles → 49 above the semantic floor → 34 HR-relevant candidates.</strong></p>
 <ul>
 <li>Duplicate titles are collapsed to one representative profile, reducing 104 rows to 52 unique titles.</li>
 <li>Two non-candidate records are removed, leaving 50 valid profiles.</li>
 <li>Each valid title is compared with the locked queries “Aspiring human resources” and “Seeking human resources”; a mean raw-cosine floor of <strong>0.50</strong> removes one profile and leaves 49.</li>
-<li>A deterministic HR-domain phrase check then removes 15 high-similarity false positives and retains the final 34-profile cohort: 33 direct HR profiles and one adjacent profile.</li>
+<li>A deterministic HR-domain phrase check removes 15 high-similarity false positives and retains 34 profiles: 33 direct HR profiles and one adjacent profile.</li>
 </ul>
+<div class="callout">Semantic similarity is used as a minimum relevance floor, not as a complete occupational classifier. Generic employment language can look semantically close to HR while describing a different occupation.</div>
 
-<div class="callout">Semantic similarity is used as a minimum relevance floor, not as a complete occupational classifier. Generic employment language can look semantically close to HR while describing a different occupation, so explicit domain evidence supplies the missing constraint.</div>
-
-<h2>Target & modelling</h2>
-<p>Because no observed fitness labels exist, the project constructs an auditable analytical target rather than pretending a ground truth is available. Occupational relevance <code>H</code> is combined with semantic relevance <code>W</code> as <code>G = (H + W) / 2</code>.</p>
+<h2>Technical solution</h2>
+<p>Because no observed fitness labels exist, the project constructs an auditable analytical target. Occupational relevance <code>H</code> is combined with semantic relevance <code>W</code> as <code>G = (H + W) / 2</code>.</p>
 <ul>
 <li>100-dimensional pretrained NLPL Model 40 Word2Vec embeddings represent candidate titles and search queries.</li>
 <li>The modelling pipeline is <strong>PCA → StandardScaler → Ridge regression</strong>.</li>
 <li>PCA retains 95% of training-set variance and is fitted inside the modelling process.</li>
 <li>Ridge regularisation is tuned with inner 4-fold CV.</li>
-<li>Repeated nested cross-validation evaluates genuine out-of-sample ranking performance.</li>
-<li>NDCG is primary, supported by MAE, RMSE, Spearman and Kendall.</li>
 </ul>
 
-<h2>Results</h2>
+<h2>Evaluation and evidence</h2>
+<p>Repeated nested cross-validation evaluates genuine out-of-sample ranking performance. NDCG is primary, supported by MAE, RMSE, Spearman and Kendall. Management feedback is then tested at approximately 10%, 20% and 50% review depths rather than being assumed to improve the model.</p>
+
+<h2>Key results</h2>
 <p>The pre-feedback PCA–Ridge model achieved mean out-of-sample NDCG of <strong>0.9897 @4, 0.9910 @7, 0.9921 @10, 0.9947 @17 and 0.9974 @34</strong>. The W-only baseline is slightly stronger, which must be interpreted in context because W is itself one half of the constructed target G.</p>
-<p>Management feedback was tested at approximately 10%, 20% and 50% review depths. Held-out NDCG changes were <strong>−0.002256, −0.005188 and −0.002668</strong> respectively. The tested feedback changed fitted rankings but did not improve generalisation enough to justify replacing the frozen pre-feedback model.</p>
+<p>Held-out NDCG changes after management feedback were <strong>−0.002256, −0.005188 and −0.002668</strong>. The tested feedback changed fitted rankings but did not improve generalisation enough to justify replacing the frozen pre-feedback model.</p>
 
-<h2>Recommendation</h2>
-<p>Retain the pre-feedback automated ranking as the current production basis, keep human review in the process, collect management disagreements in a structured form, and only promote feedback-driven retraining when future held-out evidence shows genuine improvement.</p>
+<h2>Limitations and scope</h2>
+<p>The target is analytically constructed because the supplied <code>fit</code> field contains no observed labels. The small candidate population and the fact that semantic relevance contributes directly to the proxy target limit how strongly the ranking can be interpreted as real-world hiring performance.</p>
 
-<h2>What this case proves</h2>
-<p>I can construct an auditable target when labels are absent, combine semantic and explicit domain screening, validate a small-data ranking model honestly, and test human feedback rather than assuming it improves a model.</p>
+<h2>Practical relevance</h2>
+<p>Retain the pre-feedback automated ranking as the current basis, keep human review in the process, collect management disagreements in a structured form, and only promote feedback-driven retraining when future held-out evidence shows genuine improvement.</p>
+
+<h2>What this demonstrates</h2>
+<p>Target construction when labels are absent, semantic and rule-based screening, small-data ranking, nested validation and evidence-based testing of human feedback.</p>
 
 <h2>Evidence</h2>
 <p><a class="cta" href="https://github.com/NiknaxTheGreek/NLP-mediated-Candidate-Ranking-System" target="_blank" rel="noreferrer">View GitHub repository →</a></p>
