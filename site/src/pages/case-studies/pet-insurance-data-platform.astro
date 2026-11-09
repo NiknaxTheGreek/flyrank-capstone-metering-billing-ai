@@ -4,35 +4,28 @@ import '../../styles/global.css';
 <!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="Pet Insurance Claims & Portfolio Data Platform case study — Nicholas Perikli."/><title>Pet Insurance Claims & Portfolio Data Platform — Nicholas Perikli</title></head><body>
 <header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="mailto:nicholasperikli@gmail.com">Contact</a></nav></div></header>
 <main>
-<section class="page-head"><div class="container"><div class="eyebrow">Data Engineering · Snowflake · dbt · CDC</div><h1>Pet Insurance Claims & Portfolio Data Platform</h1><p class="section-lead">A production-style data platform for mutable insurance records, designed to preserve history, recover late-arriving changes and make analytical transformations reproducible and testable.</p></div></section>
+<section class="page-head"><div class="container"><span class="status-pill completed">Completed</span><div class="eyebrow">Data Engineering · Snowflake · dbt · CDC</div><h1>Pet Insurance Claims & Portfolio Data Platform</h1><p class="section-lead">A production-style data platform for mutable insurance records, designed to preserve history, recover late-arriving changes and make analytical transformations reproducible and testable.</p></div></section>
 <section><div class="container content">
-<section class="story-section">
-<h2>30-second explanation</h2>
-<div class="story-grid">
-<div class="story-step"><strong>1 · Problem</strong><p>I wanted to solve the problem of insurance records changing over time and causing inaccurate reporting if earlier states are overwritten.</p></div>
-<div class="story-step"><strong>2 · Data</strong><p>I worked with generated insurance data covering customers, pets, policies, claims and claim payments.</p></div>
-<div class="story-step"><strong>3 · Approach</strong><p>I used Python, SQL, PostgreSQL, Snowflake and dbt to collect, update and organise the data while preserving a history of changes.</p></div>
-<div class="story-step"><strong>4 · Validation</strong><p>I tested late arrivals, replays, schema changes, soft deletes and failure recovery. The platform passed 25 Python tests, 78 out of 78 dbt build nodes, and a controlled 82,956-row scale test without duplicate replay inserts.</p></div>
-<div class="story-step story-impact"><strong>5 · Impact</strong><p>The aim is to make insurance reporting and analytics more accurate, traceable and reliable for business decisions.</p></div>
-</div>
-</section>
-<h2>Problem</h2>
+<section class="story-section"><h2>Project at a glance</h2><div class="story-grid"><div class="story-step"><strong>1 · Objective</strong><p>Preserve trustworthy insurance history when operational records such as claims, payments and customer details change over time.</p></div><div class="story-step"><strong>2 · Data</strong><p>Generated relational insurance data covering customers, pets, policies, claims and claim payments.</p></div><div class="story-step"><strong>3 · Method</strong><p>Use Python and PostgreSQL for incremental capture, Snowflake for historical storage and dbt for tested analytical transformations, with an additional CDC path through Estuary Flow.</p></div><div class="story-step"><strong>4 · Evaluation</strong><p>Test replay safety, late arrivals, soft deletes, schema changes, failure atomicity and reconciliation across the pipeline.</p></div><div class="story-step story-impact"><strong>5 · Outcome</strong><p>The platform passed 25 Python tests, 78/78 dbt build nodes and an 82,956-row controlled scale benchmark with zero new inserts on an unchanged replay.</p></div></div></section>
+<h2>Context and objective</h2>
 <p>Operational insurance data changes after creation: claims move through states, approved amounts change, payments arrive later, customer attributes change and rows can be soft-deleted. Simple overwrite pipelines can lose history, while timestamp-only incrementals can miss late data.</p>
 
-<h2>Architecture at a glance</h2>
-<div class="callout"><strong>PostgreSQL → Python incremental capture + reconciliation → Snowflake RAW / CONTROL → dbt STAGING → INTERMEDIATE → MARTS</strong><br/><br/><strong>Neon PostgreSQL WAL → Estuary Flow → Snowflake change history</strong></div>
+<h2>Data and constraints</h2>
+<p>The project uses generated relational insurance data rather than production insurer records. The model covers customers, pets, policies, claims and claim payments, with deliberately mutable records used to exercise history preservation, late arrivals, deletes and reconciliation.</p>
 
-<h2>Architecture</h2>
+<h2>Technical solution</h2>
+<h3>Architecture at a glance</h3>
+<div class="callout"><strong>PostgreSQL → Python incremental capture + reconciliation → Snowflake RAW / CONTROL → dbt STAGING → INTERMEDIATE → MARTS</strong><br/><br/><strong>Neon PostgreSQL WAL → Estuary Flow → Snowflake change history</strong></div>
+<h3>Implementation</h3>
 <ul>
-<li>PostgreSQL acts as the operational relational source for customers, pets, policies, claims and payments.</li>
+<li>PostgreSQL acts as the operational relational source.</li>
 <li>Python performs incremental extraction, version identity, hashing, batching, reconciliation and reliability logic.</li>
 <li>Snowflake stores RAW history and CONTROL state before dbt transforms data through staging, intermediate and business-facing marts.</li>
 <li>A second path uses Neon PostgreSQL logical replication, Estuary Flow and Snowflake to prove WAL-based CDC for inserts, updates and physical deletes.</li>
 <li>Dagster demonstrates dependency ordering and retries, while GitHub Actions provides CI and Snowflake OIDC.</li>
 </ul>
-
-<h2>Correctness under change</h2>
-<p>The ingestion design combines a fast composite-watermark path with a full source-version reconciliation path. That allows the pipeline to recover both new keys and changed versions that arrive behind the high watermark without duplicating unchanged data.</p>
+<h3>Correctness under change</h3>
+<p>The ingestion design combines a fast composite-watermark path with a full source-version reconciliation path so new keys and changed versions arriving behind the high watermark can be recovered without duplicating unchanged data.</p>
 <ul>
 <li>Set-based Snowflake MERGE per table.</li>
 <li>Atomic RAW + watermark + success-audit commit.</li>
@@ -42,7 +35,10 @@ import '../../styles/global.css';
 <li>Customer SCD2 history and PII boundaries tested in dbt.</li>
 </ul>
 
-<h2>Verified evidence</h2>
+<h2>Evaluation and evidence</h2>
+<p>Reliability is tested through live ingestion, replay, CDC, reconciliation and transformation checks rather than by inspecting row counts alone.</p>
+
+<h2>Key results</h2>
 <ul>
 <li>Live PostgreSQL → Snowflake ingestion: <strong>PASS</strong>.</li>
 <li>Estuary WAL capture and Estuary → Snowflake materialisation: <strong>PASS</strong>.</li>
@@ -52,10 +48,14 @@ import '../../styles/global.css';
 <li>A controlled benchmark loaded and reconciled <strong>82,956 rows</strong>, followed by a zero-change replay with zero new inserts.</li>
 </ul>
 
-<div class="callout">Replay, late-arrival recovery, schema change, soft deletes and failure atomicity are treated as first-class correctness requirements rather than edge cases.</div>
+<h2>Limitations and scope</h2>
+<p>The data are generated and the platform is a portfolio-grade production-style implementation rather than a live insurer system. The evidence demonstrates data-platform correctness under controlled failure and change scenarios, not production scale, regulatory certification or live business outcomes.</p>
 
-<h2>What this case proves</h2>
-<p>I can design a data platform around mutable operational data, separate operational and analytical workloads, preserve history, reason about incremental correctness, validate failure modes and document an auditable path from source systems to analytical marts.</p>
+<h2>Practical relevance</h2>
+<p>Preserving historical claim and customer states makes downstream reporting, analytics and auditing more trustworthy, while replay and reconciliation controls reduce the risk that silent pipeline errors become business-reporting errors.</p>
+
+<h2>What this demonstrates</h2>
+<p>Data-platform design around mutable operational data, incremental correctness, history preservation, CDC, warehouse modelling, failure testing and an auditable path from source systems to analytical marts.</p>
 
 <h2>Evidence</h2>
 <p><a class="cta" href="https://github.com/NiknaxTheGreek/pet-insurance-data-platform" target="_blank" rel="noreferrer">View GitHub repository →</a></p>
