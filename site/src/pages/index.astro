@@ -1,149 +1,55 @@
 ---
 import '../styles/global.css';
 const completedCases = [
-  {
-    title:'Term Deposit Customer Ranking',
-    href:'/case-studies/term-deposit',
-    tag:'Applied ML · Ranking',
-    body:'Helps a bank decide which eligible customers to call first so limited sales capacity can be focused where it is most likely to produce subscriptions.'
-  },
-  {
-    title:'Predictive Maintenance for the ATLAS Tile Calorimeter',
-    href:'/case-studies/atlas-tilecal',
-    tag:'Physics · NLP · Time Series · ML',
-    body:'Turns complex detector alarm messages into structured data that can be analysed for warning patterns, forecast future alarm activity and support maintenance research.'
-  },
-  {
-    title:'From COVID-19 Vaccine Hesitancy to Mpox',
-    href:'/case-studies/nlp-stance',
-    tag:'NLP · Transformers · Public Health',
-    body:'Tests whether machine learning can help make sense of thousands of public-health social-media posts by distinguishing different attitudes and adapting across disease outbreaks.'
-  },
-  {
-    title:'Potential Talents — HR Candidate Ranking',
-    href:'/case-studies/potential-talents',
-    tag:'NLP · Ranking · Human-in-the-loop',
-    body:'Reduces manual candidate screening by filtering irrelevant profiles and ranking the remaining HR candidates for human review.'
-  },
-  {
-    title:'FlyRank Usage Metering & Billing Engine',
-    href:'/case-studies/api-metering-billing',
-    tag:'Backend · FastAPI · PostgreSQL · Stripe',
-    body:'Tracks how much each customer uses an API, prevents double counting, enforces plan limits and safely synchronises subscription status.'
-  },
-  {
-    title:'Pet Insurance Claims & Portfolio Data Platform',
-    href:'/case-studies/pet-insurance-data-platform',
-    tag:'Data Engineering · Snowflake · dbt · CDC',
-    body:'Preserves the history of changing insurance records so reporting and analytics remain trustworthy when claims, payments and customer details change over time.'
-  },
-  {
-    title:'FlyRank Applied Search Intelligence',
-    href:'/case-studies/flyrank-search-intelligence',
-    tag:'Applied ML · Ranking · Search Intelligence',
-    body:'Helps a content team with limited review capacity identify which pages are most worth checking first rather than manually inspecting everything.'
-  }
+  {title:'FlyRank Applied Search Intelligence',href:'/case-studies/flyrank-search-intelligence',tag:'Applied ML · Ranking · Search Intelligence',body:'Identifies which website pages are most worth reviewing so a content team can focus limited time where performance may be at risk.'},
+  {title:'Pet Insurance Claims & Portfolio Data Platform',href:'/case-studies/pet-insurance-data-platform',tag:'Data Engineering · Snowflake · dbt · CDC',body:'Preserves trustworthy insurance history as claims, payments and customer information change over time.'},
+  {title:'Term Deposit Customer Ranking',href:'/case-studies/term-deposit',tag:'Applied ML · Ranking',body:'Ranks eligible bank customers so limited sales capacity can focus on the people most likely to subscribe.'},
+  {title:'Potential Talents — HR Candidate Ranking',href:'/case-studies/potential-talents',tag:'NLP · Ranking · Human-in-the-loop',body:'Filters and ranks HR candidate profiles to reduce repetitive screening while keeping the final hiring decision with a person.'},
+  {title:'From COVID-19 Vaccine Hesitancy to Mpox',href:'/case-studies/nlp-stance',tag:'NLP · Transformers · Public Health',body:'Uses human-labelled social-media data and language models to study public attitudes across two public-health outbreaks.'},
+  {title:'Predictive Maintenance for the ATLAS Tile Calorimeter',href:'/case-studies/atlas-tilecal',tag:'Physics · NLP · Time Series · ML',body:'Turns detector alarm history into structured data for alarm classification, forecasting and predictive-maintenance research.'},
+  {title:'FlyRank Usage Metering & Billing Engine',href:'/case-studies/api-metering-billing',tag:'Backend · FastAPI · PostgreSQL · Stripe',body:'Tracks tenant usage, prevents double counting, enforces quotas and safely synchronises subscription status.'},
+  {title:'MonReader — Robust Page-Turn Classification',href:'/case-studies/monreader-computer-vision',tag:'Computer Vision · CNN · ResNet18',body:'Tests whether page-turn detection remains reliable on later frames and previously unseen recordings, not just a familiar test split.'}
 ];
-
 const inProgressCases = [
-  {
-    title:'Reel Good — Movie Discovery Web Application',
-    href:'/case-studies/reel-good-frontend',
-    tag:'In Progress · React · TypeScript · Frontend',
-    body:'A user-facing movie discovery application with live search, detail pages, genre browsing, routing and account/favourites architecture.'
-  },
-  {
-    title:'MonReader — Page-Flip Image Classifier',
-    href:'/case-studies/monreader-computer-vision',
-    tag:'In Progress · Computer Vision · CNN · ResNet18',
-    body:'A computer-vision project testing whether image frames can reliably be classified as showing a page flip or not across increasingly difficult generalisation conditions.'
-  }
+  {title:'Reel Good — Movie Discovery Web Application',href:'/case-studies/reel-good-frontend',tag:'In Progress · React · TypeScript · Frontend',body:'A user-facing movie discovery application with live search, detail pages, routing and account/favourites architecture.'}
 ];
 ---
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width" />
-  <meta name="description" content="Nicholas Perikli — data science, applied machine learning, data engineering, backend and product engineering portfolio." />
-  <title>Nicholas Perikli — Data Science & Applied ML</title>
-</head>
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="Nicholas Perikli — data science, applied machine learning, data engineering, backend and product engineering portfolio."/><title>Nicholas Perikli — Data Science & Applied ML</title></head>
 <body>
-<header>
-  <div class="container nav">
-    <a class="brand" href="/" aria-label="Nicholas Perikli home"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a>
-    <nav aria-label="Primary"><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="mailto:nicholasperikli@gmail.com">Contact</a></nav>
-  </div>
-</header>
+<header><div class="container nav"><a class="brand" href="/" aria-label="Nicholas Perikli home"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav aria-label="Primary"><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="mailto:nicholasperikli@gmail.com">Contact</a></nav></div></header>
 <main>
-  <section class="hero">
-    <div class="container hero-grid">
-      <div>
-        <div class="eyebrow">Data Science · Applied ML · Data Engineering · NLP</div>
-        <h1>From messy real-world problems to credible technical solutions.</h1>
-        <p>I use data analysis, machine learning and engineering to turn difficult problems into systems and recommendations that are useful in practice—not just impressive on paper.</p>
-        <div class="actions"><a class="cta" href="/case-studies">View case studies</a><a class="cta secondary" href="#assistant">Use portfolio assistant</a></div>
-      </div>
-      <aside class="hero-aside"><strong>What this portfolio proves</strong>I can take problems from data and system design through modelling, validation, backend implementation and user-facing delivery while keeping the evidence and limitations clear.</aside>
-    </div>
-  </section>
+<section class="hero"><div class="container hero-grid"><div><div class="eyebrow">Data Science · Applied ML · Data Engineering · NLP</div><h1>From messy real-world problems to credible technical solutions.</h1><p>I use data analysis, machine learning and engineering to turn difficult problems into systems and recommendations that are useful in practice—not just impressive on paper.</p><div class="actions"><a class="cta" href="/case-studies">View case studies</a><a class="cta secondary" href="#assistant">Use portfolio assistant</a></div></div><aside class="hero-aside"><strong>What this portfolio proves</strong>I can take problems from data and system design through modelling, validation, backend implementation and user-facing delivery while keeping the evidence and limitations clear.</aside></div></section>
 
-  <section class="proof">
-    <div class="container proof-grid"><blockquote>Evidence first. Method before hype. Decisions that survive scrutiny.</blockquote><p>The work spans machine learning, NLP, data engineering, backend systems, scientific computing and product development. Each case study starts with the real-world value before showing the technical detail.</p></div>
-  </section>
+<section class="proof"><div class="container proof-grid"><blockquote>Evidence first. Method before hype. Decisions that survive scrutiny.</blockquote><p>The work spans machine learning, NLP, computer vision, data engineering, backend systems and scientific computing. Each case study leads with the problem, the evidence and why the work matters before going into technical detail.</p></div></section>
 
-  <section class="section" id="case-studies">
-    <div class="container">
-      <div class="eyebrow">Completed work</div><h2 class="section-title">Seven evidence-backed case studies</h2><p class="section-lead">Each project explains the problem in plain English, why it matters to a business or organisation, how the solution works, and the technical evidence behind the result.</p>
-      <div class="cards">{completedCases.map((c)=><article class="card"><span class="tag">{c.tag}</span><h3>{c.title}</h3><p>{c.body}</p><a href={c.href}>Read case study →</a></article>)}</div>
-      <div class="evidence"><div><strong>7</strong>completed case studies</div><div><strong>2</strong>projects in progress</div><div><strong>Evidence-led</strong>claims tied to source repositories</div></div>
-    </div>
-  </section>
+<section class="section" id="case-studies"><div class="container"><div class="eyebrow">Completed work</div><h2 class="section-title">Eight evidence-backed case studies</h2><p class="section-lead">Each project can be understood at three levels: a quick business-focused summary, a 30–45 second Problem → Data → Approach → Validation → Impact explanation, and the full technical evidence underneath.</p><div class="cards">{completedCases.map((c)=><article class="card"><span class="tag">{c.tag}</span><h3>{c.title}</h3><p>{c.body}</p><a href={c.href}>Read case study →</a></article>)}</div><div class="evidence"><div><strong>8</strong>completed case studies</div><div><strong>1</strong>project in progress</div><div><strong>Evidence-led</strong>claims tied to source repositories</div></div></div></section>
 
-  <section class="section">
-    <div class="container">
-      <div class="eyebrow">Work in progress</div><h2 class="section-title">What I am building next</h2><p class="section-lead">These projects are included to show current direction and breadth, but are deliberately labelled in progress so they are not presented as finished work.</p>
-      <div class="cards">{inProgressCases.map((c)=><article class="card wip"><span class="status-pill">In progress</span><span class="tag">{c.tag}</span><h3>{c.title}</h3><p>{c.body}</p><a href={c.href}>View current project status →</a></article>)}</div>
-    </div>
-  </section>
+<section class="section"><div class="container"><div class="eyebrow">Work in progress</div><h2 class="section-title">Current build</h2><p class="section-lead">This project is included to show current direction, but it remains clearly separated from the completed portfolio.</p><div class="cards">{inProgressCases.map((c)=><article class="card wip"><span class="status-pill">In progress</span><span class="tag">{c.tag}</span><h3>{c.title}</h3><p>{c.body}</p><a href={c.href}>View current project status →</a></article>)}</div></div></section>
 
-  <section class="section navy" id="assistant">
-    <div class="container assistant-grid">
-      <div><div class="eyebrow">Portfolio assistant</div><h2 class="section-title">Find the most relevant project quickly.</h2><p>This lightweight site assistant uses verified, pre-written portfolio summaries. It helps recruiters navigate the work without generating unsupported claims.</p></div>
-      <div class="assistant-panel">
-        <form id="assistant-form"><input id="assistant-input" placeholder="Ask about projects, skills or research…" autocomplete="off" /><button type="submit">Ask</button></form>
-        <div class="starters"><button type="button" data-q="What are Nicholas's strongest ML skills?">Strongest ML skills</button><button type="button" data-q="Explain a project in business terms">Business-focused projects</button><button type="button" data-q="What is Nicholas building now?">Work in progress</button></div>
-        <div class="answer" id="assistant-answer">Try a starter question, or ask which project best demonstrates a particular skill.</div>
-      </div>
-    </div>
-  </section>
+<section class="section navy" id="assistant"><div class="container assistant-grid"><div><div class="eyebrow">Portfolio assistant</div><h2 class="section-title">Find the most relevant project quickly.</h2><p>This lightweight site assistant uses verified, pre-written summaries. Its answers use the same short, interview-friendly style as the case studies and do not generate unsupported claims.</p></div><div class="assistant-panel"><form id="assistant-form"><input id="assistant-input" placeholder="Ask about projects, skills or research…" autocomplete="off"/><button type="submit">Ask</button></form><div class="starters"><button type="button" data-q="Tell me about FlyRank Search Intelligence">FlyRank in 30 seconds</button><button type="button" data-q="Tell me about MonReader">MonReader in 30 seconds</button><button type="button" data-q="What are Nicholas's strongest skills?">Strongest skills</button></div><div class="answer" id="assistant-answer">Ask about a project and I’ll give you the short version first.</div></div></div></section>
 
-  <section class="section">
-    <div class="container about-grid"><aside><div class="eyebrow">Working style</div><h3>Direct. Analytical. Evidence-led.</h3><p>I prefer clear assumptions, explicit trade-offs and results that can be defended rather than merely presented.</p></aside><div><div class="eyebrow">About</div><h2 class="section-title">Research discipline, applied to practical data and software systems.</h2><p>My background connects physics research, data science, NLP, backend engineering, data engineering and growing frontend/product work. I am most interested in work where quality depends on careful problem framing, validation, reliability and interpretation—not just fitting an algorithm.</p><p><a href="/about">More about my background →</a></p></div></div>
-  </section>
+<section class="section"><div class="container about-grid"><aside><div class="eyebrow">Working style</div><h3>Direct. Analytical. Evidence-led.</h3><p>I prefer clear assumptions, explicit trade-offs and results that can be defended rather than merely presented.</p></aside><div><div class="eyebrow">About</div><h2 class="section-title">Research discipline, applied to practical data and software systems.</h2><p>My background connects physics research, data science, NLP, computer vision, backend engineering, data engineering and growing frontend/product work. I am most interested in work where quality depends on careful problem framing, validation, reliability and interpretation—not just fitting an algorithm.</p><p><a href="/about">More about my background →</a></p></div></div></section>
 </main>
 <footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small"><a href="https://github.com/NiknaxTheGreek" target="_blank" rel="noreferrer">GitHub</a> · <a href="https://www.linkedin.com/in/nicholas-perikli-861ab7172" target="_blank" rel="noreferrer">LinkedIn</a> · <a href="mailto:nicholasperikli@gmail.com">Email</a></div></div></footer>
 <script is:inline>
 const knowledge=[
- {keys:['term','deposit','customer','ranking','bank','sales'],answer:'In business terms, the Term Deposit project helps a bank decide which eligible customers to call first when the sales team cannot call everyone. It excludes information that would only be known after the call and uses a ranking model that delivered 1.401474× lift at 20% call depth and 1.853857× at 5% in retrospective evaluation.'},
- {keys:['atlas','tilecal','physics','detector','predictive','maintenance'],answer:'The ATLAS TileCal project turns complex detector alarm messages into structured data so warning patterns can be analysed. NLP extracts detector context, then LSTM models forecast alarm activity and classify dominant alarm types. It is a research proof-of-concept, not a deployed maintenance system.'},
- {keys:['nlp','stance','covid','mpox','vaccine','research','publication'],answer:'The COVID-19/Mpox research asks whether machine learning can help make sense of large volumes of public-health social-media posts. Human-labelled examples are used to train and evaluate models including BERT and RoBERTa, with published results across both outbreaks.'},
- {keys:['potential','talents','candidate','hr','human resources','recruitment'],answer:'Potential Talents reduces manual recruitment screening. It removes duplicates and irrelevant profiles, uses semantic and HR-specific rules to identify plausible candidates, then ranks the remaining profiles for human review. Management feedback was tested and was not adopted because it did not improve held-out ranking quality.'},
- {keys:['backend','api','metering','billing','fastapi','postgres','postgresql','stripe','quota','idempotency','tokens'],answer:'The Usage Metering & Billing Engine tracks how much each tenant uses an API, prevents duplicate usage records, enforces Free/Pro limits and only changes paid entitlements after verified Stripe events. The business value is avoiding incorrect usage records, billing logic and subscription state.'},
- {keys:['pet','insurance','snowflake','dbt','cdc','estuary','dagster','data engineering','warehouse','pipeline'],answer:'The Pet Insurance Data Platform preserves the history of changing insurance data so later reporting remains trustworthy. Operational PostgreSQL data is incrementally captured into Snowflake, transformed with dbt and tested for late arrivals, soft deletes, replay safety and history preservation.'},
- {keys:['search','seo','flyrank','content','review','discoverability','april','march','risk'],answer:'The FlyRank Search Intelligence capstone helps a content team decide which pages to review first when human capacity is limited. March signals are used to estimate April performance change and create a top-50 review queue. The final write-up keeps weaker unseen-client results rather than overstating performance.'},
- {keys:['frontend','reel good','movie','react','vite','typescript','firebase','omdb'],answer:'Reel Good is an in-progress React/TypeScript movie discovery application. It includes live OMDb search, movie details, routing, genre browsing and Firebase authentication/favourites architecture. It is included as work in progress rather than presented as a finished frontend capstone.'},
- {keys:['monreader','computer vision','image','classifier','cnn','resnet','flip','notflip'],answer:'MonReader is an in-progress computer-vision project that classifies frames as page-flip or not-flip. Scratch CNN champions are compared with a fixed ImageNet ResNet18 across four generalisation regimes. Current evidence does not support replacing the frozen scratch champions with the pretrained comparator.'},
- {keys:['business','plain','simple','lay','value'],answer:'The portfolio is organised around business or operational decisions: who to call first, which candidate to review, which content page to inspect, how to preserve trustworthy insurance history, how to prevent incorrect API usage records, and how to interpret large alarm or social-media streams.'},
- {keys:['progress','building','now','current'],answer:'Two projects are explicitly marked in progress: Reel Good, a React/TypeScript movie discovery frontend, and MonReader, a page-flip computer-vision classifier. The seven main case studies remain the completed evidence-backed work.'},
- {keys:['skill','skills','machine learning','ml','python','data science'],answer:'The portfolio demonstrates Python-based data analysis and machine learning, NLP, ranking, time-series modelling, data engineering, backend systems, validation design, leakage control, interpretation and growing frontend/product engineering.'},
- {keys:['hire','role','job','position'],answer:'The strongest fit remains Data Scientist and Applied ML work, with credible supporting evidence in analytics, data engineering and backend implementation. The in-progress frontend and computer-vision projects broaden the technical range without being presented as completed work.'},
- {keys:['about','background','who'],answer:'Nicholas combines a physics research background with applied data science, NLP, backend engineering and data engineering, with current work extending into frontend development and computer vision. The common thread is rigorous validation, explicit assumptions and practical interpretation.'}
+ {keys:['flyrank','search','seo','content','visibility'],answer:'Problem: I wanted to identify which website pages were most likely to lose Google search visibility. Data: I used search-performance data from a large pseudonymised warehouse release, with the final proof-of-concept covering 2,520 pages from 21 clients. Approach: I predicted decline risk and severity and ranked the top 50 pages for review. Validation: development results improved over baselines, but classification and ranking struggled on six unseen clients. Impact: the aim was to help content teams focus limited review time where it was most useful.'},
+ {keys:['pet','insurance','snowflake','dbt','data platform'],answer:'Problem: insurance records change over time and can create inaccurate reports if history is overwritten. Data: I used generated data covering customers, pets, policies, claims and payments. Approach: I built a PostgreSQL-to-Snowflake data platform with Python and dbt that preserves changes. Validation: it passed 25 Python tests, 78/78 dbt build nodes and an 82,956-row replay test. Impact: the aim was more accurate, traceable and reliable insurance reporting.'},
+ {keys:['term','deposit','bank','customer','sales'],answer:'Problem: a bank cannot call every eligible customer, so I wanted to rank who should be contacted first. Data: I used 40,000 historical calls with a 7.24% subscription rate. Approach: I compared ranking models using only information available before the call. Validation: time-ordered testing showed Logistic Regression was more robust, with useful lift at limited call depths. Impact: the aim was more subscriptions from the same calling capacity.'},
+ {keys:['potential','talents','candidate','hr','recruitment'],answer:'Problem: recruiters can waste time screening irrelevant profiles. Data: I started with 104 candidate records and built a clean HR-relevant ranking population. Approach: I combined semantic and HR-specific filtering with a ranking model. Validation: repeated out-of-sample testing showed management feedback changed rankings but did not improve held-out quality. Impact: the system could reduce manual screening while keeping the final hiring decision with a human.'},
+ {keys:['covid','vaccine','vaccination'],answer:'Problem: I wanted to understand South African attitudes towards COVID-19 vaccination. Data: about 30,000 manually labelled South African tweets. Approach: I compared several models including BERT and RoBERTa. Validation: RoBERTa produced the strongest three-class result at about 61% F1. Impact: the research shows how machine learning can help public-health teams analyse public attitudes at scale.'},
+ {keys:['mpox','m-pox'],answer:'Problem: I wanted to see whether models developed around COVID-19 could transfer to Mpox. Data: 20,604 manually labelled Mpox tweets. Approach: I compared simpler sentiment methods with transformer models and then fine-tuned the transformers on Mpox data. Validation: RoBERTa reached 69% F1 after fine-tuning. Impact: the study shows related prior training helps, but new domain-specific labels are still important.'},
+ {keys:['atlas','tilecal','cern','detector','maintenance'],answer:'Problem: I wanted to see whether ATLAS detector alarms could help identify equipment problems earlier. Data: historical TileCal Detector Control System alarm records. Approach: I used text processing and LSTM models for alarm classification and forecasting. Validation: the refined classifier reached about 75% accuracy and forecasting error was roughly 12.8–22.9%. Impact: the work shows how predictive modelling could support preventative maintenance, while remaining a research proof-of-concept.'},
+ {keys:['billing','metering','api','stripe','quota'],answer:'Problem: a usage-based API needs to know who used what without double-counting requests or granting the wrong plan. Data: simulated API/AI-token usage and Stripe test events. Approach: I built a FastAPI/PostgreSQL service for usage, quotas, cost estimates and subscription sync. Validation: I tested duplicate requests, quota limits, invalid webhooks and reconciliation. Impact: this helps prevent usage, billing-logic and access-control errors.'},
+ {keys:['monreader','computer vision','page','flip','resnet'],answer:'Problem: I wanted to know whether a computer-vision model could recognise page turns on recordings it had not seen before. Data: 2,989 labelled frames from 117 reconstructed recordings. Approach: I compared a custom CNN with pretrained ResNet18 across familiar, unseen-source and later-frame tests. Validation: ResNet18 scored 0.995 Macro F1 on the easiest regime but 0.877 under the harder unseen-source-plus-later-frame test, and missed flips remained important. Impact: the study shows why realistic generalisation testing matters before using a page-turn classifier in an automated reading system.'},
+ {keys:['frontend','reel good','movie','react','typescript'],answer:'Reel Good is still in progress. I built a React/TypeScript movie-discovery application with live OMDb search, movie pages, routing and Firebase account/favourites architecture. Automated tests cover the main frontend flows, but final live Firebase verification is still outstanding, so I keep it separate from the completed case studies.'},
+ {keys:['skill','skills','machine learning','ml','data science'],answer:'The strongest themes are applied machine learning, rigorous validation, NLP, computer vision, ranking, time-series modelling, data engineering and backend systems. Across the projects I try to connect technical work to a clear business or operational decision and report limitations rather than hiding them.'}
 ];
 const input=document.getElementById('assistant-input');const answer=document.getElementById('assistant-answer');
-function reply(q){const t=q.toLowerCase();let best=null,score=0;for(const item of knowledge){let s=0;for(const k of item.keys){if(t.includes(k))s++;}if(s>score){score=s;best=item;}}answer.textContent=best&&score>0?best.answer:'I do not have enough verified portfolio information to answer that confidently. Try asking about the seven completed case studies, the two projects in progress, ML skills, data engineering, backend engineering, NLP research or business value.';}
+function reply(q){const t=q.toLowerCase();let best=null,score=0;for(const item of knowledge){let s=0;for(const k of item.keys){if(t.includes(k))s++;}if(s>score){score=s;best=item;}}answer.textContent=best&&score>0?best.answer:'I do not have enough verified portfolio information to answer that confidently. Try asking about one of the eight completed case studies, Reel Good, or Nicholas\'s strongest skills.';}
 document.getElementById('assistant-form').addEventListener('submit',e=>{e.preventDefault();if(input.value.trim())reply(input.value.trim());});
 document.querySelectorAll('[data-q]').forEach(b=>b.addEventListener('click',()=>{input.value=b.dataset.q;reply(b.dataset.q);}));
 </script>
-</body>
-</html>
+</body></html>
