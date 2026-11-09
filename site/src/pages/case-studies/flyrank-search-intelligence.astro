@@ -6,7 +6,16 @@ import '../../styles/global.css';
 <main>
 <section class="page-head"><div class="container"><div class="eyebrow">Applied ML · Ranking · Search Intelligence</div><h1>FlyRank Applied Search Intelligence</h1><p class="section-lead"><strong>Which Content Pages Should Be Reviewed First?</strong> — A leakage-safe framework for future performance risk and human review.</p></div></section>
 <section><div class="container content">
-<div class="plain-grid"><div><h2>In plain English</h2><p>A content team may have thousands of pages but enough time to inspect only a few. This project ranks the pages most worth checking first.</p></div><div><h2>Why it matters</h2><p>Instead of asking people to inspect everything, the model concentrates limited human attention where it may have the greatest value.</p></div><div><h2>How it works</h2><p>March performance data → estimate April change → predict decline risk and severity → combine those signals → produce a top-50 human-review queue.</p></div></div>
+<section class="story-section">
+<h2>30-second explanation</h2>
+<div class="story-grid">
+<div class="story-step"><strong>1 · Problem</strong><p>I wanted to identify which website pages were most likely to lose Google search visibility so a content team would know what to review first.</p></div>
+<div class="story-step"><strong>2 · Data</strong><p>I worked with Google search-performance data from a large pseudonymised warehouse release covering millions of records and multiple clients. The final proof-of-concept used 2,520 balanced pages from 21 clients.</p></div>
+<div class="story-step"><strong>3 · Approach</strong><p>I built machine-learning models to predict whether performance would decline, estimate how large the decline might be, and combine those signals into a top-50 review ranking.</p></div>
+<div class="story-step"><strong>4 · Validation</strong><p>I separated clients during validation. The models improved over the baselines during development, but classification and ranking did not transfer well to six completely unseen clients, so I reported that weakness rather than hiding it.</p></div>
+<div class="story-step story-impact"><strong>5 · Impact</strong><p>The aim was to help businesses identify potential problems earlier and focus limited review time on the pages most worth investigating.</p></div>
+</div>
+</section>
 <h2>Decision problem</h2>
 <p>The capstone uses decision-time information from March 2026 to estimate April performance change. The goal is not to claim a model of Google's algorithm; it is to provide directional decision support about which pages deserve human review first.</p>
 
