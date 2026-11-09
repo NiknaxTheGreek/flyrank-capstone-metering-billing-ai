@@ -4,41 +4,38 @@ import '../../styles/global.css';
 <!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="FlyRank Applied Search Intelligence capstone case study — Nicholas Perikli."/><title>FlyRank Applied Search Intelligence — Nicholas Perikli</title></head><body>
 <header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="mailto:nicholasperikli@gmail.com">Contact</a></nav></div></header>
 <main>
-<section class="page-head"><div class="container"><div class="eyebrow">Applied ML · Ranking · Search Intelligence</div><h1>FlyRank Applied Search Intelligence</h1><p class="section-lead"><strong>Which Content Pages Should Be Reviewed First?</strong> — A leakage-safe framework for future performance risk and human review.</p></div></section>
+<section class="page-head"><div class="container"><span class="status-pill completed">Completed</span><div class="eyebrow">Applied ML · Ranking · Search Intelligence</div><h1>FlyRank Applied Search Intelligence</h1><p class="section-lead"><strong>Which Content Pages Should Be Reviewed First?</strong> — A leakage-safe framework for future performance risk and human review.</p></div></section>
 <section><div class="container content">
-<section class="story-section">
-<h2>30-second explanation</h2>
-<div class="story-grid">
-<div class="story-step"><strong>1 · Problem</strong><p>I wanted to identify which website pages were most likely to lose Google search visibility so a content team would know what to review first.</p></div>
-<div class="story-step"><strong>2 · Data</strong><p>I worked with Google search-performance data from a large pseudonymised warehouse release covering millions of records and multiple clients. The final proof-of-concept used 2,520 balanced pages from 21 clients.</p></div>
-<div class="story-step"><strong>3 · Approach</strong><p>I built machine-learning models to predict whether performance would decline, estimate how large the decline might be, and combine those signals into a top-50 review ranking.</p></div>
-<div class="story-step"><strong>4 · Validation</strong><p>I separated clients during validation. The models improved over the baselines during development, but classification and ranking did not transfer well to six completely unseen clients, so I reported that weakness rather than hiding it.</p></div>
-<div class="story-step story-impact"><strong>5 · Impact</strong><p>The aim was to help businesses identify potential problems earlier and focus limited review time on the pages most worth investigating.</p></div>
-</div>
-</section>
-<h2>Decision problem</h2>
-<p>The capstone uses decision-time information from March 2026 to estimate April performance change. The goal is not to claim a model of Google's algorithm; it is to provide directional decision support about which pages deserve human review first.</p>
+<section class="story-section"><h2>Project at a glance</h2><div class="story-grid"><div class="story-step"><strong>1 · Objective</strong><p>Identify which content pages are most worth reviewing when search performance may decline and human review capacity is limited.</p></div><div class="story-step"><strong>2 · Data</strong><p>Decision-time search-performance data from a large pseudonymised warehouse release; the final balanced proof-of-concept used 2,520 pages from 21 clients.</p></div><div class="story-step"><strong>3 · Method</strong><p>Combine classification and signed regression signals into a top-50 review ranking using only information available before the April outcome period.</p></div><div class="story-step"><strong>4 · Evaluation</strong><p>Use client-separated grouped validation and a six-client unseen stress test against transparent frozen baselines.</p></div><div class="story-step story-impact"><strong>5 · Outcome</strong><p>Development validation improved over baseline, but classification and ranking did not generalise above baseline on the unseen-client stress test; that limitation is retained in the final conclusion.</p></div></div></section>
+<h2>Context and objective</h2>
+<p>The capstone asks which content pages should be reviewed first. It uses decision-time information from March 2026 to estimate April performance change and prioritise limited human review capacity. The goal is directional decision support, not a claim to predict Google's algorithm.</p>
 
-<h2>Approach</h2>
+<h2>Data and constraints</h2>
+<p>The public workflow uses anonymised data and avoids raw private client identifiers, domains, URLs, titles and keywords. The final proof-of-concept uses a balanced lane of <strong>2,520 pages across 21 clients</strong>, with six clients reserved for the final unseen stress test.</p>
+
+<h2>Technical solution</h2>
 <ul>
 <li>Use only features available at the decision date to prevent future-information leakage.</li>
-<li>Frame the task across classification, signed regression and ranking rather than forcing one metric to answer every business question.</li>
-<li>Combine classification and signed regression into a top-50 review ranking.</li>
-<li>Separate clients during evaluation so validation measures transfer to unseen clients rather than memorisation of client-specific patterns.</li>
-<li>Keep transparent frozen baselines as the standard the learned models must beat.</li>
+<li>Frame the problem across classification, signed regression and ranking rather than forcing one metric to answer every business question.</li>
+<li>Combine classification and signed regression into a top-50 human-review ranking.</li>
+<li>Keep transparent frozen baselines as the minimum standard the learned models must beat.</li>
 </ul>
+<div class="callout">The ranking prioritises attention; the final content decision remains with a person.</div>
 
-<div class="callout">The ranking is designed for human review: the model prioritises attention, while the final content decision remains with a person.</div>
+<h2>Evaluation and evidence</h2>
+<p>Clients are separated during evaluation so validation measures transfer rather than memorisation of client-specific patterns. Development validation is followed by a six-client stress test that deliberately asks whether the learned signals generalise to completely unseen clients.</p>
 
-<h2>Validation result</h2>
-<p>Development validation improved over the frozen baselines. The later six-client stress test was deliberately retained in the final framing because it showed weaker transfer: regression improved modestly, while <strong>classification and ranking did not improve over their transparent baselines</strong>.</p>
-<p>That mixed result is part of the value of the project. It distinguishes a promising development result from evidence that genuinely transfers to new clients and prevents the portfolio from overstating what the models proved.</p>
+<h2>Key results</h2>
+<p>Development validation improved over the frozen baselines. On the six-client stress test, regression improved modestly, while <strong>classification and ranking did not improve over their transparent baselines</strong>. That mixed result is retained rather than hidden.</p>
 
-<h2>Reproducibility & data safety</h2>
-<p>The public repository contains the executed capstone notebook, assignment work, a runnable reference pipeline and an anonymised data path. The workflow explicitly avoids raw private client data and frames outputs as observed, measured, directional decision support.</p>
+<h2>Limitations and scope</h2>
+<p>The work provides observed, measured, directional decision support. It does not claim to model Google's algorithm or guarantee future search outcomes. The unseen-client result shows that the strongest development patterns did not transfer reliably enough for unrestricted automated decision making.</p>
 
-<h2>What this case proves</h2>
-<p>I can turn a search-performance problem into a leakage-safe ML decision system, build transparent baselines, evaluate transfer across client groups, combine multiple prediction tasks into an operational ranking and keep negative or mixed generalisation evidence in the final conclusion rather than hiding it.</p>
+<h2>Practical relevance</h2>
+<p>The system is designed to help a content team focus scarce review time on pages that may warrant attention first, while keeping human review as the final decision layer.</p>
+
+<h2>What this demonstrates</h2>
+<p>Leakage-safe ML design, transparent baselines, grouped transfer evaluation, combination of multiple prediction tasks into an operational ranking and honest reporting of weaker out-of-sample generalisation.</p>
 
 <h2>Evidence</h2>
 <p><a class="cta" href="https://flyrank-content-review-capstone.onrender.com" target="_blank" rel="noreferrer">Read published research paper →</a></p>
