@@ -4,32 +4,13 @@ import '../../styles/global.css';
 <!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content="From COVID-19 Vaccine Hesitancy to Mpox — NLP research case study by Nicholas Perikli."/><title>From COVID-19 Vaccine Hesitancy to Mpox — Nicholas Perikli</title></head><body>
 <header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav><a href="/">Home</a><a href="/case-studies">Case Studies</a><a href="/about">About</a><a class="cta" href="mailto:nicholasperikli@gmail.com">Contact</a></nav></div></header>
 <main>
-<section class="page-head"><div class="container"><div class="eyebrow">NLP · Transformers · Public Health</div><h1>From COVID-19 Vaccine Hesitancy to Mpox</h1><p class="section-lead">A Comparative Study of Stance Labelling and Machine-Learning Classification across two published collaborative public-health NLP studies.</p></div></section>
+<section class="page-head"><div class="container"><span class="status-pill completed">Completed</span><div class="eyebrow">NLP · Transformers · Public Health</div><h1>From COVID-19 Vaccine Hesitancy to Mpox</h1><p class="section-lead">A Comparative Study of Stance Labelling and Machine-Learning Classification across two published collaborative public-health NLP studies.</p></div></section>
 <section><div class="container content">
-<section class="story-section">
-<h2>COVID-19 study — 30-second explanation</h2>
-<div class="story-grid">
-<div class="story-step"><strong>1 · Problem</strong><p>I wanted to understand public attitudes towards COVID-19 vaccination in South Africa.</p></div>
-<div class="story-step"><strong>2 · Data</strong><p>I worked with approximately 30,000 manually labelled South African vaccine-related tweets.</p></div>
-<div class="story-step"><strong>3 · Approach</strong><p>I compared several machine-learning approaches, including BERT and RoBERTa, to classify posts as positive, negative or neutral.</p></div>
-<div class="story-step"><strong>4 · Validation</strong><p>I compared the models using F1-score. RoBERTa produced the strongest three-class result at about 61% F1, with performance improving when the difficult neutral class was removed.</p></div>
-<div class="story-step story-impact"><strong>5 · Impact</strong><p>The research shows how machine learning can help public-health organisations analyse large volumes of public opinion and better understand communication challenges.</p></div>
-</div>
-</section>
-<section class="story-section">
-<h2>Mpox study — 30-second explanation</h2>
-<div class="story-grid">
-<div class="story-step"><strong>1 · Problem</strong><p>I wanted to test whether language models developed around COVID-19 could transfer to a new public-health problem: attitudes towards Mpox.</p></div>
-<div class="story-step"><strong>2 · Data</strong><p>I worked with 20,604 manually labelled Mpox-related tweets from the 2022 outbreak.</p></div>
-<div class="story-step"><strong>3 · Approach</strong><p>I compared simpler sentiment methods with transformer models, including models already adapted to COVID-19 data, and then fine-tuned the transformers on Mpox examples.</p></div>
-<div class="story-step"><strong>4 · Validation</strong><p>Before Mpox-specific fine-tuning, the COVID-adapted models reached 45% F1 and 47% accuracy. After fine-tuning, RoBERTa reached 69% F1, outperforming the simpler lexicon-based methods.</p></div>
-<div class="story-step story-impact"><strong>5 · Impact</strong><p>The study shows that knowledge from a related problem can provide a useful starting point, but new domain-specific labelled data is still important for reliable performance.</p></div>
-</div>
-</section>
-<h2>Research questions</h2>
+<section class="story-section"><h2>Project at a glance</h2><div class="glance-study"><h3>COVID-19 study</h3><div class="story-grid"><div class="story-step"><strong>1 · Objective</strong><p>Characterise public attitudes towards COVID-19 vaccination in South Africa using supervised text classification.</p></div><div class="story-step"><strong>2 · Data</strong><p>Approximately 30,000 manually labelled South African vaccine-related tweets with positive, neutral and negative labels.</p></div><div class="story-step"><strong>3 · Method</strong><p>Compare classical, recurrent and transformer models, including BERT and RoBERTa, using manually labelled examples.</p></div><div class="story-step"><strong>4 · Evaluation</strong><p>Compare models using F1-score and analyse the effect of the difficult neutral class on three-class performance.</p></div><div class="story-step story-impact"><strong>5 · Outcome</strong><p>RoBERTa produced the strongest three-class result at about 61% F1, rising to roughly 80% F1 when the neutral class was removed.</p></div></div></div><div class="glance-study"><h3>Mpox study</h3><div class="story-grid"><div class="story-step"><strong>1 · Objective</strong><p>Test whether models adapted to COVID-19 health discourse transfer to Mpox stance classification and how much Mpox-specific supervision improves them.</p></div><div class="story-step"><strong>2 · Data</strong><p>20,604 manually labelled Mpox-related tweets collected during the 2022 outbreak.</p></div><div class="story-step"><strong>3 · Method</strong><p>Compare lexicon-based methods and transformer models, including COVID-adapted BERT/RoBERTa before and after Mpox-specific fine-tuning.</p></div><div class="story-step"><strong>4 · Evaluation</strong><p>Measure F1 and accuracy against human labels, including comparison with VADER and TextBlob.</p></div><div class="story-step story-impact"><strong>5 · Outcome</strong><p>After Mpox-specific fine-tuning, BERT reached 68% F1 and RoBERTa 69% F1, outperforming the simpler lexicon-based methods.</p></div></div></div></section>
+<h2>Context and objective</h2>
 <p>The synthesis examines how reliably context-sensitive human labelling can support stance classification in noisy public-health social-media data, and how well transformer models adapted to COVID-19 health discourse transfer to Mpox before and after Mpox-specific fine-tuning.</p>
 
-<h2>Datasets & annotation</h2>
+<h2>Data and constraints</h2>
 <ul>
 <li><strong>30,000</strong> manually labelled South African vaccine-related tweets in the COVID-19 study.</li>
 <li><strong>20,604</strong> manually labelled tweets from the 2022 Mpox outbreak.</li>
@@ -37,34 +18,38 @@ import '../../styles/global.css';
 <li>Mean Cohen's kappa improved from <strong>0.67 to 0.85</strong> as annotation rules were reviewed and clarified.</li>
 <li>The framework explicitly considered slang, sarcasm, punctuation, emojis and tone.</li>
 </ul>
+<p>The two corpora are related methodologically but are not treated as matched datasets: they differ in geographic scope, collection period, search criteria, public-health context and class distribution.</p>
 
-<h2>Models</h2>
+<h2>Technical solution</h2>
 <p>The COVID-19 study compared SVM, LSTM, Bidirectional LSTM, BERT-base-cased and RoBERTa-base. The Mpox study evaluated NLP-Town BERT, Cardiff-NLP RoBERTa, COVID-19 BERT and COVID-19 RoBERTa before and after Mpox-specific fine-tuning. VADER and TextBlob were also evaluated against human labels.</p>
 
-<h2>Published results</h2>
+<h2>Evaluation and evidence</h2>
+<p>Human annotation is treated as part of the modelling system rather than a background step. Model comparisons use F1 and accuracy where reported, while cross-crisis transfer is evaluated before and after Mpox-specific fine-tuning.</p>
+
+<h2>Key results</h2>
 <ul>
 <li>COVID-19 three-class classification: strongest overall F1 was <strong>60% for BERT</strong> and <strong>61% for RoBERTa</strong>.</li>
 <li>Removing the neutral class increased both transformer models to approximately <strong>80% F1</strong>.</li>
 <li>For Mpox, COVID-19 BERT and COVID-19 RoBERTa each achieved <strong>45% F1 / 47% accuracy</strong> before Mpox-specific fine-tuning.</li>
 <li>After fine-tuning on labelled Mpox data, performance increased to <strong>68% F1 for BERT</strong> and <strong>69% F1 for RoBERTa</strong>.</li>
-<li>VADER achieved <strong>47% F1 / 50% accuracy</strong>; TextBlob achieved <strong>37% F1 / 40% accuracy</strong> against the manually assigned Mpox stance labels.</li>
+<li>VADER achieved <strong>47% F1 / 50% accuracy</strong>; TextBlob achieved <strong>37% F1 / 40% accuracy</strong>.</li>
 </ul>
 
-<div class="callout">The combined result supports a layered view of cross-crisis adaptation: prior training on related health discourse is useful, but it does not remove the need for new domain-specific human supervision.</div>
+<h2>Limitations and scope</h2>
+<p>This repository is a <strong>synthesis of published results</strong>, not a new modelling experiment. It introduces no new model training or unreported performance claims. The two studies also differ in context and data collection, so their scores are not treated as a controlled head-to-head benchmark.</p>
 
-<h2>Scope</h2>
-<p>The repository is a <strong>synthesis of published results</strong>, not a new modelling experiment. It introduces no new model training or unreported performance claims; the figures and comparisons are reconstructed from the two source publications.</p>
+<h2>Practical relevance</h2>
+<p>The combined evidence suggests that prior training on related health discourse can provide a useful starting representation, but does not remove the need for new domain-specific supervision. The work illustrates how large volumes of public-health opinion can be analysed while retaining human-labelled context.</p>
 
-<h2>Publications</h2>
+<h2>What this demonstrates</h2>
+<p>Human annotation design, classical ML, recurrent neural networks, transformer modelling, cross-domain transfer and careful interpretation of stance without reducing nuanced attitudes to simple sentiment.</p>
+
+<h2>Evidence</h2>
+<h3>Publications</h3>
 <ul>
 <li>N. Perikli et al., “Detecting the Presence of COVID-19 Vaccination Hesitancy From South African Twitter Data Using Machine Learning,” <em>IEEE Transactions on Computational Social Systems</em>. DOI: <a href="https://doi.org/10.1109/TCSS.2025.3608636" target="_blank" rel="noreferrer">10.1109/TCSS.2025.3608636</a>.</li>
 <li>N. Perikli et al., “Evaluating automatic annotation of lexicon-based models for stance detection of M-pox tweets from May 1st to Sep 5th, 2022,” <em>PLOS Digital Health</em> 3(7), e0000545 (2024). DOI: <a href="https://doi.org/10.1371/journal.pdig.0000545" target="_blank" rel="noreferrer">10.1371/journal.pdig.0000545</a>.</li>
 </ul>
-
-<h2>What this case proves</h2>
-<p>I can work across human annotation, classical ML, recurrent neural networks and transformers; evaluate cross-domain transfer; and interpret public-health NLP results without reducing nuanced stance to simplistic sentiment.</p>
-
-<h2>Evidence</h2>
 <p><a class="cta" href="https://github.com/NiknaxTheGreek/covid19-mpox-stance-classification-synthesis" target="_blank" rel="noreferrer">View GitHub repository →</a></p>
 <p><a class="cta secondary" href="https://github.com/NiknaxTheGreek/covid19-mpox-stance-classification-synthesis/blob/main/From_COVID19_Vaccine_Hesitancy_to_Mpox_Comparative_Synthesis_FINAL(3).pdf" target="_blank" rel="noreferrer">Read synthesis report →</a></p>
 <p><a href="/case-studies">← Back to case studies</a></p>
