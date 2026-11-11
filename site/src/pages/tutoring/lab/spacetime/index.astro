@@ -2,6 +2,7 @@
 import '../../../../styles/global.css';
 import '../../../../styles/tutoring.css';
 import '../../../../styles/lab-extensions.css';
+import Equation from '../../../../components/Equation.astro';
 ---
 <!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/>
 <meta name="description" content="Interactive special relativity spacetime diagram with Lorentz transformation, time dilation and length contraction."/>
@@ -50,9 +51,10 @@ import '../../../../styles/lab-extensions.css';
 <div class="extension-stage-info">The primed axes represent a coordinate system moving at β relative to the unprimed S frame. The marked event is the same physical event in both frames.</div>
 </div></div>
 <div class="advanced-explanation"><h2>Understand the transformation</h2>
-<div class="lab-note"><strong>Lorentz transformation</strong><p>In units where c = 1, t′ = γ(t − βx), x′ = γ(x − βt), with γ = 1/√(1−β²). Here distances are measured in light-seconds and times in seconds, so the formulas are numerically consistent.</p></div>
-<div class="lab-note"><strong>Different notions of simultaneity</strong><p>The x′ axis is the set of events where t′ = 0, so ct = βx. The ct′ axis is where x′ = 0, so x = βct. Both tilt towards the light lines as |β| increases.</p></div>
-<div class="lab-note"><strong>Time dilation and length contraction</strong><p>The clock statistic shows the proper time elapsed on a clock moving with S′ during the selected laboratory time t: τ = t/γ. The rod statistic assumes a rod with proper length 10 m, measured simultaneously in S: L = 10 m/γ. These are distinct experiments, not measurements of the arbitrary pink event.</p></div>
+<div class="lab-note"><strong>Lorentz transformation</strong><p>These are the transformations between inertial frames when c = 1. Here position is in light-seconds and time in seconds.</p><Equation tex={String.raw`t'=\gamma(t-\beta x),\quad x'=\gamma(x-\beta t)`} label="Lorentz coordinate transformations" />
+<Equation tex={String.raw`\gamma=\frac{1}{\sqrt{1-\beta^2}},\qquad\beta=\frac{v}{c}`} label="Lorentz factor and relative speed" /></div>
+<div class="lab-note"><strong>Different notions of simultaneity</strong><p>The moving frame's position axis contains events simultaneous at t-prime = 0. The moving time axis contains the worldline x-prime = 0.</p><Equation tex={String.raw`t'=0\;\Rightarrow\;t=\beta x,\qquad x'=0\;\Rightarrow\;x=\beta t`} label="Equations for the tilted spacetime axes" /></div>
+<div class="lab-note"><strong>Time dilation and length contraction</strong><p>A clock moving with the primed frame experiences less proper time than the lab time interval. A rod of proper length 10 m has a shorter lab-frame length when measured simultaneously in that frame.</p><Equation tex={String.raw`\Delta\tau=\frac{\Delta t}{\gamma},\qquad L=\frac{L_0}{\gamma}`} label="Time dilation and length contraction" /></div>
 <p class="tutor-micro">Ideal one-dimensional inertial frames, no acceleration or gravity. Coordinate axes in the diagram are drawn at equal scales and the speed of light corresponds to 45° diagonals.</p>
 <div class="extension-footer-links"><a class="cta" href="/tutoring/lab">All ten demonstrations</a><a class="cta secondary" href="/tutoring/lab/particle-box">Next: Quantum Well</a></div>
 </div></div></section></main>
