@@ -2,6 +2,7 @@
 import '../../../../styles/global.css';
 import '../../../../styles/tutoring.css';
 import '../../../../styles/lab-extensions.css';
+import Equation from '../../../../components/Equation.astro';
 ---
 <!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/>
 <meta name="description" content="Interactive electrostatics: superposition of electric fields and potential from two adjustable point charges."/>
@@ -46,8 +47,8 @@ import '../../../../styles/lab-extensions.css';
 <div class="extension-stage-info">Arrow lengths are visually normalized. Contours are selected equal-potential lines, not field lines; electric field arrows are perpendicular to equipotentials.</div>
 </div></div>
 <div class="advanced-explanation"><h2>Field versus potential</h2>
-<div class="lab-note"><strong>Electric field is a vector</strong><p>For point charges, E⃗ = Σ kqᵢ(r⃗−r⃗ᵢ)/|r⃗−r⃗ᵢ|³. Each contribution has both magnitude and direction; opposite charges do not simply cancel everywhere.</p></div>
-<div class="lab-note"><strong>Potential is a scalar</strong><p>V = Σ kqᵢ/|r⃗−r⃗ᵢ|. Potential can be negative, positive or zero. A zero potential does not necessarily mean the electric field is zero.</p></div>
+<div class="lab-note"><strong>Electric field is a vector</strong><p>The field at a point is the vector sum of each charge's contribution. Bold symbols denote vectors; the denominator is the cube of the separation distance.</p><Equation tex={String.raw`\mathbf{E}(\mathbf{r})=\sum_{i=1}^{N}\frac{kq_i(\mathbf{r}-\mathbf{r}_i)}{\left\lVert \mathbf{r}-\mathbf{r}_i\right\rVert^{3}}`} label="Electric field of a collection of point charges" /></div>
+<div class="lab-note"><strong>Potential is a scalar</strong><p>Electric potential adds as a signed scalar. A location can have zero potential while still having a nonzero electric field.</p><Equation tex={String.raw`V(\mathbf{r})=\sum_{i=1}^{N}\frac{kq_i}{\left\lVert\mathbf{r}-\mathbf{r}_i\right\rVert}`} label="Electric potential from a collection of point charges" /></div>
 <div class="lab-note"><strong>Test your prediction</strong><p>Compare a dipole with equal like charges. Look for symmetry in the field and potential and check which quantity is zero at the midpoint.</p></div>
 <p class="tutor-micro">Ideal stationary point charges in vacuum. Charge values are in nanocoulombs, distances in metres, and k ≈ 8.99×10⁹ N·m²/C². The mathematical fields diverge at charge positions; the illustration omits field samples too near each charge.</p>
 <div class="extension-footer-links"><a class="cta" href="/tutoring/lab">All ten demonstrations</a><a class="cta secondary" href="/tutoring/lab/stellar-spectra">Next: Stellar Spectra</a></div>
