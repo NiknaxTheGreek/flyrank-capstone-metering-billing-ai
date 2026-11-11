@@ -1,0 +1,40 @@
+
+/* Stage-only extensions for the interactive Mathematics & Physics lab. */
+.tutor-shell .demo-browse{padding:38px 0 45px;background:#eaf3fa;border-bottom:1px solid #cbdce7}
+.tutor-shell .demo-browse h2{font-size:clamp(1.75rem,3.4vw,2.5rem);margin:0 0 12px}
+.tutor-shell .demo-filter-row{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}
+.tutor-shell .demo-filter{border:1px solid #afc8d9;background:#fff;color:#174866;border-radius:99px;padding:8px 13px;font:600 .88rem 'IBM Plex Sans',sans-serif;cursor:pointer}
+.tutor-shell .demo-filter[aria-pressed="true"]{background:#0077a3;color:#fff;border-color:#0077a3}
+.tutor-shell .demo-catalog{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.tutor-shell .demo-catalog-item{border:1px solid #c6d8e5;border-radius:10px;background:#fff;padding:17px 18px;display:flex;align-items:flex-start;gap:13px;text-decoration:none;color:#17364c}
+.tutor-shell .demo-catalog-item:hover,.tutor-shell .demo-catalog-item:focus-visible{border-color:#0077a3;box-shadow:0 3px 10px #0b1d3214}
+.tutor-shell .demo-catalog-item[hidden]{display:none}
+.tutor-shell .demo-catalog-no{display:grid;place-items:center;background:#e7f2f7;border-radius:7px;width:35px;height:35px;flex-shrink:0;font-size:.8rem;font-weight:700;color:#006f9a}
+.tutor-shell .demo-catalog-copy{display:grid;gap:5px;min-width:0}
+.tutor-shell .demo-catalog-copy strong{font-size:1rem;color:#0d2d43}
+.tutor-shell .demo-catalog-copy span{font-size:.8rem;color:#5b7283}
+.tutor-shell .extension-svg svg{display:block;max-width:100%;height:auto}
+.tutor-shell .extension-svg{padding:12px;min-width:0}
+.tutor-shell .extension-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.85rem;color:#bed4e3}
+.tutor-shell .extension-key{display:inline-flex;align-items:center;gap:6px}
+.tutor-shell .extension-key::before{content:'';width:16px;height:4px;background:var(--swatch,#7fd7f0);border-radius:9px}
+.tutor-shell .extension-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.tutor-shell .extension-stat{padding:12px;background:#edf5fa;border-radius:8px;border:1px solid #d6e6f0}
+.tutor-shell .extension-stat small{font-size:.75rem;color:#3a6179;display:block}
+.tutor-shell .extension-stat strong{display:block;color:#123952;font-size:1.03rem;font-variant-numeric:tabular-nums}
+.tutor-shell .extension-stage-info{font-size:.83rem;color:#bdd6e6;line-height:1.5}
+.tutor-shell .extension-control-note{font-size:.79rem;color:#566f7e;margin:0}
+.tutor-shell .extension-secondary{background:#eaf4fa}
+.tutor-shell .extension-description{max-width:820px;margin-bottom:26px}
+.tutor-shell .extension-description p{font-size:1.02rem;color:#4c6375}
+.tutor-shell .extension-footer-links{margin-top:26px;display:flex;gap:10px;flex-wrap:wrap}
+.tutor-shell .extension-stage-note{font-size:.78rem;color:#b9d3e1}
+.tutor-shell .extension-measurement{background:#e9f4f8;border-left:3px solid #0077a3;padding:12px;font-size:.86rem;color:#24475e;min-height:54px}
+.tutor-shell .control input[type=checkbox]{accent-color:#0077a3;margin-right:8px}
+.tutor-shell .control .extension-inline{display:flex;align-items:center;gap:8px;color:#264b63;font-size:.87rem}
+.tutor-shell .extension-touch-safe{touch-action:pan-y}
+@media(max-width:700px){
+.tutor-shell .demo-catalog{grid-template-columns:1fr}
+.tutor-shell .demo-filter{font-size:.8rem;padding:8px 10px}
+.tutor-shell .demo-browse{padding:30px 0 35px}
+}
