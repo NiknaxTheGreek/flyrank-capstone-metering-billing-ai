@@ -147,7 +147,7 @@ const enquiry = 'mailto:nicholasperikli@gmail.com?subject=Tutoring%20enquiry%20a
   const svgNS = 'http://www.w3.org/2000/svg';
 
   // 01 · Ideal projectile, no aerodynamic drag, equal launch/landing heights.
-  let motionProgress = 0, motionRunning = false, motionLast = 0;
+  let motionProgress = 0, motionRunning = false, motionLast = 0, motionFrame = 0;
   function motionParameters() {
     const speed = value('motion-speed'), theta = value('motion-angle') * Math.PI / 180;
     const g = value('motion-gravity');
@@ -181,6 +181,8 @@ const enquiry = 'mailto:nicholasperikli@gmail.com?subject=Tutoring%20enquiry%20a
   }
   function stopMotion() {
     motionRunning=false;
+    cancelAnimationFrame(motionFrame);
+    motionFrame=0;
     $('motion-play').textContent='▶ Launch';
   }
   function animateMotion(now) {
@@ -192,7 +194,7 @@ const enquiry = 'mailto:nicholasperikli@gmail.com?subject=Tutoring%20enquiry%20a
     motionProgress=Math.min(1,motionProgress+dt/duration);
     renderMotion();
     if(motionProgress>=1){stopMotion();return;}
-    requestAnimationFrame(animateMotion);
+    motionFrame=requestAnimationFrame(animateMotion);
   }
   for(const id of ['motion-speed','motion-angle','motion-gravity'])
     $(id).addEventListener('input',()=>{stopMotion();motionProgress=0;renderMotion();});
@@ -201,7 +203,7 @@ const enquiry = 'mailto:nicholasperikli@gmail.com?subject=Tutoring%20enquiry%20a
     if(motionProgress>=1)motionProgress=0;
     motionRunning=true;motionLast=performance.now();
     $('motion-play').textContent='Ⅱ Pause';
-    requestAnimationFrame(animateMotion);
+    motionFrame=requestAnimationFrame(animateMotion);
   });
   $('motion-reset').addEventListener('click',()=>{stopMotion();motionProgress=0;renderMotion();});
 
@@ -210,7 +212,6 @@ const enquiry = 'mailto:nicholasperikli@gmail.com?subject=Tutoring%20enquiry%20a
     square:{f:x=>x*x, df:x=>2*x,name:'f(x) = x²',bottom:-1,top:6},
     sine:{f:x=>Math.sin(x),df:x=>Math.cos(x),name:'f(x) = sin(x)',bottom:-1.5,top:1.5}
   };
-  let calcAnimation=0;
   function calcDraw() {
     const entry=functions[$('calc-function').value], x=value('calc-x'),h=value('calc-h');
     const y=entry.f(x), next=entry.f(x+h);
@@ -242,8 +243,8 @@ const enquiry = 'mailto:nicholasperikli@gmail.com?subject=Tutoring%20enquiry%20a
     set('calc-error',pretty(Math.abs(sec-tangent),3));
     set('calc-stage-function',entry.name);
   }
-  let calcRunning=false,calcLast=0;
-  function stopCalc(){calcRunning=false;$('calc-approach').textContent='▶ Approach tangent';}
+  let calcRunning=false,calcLast=0,calcFrame=0;
+  function stopCalc(){calcRunning=false;cancelAnimationFrame(calcFrame);calcFrame=0;$('calc-approach').textContent='▶ Approach tangent';}
   function animateCalc(now) {
     if(!calcRunning)return;
     const dt=Math.min(Math.max(now-calcLast,0),50);calcLast=now;
@@ -251,7 +252,7 @@ const enquiry = 'mailto:nicholasperikli@gmail.com?subject=Tutoring%20enquiry%20a
     $('calc-h').value=String(newH);
     calcDraw();
     if(newH<=.0501){stopCalc();return;}
-    requestAnimationFrame(animateCalc);
+    calcFrame=requestAnimationFrame(animateCalc);
   }
   for(const id of ['calc-function','calc-x','calc-h']) $(id).addEventListener('input',()=>{
     stopCalc();calcDraw();
@@ -261,14 +262,14 @@ const enquiry = 'mailto:nicholasperikli@gmail.com?subject=Tutoring%20enquiry%20a
     if(value('calc-h')<=.051)$('calc-h').value='.9';
     calcRunning=true;calcLast=performance.now();
     $('calc-approach').textContent='Ⅱ Pause';
-    requestAnimationFrame(animateCalc);
+    calcFrame=requestAnimationFrame(animateCalc);
   });
   $('calc-reset').addEventListener('click',()=>{
     stopCalc();$('calc-function').value='square';$('calc-x').value='.5';$('calc-h').value='.8';calcDraw();
   });
 
   // 03 · Ideal coherent waves, equal frequency and amplitude, superposition.
-  let waveTime=0,waveRunning=false,waveLast=0;
+  let waveTime=0,waveRunning=false,waveLast=0,waveFrame=0,waveDrawLast=0;
   function renderWaves(){
     const A=value('wave-amplitude'),deg=value('wave-phase'),lam=value('wave-length');
     const phase=deg*Math.PI/180,k=2*Math.PI/lam;
@@ -291,13 +292,14 @@ const enquiry = 'mailto:nicholasperikli@gmail.com?subject=Tutoring%20enquiry%20a
     set('wave-phase-stat',deg+'°');
     set('wave-pattern',deg===180?'Cancel':deg<60?'Reinforce':deg>120?'Mostly cancel':'Mixed');
   }
-  function stopWave(){waveRunning=false;$('wave-play').textContent='▶ Animate';set('wave-status','Paused');}
+  function stopWave(){waveRunning=false;cancelAnimationFrame(waveFrame);waveFrame=0;$('wave-play').textContent='▶ Animate';set('wave-status','Paused');}
   function animateWave(now){
     if(!waveRunning)return;
     const dt=Math.min(Math.max(now-waveLast,0),50);waveLast=now;
     waveTime+=dt*.0025;
-    renderWaves();
-    requestAnimationFrame(animateWave);
+    // Limit expensive SVG path updates to ~30 FPS on mobile devices.
+    if(now-waveDrawLast>=33){waveDrawLast=now;renderWaves();}
+    waveFrame=requestAnimationFrame(animateWave);
   }
   for(const id of ['wave-amplitude','wave-phase','wave-length'])$(id).addEventListener('input',renderWaves);
   $('wave-play').addEventListener('click',()=>{
@@ -310,6 +312,10 @@ const enquiry = 'mailto:nicholasperikli@gmail.com?subject=Tutoring%20enquiry%20a
   $('wave-reset').addEventListener('click',()=>{
     stopWave();waveTime=0;$('wave-amplitude').value='1';$('wave-phase').value='0';$('wave-length').value='4';renderWaves();
   });
+  // Pause costly animation work when the user switches away or the phone locks.
+  function pauseAllAnimations(){stopMotion();stopCalc();stopWave();}
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseAllAnimations();});
+  window.addEventListener('pagehide',pauseAllAnimations);
   renderMotion();calcDraw();renderWaves();
 </script>
 </body></html>
