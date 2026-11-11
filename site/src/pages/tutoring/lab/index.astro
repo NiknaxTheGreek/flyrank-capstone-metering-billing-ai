@@ -1,6 +1,7 @@
 ---
 import '../../../styles/global.css';
 import '../../../styles/tutoring.css';
+import Equation from '../../../components/Equation.astro';
 import '../../../styles/lab-extensions.css';
 const enquiry = 'mailto:nicholasperikli@gmail.com?subject=Tutoring%20enquiry%20after%20interactive%20lab';
 const demonstrations = [
@@ -89,7 +90,8 @@ const demonstrations = [
     <div class="stage-foot">Try 30°, 45° and 60°. Are the ranges symmetrical when speed and gravity remain fixed?</div>
    </div>
   </div>
-  <div class="lab-note"><strong>Connect the model to the maths.</strong><p>Horizontal: x(t) = v₀ cos(θ) t. Vertical: y(t) = v₀ sin(θ) t − ½gt². At equal starting and landing heights, range R = v₀² sin(2θ)/g. Predict what happens before moving a slider.</p></div>
+  <div class="lab-note"><strong>Connect the model to the maths.</strong><p>The horizontal motion has constant velocity, while the vertical motion accelerates downwards. The following equations assume no air resistance, with the projectile landing at its launch height.</p><Equation tex={String.raw`x(t)=v_0\cos(\theta)\,t,\qquad y(t)=v_0\sin(\theta)\,t-\frac12gt^2`} label="Horizontal and vertical position of a projectile" />
+<Equation tex={String.raw`R=\frac{v_0^2\sin(2\theta)}{g}`} label="Projectile range at equal launch and landing heights" /></div>
  </div>
 </section>
 
@@ -125,7 +127,7 @@ const demonstrations = [
     <div class="lab-legend"><span><i style="background:#62d4bf"></i>Function</span><span><i style="background:#ffd27c"></i>Secant</span><span><i style="background:#93b7ff"></i>Tangent</span></div>
    </div>
   </div>
-  <div class="lab-note"><strong>The definition behind the picture.</strong><p>Derivative at x: f′(x) = lim as Δx → 0 of [f(x + Δx) − f(x)] / Δx. For x², the exact derivative is 2x; for sin(x), it is cos(x), with angles measured in radians. As the gap shrinks, compare the two gradients.</p></div>
+  <div class="lab-note"><strong>The definition behind the picture.</strong><p>The derivative is the limiting slope of a secant line as the separation between its two sample points approaches zero.</p><Equation tex={String.raw`f'(x)=\lim_{\Delta x\to0}\frac{f(x+\Delta x)-f(x)}{\Delta x}`} label="Definition of the derivative" /></div>
  </div>
 </section>
 
@@ -159,7 +161,7 @@ const demonstrations = [
     <div class="lab-legend"><span><i style="background:#58d6eb"></i>Wave 1</span><span><i style="background:#c6a9ff"></i>Wave 2</span><span><i style="background:#ffcd81"></i>Resultant</span></div>
    </div>
   </div>
-  <div class="lab-note"><strong>Superposition principle.</strong><p>For equal-amplitude waves with the same wavelength and frequency, the sum has amplitude 2A |cos(Δφ/2)|. At 0° they reinforce; at 180° they cancel. This model shows ideal coherent sinusoidal waves.</p></div>
+  <div class="lab-note"><strong>Superposition principle.</strong><p>Two coherent waves of equal amplitude and frequency add together. Their phase difference determines the resulting amplitude.</p><Equation tex={String.raw`A_{\mathrm{sum}}=2A\left|\cos\left(\frac{\Delta\phi}{2}\right)\right|`} label="Resultant amplitude of two equal coherent waves" /></div>
  </div>
 </section>
 
