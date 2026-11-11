@@ -1,5 +1,5 @@
 
-/* Stage-only extensions for the interactive Mathematics & Physics lab. */
+/* Shared extensions for the interactive Mathematics & Physics lab. */
 .tutor-shell .demo-browse{padding:38px 0 45px;background:#eaf3fa;border-bottom:1px solid #cbdce7}
 .tutor-shell .demo-browse h2{font-size:clamp(1.75rem,3.4vw,2.5rem);margin:0 0 12px}
 .tutor-shell .demo-filter-row{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}
@@ -37,4 +37,20 @@
 .tutor-shell .demo-catalog{grid-template-columns:1fr}
 .tutor-shell .demo-filter{font-size:.8rem;padding:8px 10px}
 .tutor-shell .demo-browse{padding:30px 0 35px}
+}
+
+/* Visible numbering and quick-launch actions for all ten simulations. */
+.tutor-shell .demo-browse{scroll-margin-top:135px}
+.tutor-shell .demo-group-title{font-size:1.17rem;line-height:1.4;color:#16445d;margin:29px 0 13px}
+.tutor-shell .demo-action{color:#0077a3;font-weight:700;text-decoration:underline;text-underline-offset:3px;font-size:.84rem}
+.tutor-shell .demo-catalog-item{min-height:108px}
+.tutor-shell .demo-catalog-copy{gap:6px}
+.tutor-shell .demo-catalog-item:focus-visible{outline:3px solid #ffba5b;outline-offset:2px}
+.tutor-shell #more-demonstrations{scroll-margin-top:130px}
+.tutor-shell #more-demonstrations .demo-catalog{margin:0 0 26px}
+.tutor-shell .lab-demo{scroll-margin-top:140px}
+@media(max-width:700px){
+ .tutor-shell .demo-browse{scroll-margin-top:125px}
+ .tutor-shell .demo-catalog-item{min-height:100px}
+ .tutor-shell .demo-group-title{font-size:1.08rem}
 }

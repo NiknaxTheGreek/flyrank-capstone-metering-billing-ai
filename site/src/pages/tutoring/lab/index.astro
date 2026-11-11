@@ -1,6 +1,7 @@
 ---
 import '../../../styles/global.css';
 import '../../../styles/tutoring.css';
+import Equation from '../../../components/Equation.astro';
 import '../../../styles/lab-extensions.css';
 const enquiry = 'mailto:nicholasperikli@gmail.com?subject=Tutoring%20enquiry%20after%20interactive%20lab';
 const demonstrations = [
@@ -40,8 +41,8 @@ const demonstrations = [
 <section class="demo-browse" id="browse">
  <div class="container">
   <span class="tutor-kicker">Interactive demonstrations · 10 total</span>
-  <h2>Choose a topic to investigate.</h2>
-  <p class="lab-description">Browse all ten, or filter by subject. The first three open within this page; the others have their own lightweight interactive workspaces.</p>
+  <h2>All ten demonstrations — choose what to explore.</h2>
+  <p class="lab-description">All ten are listed below, numbered 01–10. Use the subject filters, then tap any demonstration. The first three are also embedded further down this page; the remaining seven open dedicated simulator pages.</p>
   <div class="demo-filter-row" role="group" aria-label="Filter demonstrations by subject">
    <button class="demo-filter" type="button" data-demo-filter="all" aria-pressed="true">All 10</button>
    <button class="demo-filter" type="button" data-demo-filter="mathematics" aria-pressed="false">Mathematics</button>
@@ -49,13 +50,22 @@ const demonstrations = [
    <button class="demo-filter" type="button" data-demo-filter="astrophysics" aria-pressed="false">Astrophysics</button>
    <button class="demo-filter" type="button" data-demo-filter="modern" aria-pressed="false">Modern Physics</button>
   </div>
-  <p class="tutor-micro" id="demo-count" aria-live="polite">Showing all ten demonstrations.</p>
+  <p class="tutor-micro" id="demo-count" aria-live="polite">Showing all ten demonstrations. Scroll for 06–10 below.</p>
+  <h3 class="demo-group-title">01–05 · Foundational and university simulations</h3>
   <div class="demo-catalog">
-   {demonstrations.map(d => <a class="demo-catalog-item" href={d.href} data-demo-card data-category={d.cat}>
+   {demonstrations.slice(0,5).map(d => <a class="demo-catalog-item" href={d.href} data-demo-card data-category={d.cat}>
      <span class="demo-catalog-no">{d.num}</span>
-     <span class="demo-catalog-copy"><strong>{d.title}</strong><span>{d.topic}</span></span>
+     <span class="demo-catalog-copy"><strong>{d.title}</strong><span>{d.topic}</span><span class="demo-action">Open demonstration →</span></span>
    </a>)}
   </div>
+  <h3 class="demo-group-title">06–10 · Five additional simulations</h3>
+  <div class="demo-catalog">
+   {demonstrations.slice(5).map(d => <a class="demo-catalog-item" href={d.href} data-demo-card data-category={d.cat}>
+     <span class="demo-catalog-no">{d.num}</span>
+     <span class="demo-catalog-copy"><strong>{d.title}</strong><span>{d.topic}</span><span class="demo-action">Open demonstration →</span></span>
+   </a>)}
+  </div>
+  <p class="tutor-micro">Each demonstration is interactive. Select a card to change variables and explore its equations.</p>
  </div>
 </section>
 <section id="motion" class="lab-demo">
@@ -89,7 +99,8 @@ const demonstrations = [
     <div class="stage-foot">Try 30°, 45° and 60°. Are the ranges symmetrical when speed and gravity remain fixed?</div>
    </div>
   </div>
-  <div class="lab-note"><strong>Connect the model to the maths.</strong><p>Horizontal: x(t) = v₀ cos(θ) t. Vertical: y(t) = v₀ sin(θ) t − ½gt². At equal starting and landing heights, range R = v₀² sin(2θ)/g. Predict what happens before moving a slider.</p></div>
+  <div class="lab-note"><strong>Connect the model to the maths.</strong><p>The horizontal motion has constant velocity, while the vertical motion accelerates downwards. The following equations assume no air resistance, with the projectile landing at its launch height.</p><Equation tex={String.raw`x(t)=v_0\cos(\theta)\,t,\qquad y(t)=v_0\sin(\theta)\,t-\frac12gt^2`} label="Horizontal and vertical position of a projectile" />
+<Equation tex={String.raw`R=\frac{v_0^2\sin(2\theta)}{g}`} label="Projectile range at equal launch and landing heights" /></div>
  </div>
 </section>
 
@@ -125,7 +136,7 @@ const demonstrations = [
     <div class="lab-legend"><span><i style="background:#62d4bf"></i>Function</span><span><i style="background:#ffd27c"></i>Secant</span><span><i style="background:#93b7ff"></i>Tangent</span></div>
    </div>
   </div>
-  <div class="lab-note"><strong>The definition behind the picture.</strong><p>Derivative at x: f′(x) = lim as Δx → 0 of [f(x + Δx) − f(x)] / Δx. For x², the exact derivative is 2x; for sin(x), it is cos(x), with angles measured in radians. As the gap shrinks, compare the two gradients.</p></div>
+  <div class="lab-note"><strong>The definition behind the picture.</strong><p>The derivative is the limiting slope of a secant line as the separation between its two sample points approaches zero.</p><Equation tex={String.raw`f'(x)=\lim_{\Delta x\to0}\frac{f(x+\Delta x)-f(x)}{\Delta x}`} label="Definition of the derivative" /></div>
  </div>
 </section>
 
@@ -159,16 +170,22 @@ const demonstrations = [
     <div class="lab-legend"><span><i style="background:#58d6eb"></i>Wave 1</span><span><i style="background:#c6a9ff"></i>Wave 2</span><span><i style="background:#ffcd81"></i>Resultant</span></div>
    </div>
   </div>
-  <div class="lab-note"><strong>Superposition principle.</strong><p>For equal-amplitude waves with the same wavelength and frequency, the sum has amplitude 2A |cos(Δφ/2)|. At 0° they reinforce; at 180° they cancel. This model shows ideal coherent sinusoidal waves.</p></div>
+  <div class="lab-note"><strong>Superposition principle.</strong><p>Two coherent waves of equal amplitude and frequency add together. Their phase difference determines the resulting amplitude.</p><Equation tex={String.raw`A_{\mathrm{sum}}=2A\left|\cos\left(\frac{\Delta\phi}{2}\right)\right|`} label="Resultant amplitude of two equal coherent waves" /></div>
  </div>
 </section>
 
-<section class="tutor-section soft">
+<section class="tutor-section soft" id="more-demonstrations">
 <div class="container"><div class="tutor-section-head">
- <span class="tutor-kicker">Keep learning</span><h2>Explore all ten interactive demonstrations.</h2>
- <p>The complete lab covers Mathematics, Classical Physics, Astronomy and Astrophysics, and Modern Physics. Use the subject filters at the top to choose what to explore.</p>
+ <span class="tutor-kicker">Continue exploring</span><h2>Seven more dedicated interactive simulators.</h2>
+ <p>The three simulations above run directly on this page. Each of the seven links below opens a fully interactive simulator with its own controls, graphical model and typeset mathematical explanations.</p>
 </div>
-<a class="cta" href="#browse">Browse the complete lab</a>
+<div class="demo-catalog">
+ {demonstrations.slice(3).map(d => <a class="demo-catalog-item" href={d.href}>
+   <span class="demo-catalog-no">{d.num}</span>
+   <span class="demo-catalog-copy"><strong>{d.title}</strong><span>{d.topic}</span><span class="demo-action">Launch simulator →</span></span>
+ </a>)}
+</div>
+<a class="cta" href="#browse" style="margin-top:22px">Back to all ten</a>
 <p class="tutor-micro" style="margin-top:22px">Structured study notes and a video lesson series are <strong>In Progress</strong>; see the <a href="/tutoring#coming-soon">tutoring overview</a>.</p>
 </div></section>
 
@@ -372,7 +389,7 @@ const demonstrations = [
    for(const b of buttons)b.setAttribute('aria-pressed',String(b===btn));
    let n=0;
    for(const card of cards){const visible=selected==='all'||card.dataset.category===selected;card.hidden=!visible;if(visible)n++;}
-   label.textContent=selected==='all'?'Showing all ten demonstrations.':'Showing '+n+' demonstration'+(n===1?'':'s')+'.';
+   label.textContent=selected==='all'?'Showing all ten demonstrations. Scroll for 06–10 below.':'Showing '+n+' matching demonstration'+(n===1?'':'s')+' across both groups.';
  });
 })();
 </script>

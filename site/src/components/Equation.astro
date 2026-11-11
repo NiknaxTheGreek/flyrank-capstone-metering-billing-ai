@@ -1,0 +1,15 @@
+---
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
+interface Props { tex: string; label?: string; }
+const { tex, label = 'Mathematical equation' } = Astro.props;
+const html = katex.renderToString(tex, {
+  displayMode: true,
+  throwOnError: true,
+  output: 'htmlAndMathml',
+  strict: 'ignore'
+});
+---
+<div class="equation-scroll" role="group" aria-label={label}>
+  <div class="equation-typeset" set:html={html} />
+</div>
