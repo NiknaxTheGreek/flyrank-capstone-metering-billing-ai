@@ -1,0 +1,144 @@
+---
+import '../../../../styles/global.css';
+import '../../../../styles/tutoring.css';
+const enquiry = 'mailto:nicholasperikli@gmail.com?subject=Astrophysics%20Tutoring%20Enquiry';
+---
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="theme-color" content="#0b1d32"/>
+<meta name="description" content="Interact with Keplerian orbits: eccentricity, semi-major axis, orbital speed and period, with intuitive astrophysics explanations."/>
+<title>Keplerian Orbits — Interactive Astrophysics Lab · Nicholas Perikli</title></head>
+<body class="tutor-shell">
+<header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav aria-label="Primary"><a href="/">Portfolio</a><a href="/tutoring">Tutoring</a><a href="/tutoring/lab">Lab</a><a class="cta" href={enquiry}>Enquire</a></nav></div></header>
+<main>
+<section class="advanced-hero"><div class="container">
+<div class="tutor-breadcrumb"><a href="/tutoring">Tutoring</a> / <a href="/tutoring/lab">Interactive Lab</a> / Astrophysics</div>
+<span class="tutor-kicker">Astrophysics · Kepler's laws</span>
+<h1>Why do planets move faster near the Sun?</h1>
+<p>Explore an idealised elliptical orbit. Change its size and eccentricity, then follow a planet as gravity carries it around a central star. Connect the geometry to Kepler's laws and orbital energy.</p>
+</div></section>
+<section class="advanced-workbench"><div class="container">
+<div class="lab-layout">
+<div class="lab-controls">
+ <div class="control"><label for="orbit-a">Semi-major axis <output id="orbit-a-val">2.0 AU</output></label><input id="orbit-a" type="range" min=".5" max="6" step=".1" value="2"/></div>
+ <div class="control"><label for="orbit-e">Eccentricity <output id="orbit-e-val">0.40</output></label><input id="orbit-e" type="range" min="0" max=".85" step=".05" value=".4"/></div>
+ <div class="control"><label for="orbit-phase">Fraction of period <output id="orbit-phase-val">0%</output></label><input id="orbit-phase" type="range" min="0" max="100" step=".2" value="0"/></div>
+ <div class="lab-buttons"><button type="button" id="orbit-play" class="lab-button">▶ Animate orbit</button><button type="button" id="orbit-reset" class="lab-button secondary">↺ Reset</button></div>
+ <div class="lab-stats">
+  <div class="lab-stat"><small>Orbital period</small><strong id="orbit-period">2.83 yr</strong></div>
+  <div class="lab-stat"><small>Current distance</small><strong id="orbit-distance">1.20 AU</strong></div>
+  <div class="lab-stat"><small>Current speed</small><strong id="orbit-speed">32.1 km/s</strong></div>
+ </div>
+ <div class="lab-stats">
+  <div class="lab-stat"><small>Perihelion</small><strong id="orbit-peri">1.20 AU</strong></div>
+  <div class="lab-stat"><small>Aphelion</small><strong id="orbit-apo">2.80 AU</strong></div>
+  <div class="lab-stat"><small>Elapsed</small><strong id="orbit-years">0.00 yr</strong></div>
+ </div>
+</div>
+<div class="lab-stage">
+ <div class="stage-meta"><span>Ideal two-body orbit · solar-mass central star</span><span id="orbit-state">At perihelion</span></div>
+ <svg id="orbit-chart" viewBox="0 0 640 410" role="img" aria-label="Elliptical orbit with star at a focus, planet and swept orbital sector">
+ <defs><pattern id="orbit-grids" width="38" height="38" patternUnits="userSpaceOnUse"><path d="M38 0H0V38" stroke="#2b4b63" stroke-width=".65" fill="none"/></pattern><radialGradient id="star-glow"><stop offset="0" stop-color="#ffe8a1" stop-opacity=".7"/><stop offset="1" stop-color="#ffe8a1" stop-opacity="0"/></radialGradient></defs>
+ <rect width="640" height="410" rx="8" fill="url(#orbit-grids)"/>
+ <path id="orbit-sector" fill="#6cdaee" fill-opacity=".16" stroke="none"/>
+ <path id="orbit-track" stroke="#73c9e1" stroke-width="2.5" fill="none"/>
+ <path id="orbit-radius" stroke="#c5dce9" stroke-width="1.5" stroke-dasharray="5 6"/>
+ <circle id="orbit-glow" r="27" fill="url(#star-glow)"/><circle id="orbit-star" r="11" fill="#ffd681" stroke="#fff1ca" stroke-width="2"/>
+ <circle id="orbit-planet" r="8" fill="#92c7fa" stroke="#dff2ff" stroke-width="2"/>
+ <circle id="orbit-peri-point" r="3" fill="#9bd5f0"/><circle id="orbit-apo-point" r="3" fill="#9bd5f0"/>
+ <text id="orbit-star-label" fill="#fff0b9" font-size="14" font-family="system-ui">Sun</text>
+ <text id="orbit-peri-label" fill="#cce4f1" font-size="12" font-family="system-ui">Perihelion</text>
+ <text id="orbit-apo-label" fill="#cce4f1" font-size="12" font-family="system-ui">Aphelion</text>
+ <text x="20" y="387" font-size="12" fill="#96bdd3" font-family="system-ui">View automatically rescaled · playback not to real-time scale</text>
+ </svg>
+ <div class="stage-foot">The shaded sector is swept out from perihelion to the selected orbital time. Move the time slider in equal steps and compare changes in orbital speed.</div>
+</div></div>
+<div class="advanced-explanation">
+ <h2>What the simulation teaches</h2>
+ <div class="lab-note"><strong>Kepler's first law — ellipse</strong><p>The orbit is an ellipse with the star at one focus, not at the centre. Eccentricity e = 0 gives a circle; larger e stretches the orbit.</p></div>
+ <div class="lab-note"><strong>Kepler's second law — equal areas in equal times</strong><p>The line connecting the planet and star sweeps out equal areas in equal time intervals. Close to the star, the planet moves faster along the orbit to conserve angular momentum.</p></div>
+ <div class="lab-note"><strong>Kepler's third law — period and size</strong><p>For a negligible-mass planet orbiting one solar mass, P² = a³ when P is measured in years and a in astronomical units. Orbital speed is calculated from the vis-viva relation v² = GM(2/r − 1/a).</p></div>
+ <p class="tutor-micro">Assumptions: Newtonian gravity, one central mass of 1 M☉, negligible planet mass, no other planets, no relativistic corrections and no perturbations. Speeds are approximate; this is an educational model.</p>
+ <div class="advanced-back"><a class="cta" href="/tutoring/lab/quantum">Explore Quantum Mechanics →</a><a class="cta secondary" href="/tutoring/lab">All lab simulations</a></div>
+</div>
+</div></section>
+</main>
+<footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small"><a href="/tutoring">Tutoring</a> · <a href="/tutoring/lab">Interactive Lab</a></div></div></footer>
+<script>
+const el=id=>document.getElementById(id);
+const num=id=>Number(el(id).value);
+const display=(id,text)=>{el(id).textContent=text;};
+let running=false,frame=0,last=0,drawLast=0;
+const TAU=2*Math.PI;
+function orbitParams(){
+ const a=num('orbit-a'),e=num('orbit-e'),fraction=num('orbit-phase')/100;
+ const period=Math.pow(a,1.5),M=TAU*fraction;
+ let E=M;
+ for(let k=0;k<10;k++) E-=(E-e*Math.sin(E)-M)/(1-e*Math.cos(E));
+ const r=a*(1-e*Math.cos(E)),v=29.7847*Math.sqrt(2/r-1/a);
+ return {a,e,fraction,period,M,E,r,v};
+}
+function point(E,p){
+ const scale=185/p.a;
+ return [310+scale*p.a*Math.cos(E),205-scale*p.a*Math.sqrt(1-p.e*p.e)*Math.sin(E)];
+}
+function drawOrbit(){
+ const p=orbitParams(),scale=185/p.a,sunX=310+scale*p.a*p.e,sunY=205;
+ let path='';
+ for(let k=0;k<=180;k++){
+  const [x,y]=point(TAU*k/180,p);
+  path+=(k?'L':'M')+x.toFixed(2)+' '+y.toFixed(2)+' ';
+ }
+ el('orbit-track').setAttribute('d',path+'Z');
+ const [px,py]=point(p.E,p);
+ let shaded='M'+sunX.toFixed(2)+' '+sunY.toFixed(2)+' ';
+ const sectors=Math.max(2,Math.ceil(p.fraction*180));
+ for(let k=0;k<=sectors;k++){
+  const anomaly=p.M*k/sectors;
+  let EE=anomaly;
+  for(let j=0;j<9;j++)EE-=(EE-p.e*Math.sin(EE)-anomaly)/(1-p.e*Math.cos(EE));
+  const [x,y]=point(EE,p);shaded+='L'+x.toFixed(2)+' '+y.toFixed(2)+' ';
+ }
+ el('orbit-sector').setAttribute('d',shaded+'Z');
+ el('orbit-radius').setAttribute('d','M'+sunX+' '+sunY+' L'+px+' '+py);
+ for(const id of ['orbit-glow','orbit-star']){el(id).setAttribute('cx',sunX);el(id).setAttribute('cy',sunY);}
+ el('orbit-planet').setAttribute('cx',px);el('orbit-planet').setAttribute('cy',py);
+ const peri=310+185,apo=310-185;
+ el('orbit-peri-point').setAttribute('cx',peri);el('orbit-peri-point').setAttribute('cy',sunY);
+ el('orbit-apo-point').setAttribute('cx',apo);el('orbit-apo-point').setAttribute('cy',sunY);
+ el('orbit-star-label').setAttribute('x',sunX+15);el('orbit-star-label').setAttribute('y',sunY-16);
+ el('orbit-peri-label').setAttribute('x',peri-85);el('orbit-peri-label').setAttribute('y',sunY+27);
+ el('orbit-apo-label').setAttribute('x',apo+5);el('orbit-apo-label').setAttribute('y',sunY+27);
+ display('orbit-a-val',p.a.toFixed(1)+' AU');
+ display('orbit-e-val',p.e.toFixed(2));
+ display('orbit-phase-val',(p.fraction*100).toFixed(0)+'%');
+ display('orbit-period',p.period.toFixed(2)+' yr');
+ display('orbit-distance',p.r.toFixed(2)+' AU');
+ display('orbit-speed',p.v.toFixed(1)+' km/s');
+ display('orbit-peri',(p.a*(1-p.e)).toFixed(2)+' AU');
+ display('orbit-apo',(p.a*(1+p.e)).toFixed(2)+' AU');
+ display('orbit-years',(p.period*p.fraction).toFixed(2)+' yr');
+ display('orbit-state',p.fraction<.02?'At perihelion':p.fraction>.48&&p.fraction<.52?'Near aphelion':'Orbit phase: '+(p.fraction*100).toFixed(0)+'%');
+}
+function stop(){running=false;cancelAnimationFrame(frame);frame=0;display('orbit-play','▶ Animate orbit');}
+function tick(now){
+ if(!running)return;
+ const dt=Math.min(50,Math.max(0,now-last));last=now;
+ let percent=num('orbit-phase')+dt*.012;
+ if(percent>100)percent%=100;
+ el('orbit-phase').value=String(percent);
+ if(now-drawLast>=33){drawLast=now;drawOrbit();}
+ frame=requestAnimationFrame(tick);
+}
+for(const id of ['orbit-a','orbit-e','orbit-phase'])el(id).addEventListener('input',()=>{stop();drawOrbit();});
+el('orbit-play').addEventListener('click',()=>{
+ if(running){stop();return;}
+ running=true;last=performance.now();drawLast=0;display('orbit-play','Ⅱ Pause');frame=requestAnimationFrame(tick);
+});
+el('orbit-reset').addEventListener('click',()=>{
+ stop();el('orbit-a').value='2';el('orbit-e').value='.4';el('orbit-phase').value='0';drawOrbit();
+});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
+window.addEventListener('pagehide',stop);
+drawOrbit();
+</script>
+</body></html>
