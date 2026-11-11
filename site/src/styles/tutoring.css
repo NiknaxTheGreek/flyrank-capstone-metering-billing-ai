@@ -16,7 +16,7 @@
 .tutor-shell .visual-foot{padding:14px 20px 20px;color:#d1e4f0;font-size:.9rem;line-height:1.5}
 .tutor-shell .tutor-qualifications{background:#0b1d32;color:#eef7fc;padding:22px 0}
 .tutor-shell .qualification-row{display:flex;gap:24px;flex-wrap:wrap;align-items:center;justify-content:space-between}
-.tutor-shell .qualification-row strong{font-size:.83rem;letter-spacing:.13em;text-transform:uppercase;color:#a1c8d9}
+.tutor-shell .qualification-row strong{flex:0 0 100%;width:100%;font-size:.83rem;letter-spacing:.13em;text-transform:uppercase;color:#a1c8d9}
 .tutor-shell .qualification-row span{font-size:.9rem;color:#f0f9ff}
 .tutor-shell .tutor-section{padding:86px 0}
 .tutor-shell .tutor-section.soft{background:var(--soft)}
@@ -140,4 +140,25 @@
     letter-spacing:normal;
     white-space:normal;
   }
+}
+
+/* Academic heading never shares its line with MSc Physics. */
+@media(max-width:700px){
+  .tutor-shell .qualification-row{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+  .tutor-shell .qualification-row strong{margin-bottom:5px}
+  .tutor-shell .qualification-row span{font-size:1rem;line-height:1.5}
+}
+/* Accessible, readable mathematical notation with independent horizontal scroll. */
+.tutor-shell .equation-scroll{
+  max-width:100%;min-width:0;overflow-x:auto;overflow-y:hidden;
+  margin:14px 0;padding:16px 10px;border:1px solid #c9dfe9;
+  border-radius:8px;background:#f8fcfe;-webkit-overflow-scrolling:touch;
+}
+.tutor-shell .equation-typeset{width:max-content;min-width:100%;font-size:1.04em;color:#163850}
+.tutor-shell .equation-typeset .katex-display{margin:0;text-align:left}
+.tutor-shell .equation-scroll:focus-visible{outline:3px solid #f4ae42;outline-offset:2px}
+.tutor-shell .math-caption{font-size:.85rem;color:#536b7b;margin:3px 0 10px}
+@media(max-width:700px){
+  .tutor-shell .equation-scroll{padding:14px 10px}
+  .tutor-shell .equation-typeset{font-size:1em}
 }
