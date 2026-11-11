@@ -307,7 +307,7 @@ const enquiry = 'mailto:nicholasperikli@gmail.com?subject=Tutoring%20enquiry%20a
     waveRunning=true;waveLast=performance.now();
     $('wave-play').textContent='Ⅱ Pause';
     set('wave-status','Animating');
-    requestAnimationFrame(animateWave);
+    waveFrame=requestAnimationFrame(animateWave);
   });
   $('wave-reset').addEventListener('click',()=>{
     stopWave();waveTime=0;$('wave-amplitude').value='1';$('wave-phase').value='0';$('wave-length').value='4';renderWaves();
