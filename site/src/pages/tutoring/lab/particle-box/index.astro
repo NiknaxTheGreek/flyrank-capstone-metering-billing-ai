@@ -2,6 +2,7 @@
 import '../../../../styles/global.css';
 import '../../../../styles/tutoring.css';
 import '../../../../styles/lab-extensions.css';
+import Equation from '../../../../components/Equation.astro';
 ---
 <!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/>
 <meta name="description" content="Explore the quantum particle in a one-dimensional infinite square well, energy levels, eigenstates, and time-dependent superpositions."/>
@@ -41,20 +42,21 @@ import '../../../../styles/lab-extensions.css';
 <path id="box-psi-path" d="" stroke="#ccb5ff" stroke-width="3.3" fill="none" stroke-linejoin="round"/>
 <path id="box-prob-path" d="" stroke="#5bd7e6" stroke-width="3.5" fill="none" stroke-linejoin="round"/>
 <path id="box-prob-fill" d="" fill="#50cbe1" fill-opacity=".1"/>
-<text x="48" y="36" fill="#e1d1ff" font-size="14">Re ψ̃(u)</text>
-<text x="48" y="250" fill="#a4eff2" font-size="14">|ψ̃(u)|²</text>
+<text x="48" y="36" fill="#e1d1ff" font-size="14">Re ψ(u)</text>
+<text x="48" y="250" fill="#a4eff2" font-size="14">|ψ(u)|²</text>
 <text x="35" y="450" fill="#bad5e3" font-size="12">0</text><text x="590" y="450" fill="#bad5e3" font-size="12">1</text>
 <text x="302" y="450" fill="#bad5e3" font-size="13">u = x/L</text>
 </svg></div>
-<div class="extension-legend"><span class="extension-key" style="--swatch:#ccb5ff">Re ψ̃ (global phase fixed)</span><span class="extension-key" style="--swatch:#5bd7e6">Probability density</span></div>
+<div class="extension-legend"><span class="extension-key" style="--swatch:#ccb5ff">Re ψ (global phase fixed)</span><span class="extension-key" style="--swatch:#5bd7e6">Probability density</span></div>
 <div class="extension-stage-info">The two panels use different vertical scales; probability density is automatically rescaled. The wavefunction is plotted in a rotating global-phase convention and is not a classical vibrating string.</div>
 </div></div>
 <div class="advanced-explanation">
 <h2>From boundary conditions to quantised energy</h2>
-<div class="lab-note"><strong>A particle trapped in a one-dimensional well</strong><p>Inside 0 &lt; x &lt; L the potential is zero; outside it is infinite. The wavefunction vanishes at both walls. These boundary conditions allow only sin(nπx/L), with n = 1, 2, 3, …</p></div>
-<div class="lab-note"><strong>Discrete energy levels</strong><p>The energy eigenvalues are Eₙ = n²h²/(8mL²). Increasing n increases energy quadratically; making the box wider lowers the energy by the inverse square of L.</p></div>
-<div class="lab-note"><strong>Eigenstate versus superposition</strong><p>With normalized u = x/L, each eigenstate is ψ̃ₙ(u) = √2 sin(nπu). The displayed superposition is √(1−p)ψ̃ₙ + √p exp(−iΔφ)ψ̃ₙ₊₁. The interference term in |ψ̃|² depends on Δφ if 0 &lt; p &lt; 1.</p></div>
-<div class="lab-note"><strong>What the moving phase means</strong><p>A physical two-state superposition develops relative phase according to Δφ = (Eₙ₊₁−Eₙ)t/ℏ, up to a sign convention. The animation advances this relative phase at an educational speed rather than literal femtosecond timing.</p></div>
+<div class="lab-note"><strong>A particle trapped in a one-dimensional well</strong><p>Inside the box the potential is zero; outside it is infinite. The wavefunction vanishes at the walls, leaving only standing-wave solutions with integer n.</p><Equation tex={String.raw`\psi_n(x)=\sqrt{\frac{2}{L}}\sin\left(\frac{n\pi x}{L}\right),\quad n=1,2,3,\ldots`} label="Normalized infinite well eigenfunction" /></div>
+<div class="lab-note"><strong>Discrete energy levels</strong><p>Each allowed state has a discrete energy. The energy rises with n squared and falls as the square of the well width increases.</p><Equation tex={String.raw`E_n=\frac{n^2h^2}{8mL^2}`} label="Energy levels of a particle in a one-dimensional box" /></div>
+<div class="lab-note"><strong>Eigenstate versus superposition</strong><p>For the dimensionless coordinate u = x/L, each normalized eigenstate is a sine wave. An equal-time superposition of neighbouring eigenstates has a relative phase that changes interference in the probability density.</p><Equation tex={String.raw`\widetilde{\psi}_n(u)=\sqrt{2}\sin(n\pi u)`} label="Dimensionless normalized eigenfunction" />
+<Equation tex={String.raw`\widetilde{\Psi}(u)=\sqrt{1-p}\,\widetilde{\psi}_n(u)+\sqrt{p}\,e^{-i\Delta\phi}\widetilde{\psi}_{n+1}(u)`} label="Two state coherent superposition" /></div>
+<div class="lab-note"><strong>What the moving phase means</strong><p>A relative phase evolves as the energy difference between the two states accumulates. The animation advances this phase at a deliberately slow educational speed.</p><Equation tex={String.raw`\Delta\phi(t)=\frac{(E_{n+1}-E_n)t}{\hbar}`} label="Phase difference in a two-state quantum superposition" /></div>
 <p class="tutor-micro">Ideal one-dimensional infinite square well with an electron of mass 9.109×10⁻³¹ kg. The chosen state is normalised analytically. No interactions, finite barriers, decoherence or relativistic corrections are included.</p>
 <div class="extension-footer-links"><a class="cta" href="/tutoring/lab">All ten demonstrations</a><a class="cta secondary" href="/tutoring">Tutoring overview</a></div>
 </div></div></section></main>
