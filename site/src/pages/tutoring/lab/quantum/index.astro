@@ -1,6 +1,7 @@
 ---
 import '../../../../styles/global.css';
 import '../../../../styles/tutoring.css';
+import Equation from '../../../../components/Equation.astro';
 const enquiry='mailto:nicholasperikli@gmail.com?subject=Quantum%20Mechanics%20Tutoring%20Enquiry';
 ---
 <!doctype html><html lang="en">
@@ -59,8 +60,10 @@ const enquiry='mailto:nicholasperikli@gmail.com?subject=Quantum%20Mechanics%20Tu
  <div class="probability-row"><strong id="quant-outcome-a-name">|0⟩</strong><div class="probability-track"><div class="probability-fill" id="quant-outcome-a-bar" style="width:50%"></div></div><output id="quant-outcome-a-value">50%</output></div>
  <div class="probability-row"><strong id="quant-outcome-b-name">|1⟩</strong><div class="probability-track"><div class="probability-fill" id="quant-outcome-b-bar" style="width:50%"></div></div><output id="quant-outcome-b-value">50%</output></div>
 </div>
-<div class="lab-note"><strong>What changing the phase does</strong><p>In the Z basis, P(0) = cos²(θ/2) and P(1) = sin²(θ/2). These do not depend on φ. In the X basis, P(+) = [1 + sin(θ)cos(φ)]/2: the phase now matters. This is why relative phase contains information that probabilities in a single basis cannot reveal.</p></div>
-<div class="lab-note"><strong>What the Bloch arrow represents</strong><p>A pure qubit can be written |ψ⟩ = cos(θ/2)|0⟩ + eⁱᵠ sin(θ/2)|1⟩, up to an irrelevant overall phase. The Bloch vector is (sinθ cosφ, sinθ sinφ, cosθ). The arrow represents the state, not a particle moving through physical space.</p></div>
+<div class="lab-note"><strong>What changing the phase does</strong><p>The Z-basis probabilities depend on the polar angle, not the relative phase. In the X basis, the phase changes the probability of measuring the positive X state.</p><Equation tex={String.raw`P(0)=\cos^2\!\left(\frac{\theta}{2}\right),\quad P(1)=\sin^2\!\left(\frac{\theta}{2}\right)`} label="Qubit Z basis probabilities" />
+<Equation tex={String.raw`P(+)=\frac{1+\sin\theta\cos\phi}{2}`} label="Positive X basis measurement probability" /></div>
+<div class="lab-note"><strong>What the Bloch arrow represents</strong><p>A pure single-qubit state has two amplitudes and a relative phase. The arrow represents a state in Bloch space, not the physical trajectory of a particle.</p><Equation tex={String.raw`\lvert\psi\rangle=\cos\!\left(\frac{\theta}{2}\right)\lvert0\rangle+e^{i\phi}\sin\!\left(\frac{\theta}{2}\right)\lvert1\rangle`} label="Single qubit pure state in the computational basis" />
+<Equation tex={String.raw`\mathbf{b}=(\sin\theta\cos\phi,\;\sin\theta\sin\phi,\;\cos\theta)`} label="Bloch vector components" /></div>
 <div class="lab-note"><strong>What happens when you sample a measurement</strong><p>The demonstration samples an outcome using its Born-rule probability and then updates the displayed state to the eigenstate of that result. It is an idealised projective measurement on a single qubit—not a simulation of laboratory measurement hardware.</p></div>
 <p class="tutor-micro">The sphere is a projected diagram. Phase rotation is a visual learning tool, not a physical Hamiltonian time evolution; outcomes are pseudorandom samples from the calculated probabilities.</p>
 <div class="advanced-back"><a class="cta" href="/tutoring/lab/astrophysics">Explore Astrophysics →</a><a class="cta secondary" href="/tutoring/lab">All lab simulations</a></div>
