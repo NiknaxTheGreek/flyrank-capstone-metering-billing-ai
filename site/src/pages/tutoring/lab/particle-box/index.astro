@@ -1,0 +1,123 @@
+---
+import '../../../../styles/global.css';
+import '../../../../styles/tutoring.css';
+import '../../../../styles/lab-extensions.css';
+---
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/>
+<meta name="description" content="Explore the quantum particle in a one-dimensional infinite square well, energy levels, eigenstates, and time-dependent superpositions."/>
+<title>Quantum Particle in a Box — Nicholas Perikli</title></head><body class="tutor-shell">
+<header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav aria-label="Primary"><a href="/">Portfolio</a><a href="/tutoring">Tutoring</a><a href="/tutoring/lab">Lab</a><a class="cta" href="mailto:nicholasperikli@gmail.com?subject=Quantum%20Mechanics%20Tutoring%20Enquiry">Enquire</a></nav></div></header>
+<main><section class="advanced-hero"><div class="container">
+<div class="tutor-breadcrumb"><a href="/tutoring/lab">Interactive Lab</a> / Particle in a Box</div>
+<span class="tutor-kicker">Quantum Mechanics · Infinite Square Well · Demonstration 10</span>
+<h1>How can a particle have only certain energies?</h1>
+<p>Confine a quantum particle inside an ideal box. Change its size and energy level, then combine states to see when the probability density evolves in time.</p>
+</div></section>
+<section class="advanced-workbench"><div class="container"><div class="lab-layout">
+<div class="lab-controls">
+<div class="control"><label for="box-n">Base quantum number n <output id="box-n-label">1</output></label><input id="box-n" type="range" min="1" max="6" step="1" value="1"/></div>
+<div class="control"><label for="box-length">Well width L <output id="box-length-label">1.00 nm</output></label><input id="box-length" type="range" min=".5" max="3" step=".1" value="1"/></div>
+<div class="control"><label for="box-mix">Weight in state n+1 <output id="box-mix-label">0%</output></label><input id="box-mix" type="range" min="0" max=".5" step=".05" value="0"/></div>
+<div class="control"><label for="box-phase">Relative phase Δφ <output id="box-phase-label">0°</output></label><input id="box-phase" type="range" min="0" max="360" step="2" value="0"/></div>
+<div class="lab-buttons"><button type="button" class="lab-button" id="box-play">▶ Evolve phase</button><button type="button" class="lab-button secondary" id="box-super">Equal superposition</button><button type="button" class="lab-button secondary" id="box-reset">↺ Reset</button></div>
+<div class="extension-stats">
+<div class="extension-stat"><small>Ground component Eₙ</small><strong id="box-e1">— eV</strong></div>
+<div class="extension-stat"><small>Higher component Eₙ₊₁</small><strong id="box-e2">— eV</strong></div>
+<div class="extension-stat"><small>Expected energy ⟨E⟩</small><strong id="box-mean">— eV</strong></div>
+<div class="extension-stat"><small>Beat period h/ΔE</small><strong id="box-beat">— fs</strong></div>
+<div class="extension-stat"><small>∫ probability du</small><strong id="box-norm">1.000</strong></div>
+<div class="extension-stat"><small>Pure-state nodes</small><strong id="box-nodes">0</strong></div>
+</div>
+<p class="extension-control-note">For a pure energy eigenstate, the probability density is independent of time. Add the neighbouring state to see interference.</p>
+</div>
+<div class="lab-stage">
+<div class="stage-meta"><span>Normalized coordinate u = x/L</span><span id="box-state">Pure eigenstate</span></div>
+<div class="extension-svg"><svg viewBox="0 0 640 455" role="img" aria-label="Wavefunction real part and probability density in a one-dimensional infinite quantum well">
+<defs><pattern id="box-grid" width="40" height="32" patternUnits="userSpaceOnUse"><path d="M40 0H0V32" fill="none" stroke="#294b62" stroke-width=".7"/></pattern></defs>
+<rect x="40" y="19" width="560" height="417" fill="url(#box-grid)" rx="5"/>
+<path d="M40 110H600 M40 419H600" stroke="#a4c2d3" stroke-width="1.2"/>
+<path d="M40 19V436 M600 19V436" stroke="#b7d1df" stroke-width="2.4"/>
+<path d="M40 229H600" stroke="#567790" stroke-width="1" stroke-dasharray="6 6"/>
+<path id="box-psi-path" d="" stroke="#ccb5ff" stroke-width="3.3" fill="none" stroke-linejoin="round"/>
+<path id="box-prob-path" d="" stroke="#5bd7e6" stroke-width="3.5" fill="none" stroke-linejoin="round"/>
+<path id="box-prob-fill" d="" fill="#50cbe1" fill-opacity=".1"/>
+<text x="48" y="36" fill="#e1d1ff" font-size="14">Re ψ̃(u)</text>
+<text x="48" y="250" fill="#a4eff2" font-size="14">|ψ̃(u)|²</text>
+<text x="35" y="450" fill="#bad5e3" font-size="12">0</text><text x="590" y="450" fill="#bad5e3" font-size="12">1</text>
+<text x="302" y="450" fill="#bad5e3" font-size="13">u = x/L</text>
+</svg></div>
+<div class="extension-legend"><span class="extension-key" style="--swatch:#ccb5ff">Re ψ̃ (global phase fixed)</span><span class="extension-key" style="--swatch:#5bd7e6">Probability density</span></div>
+<div class="extension-stage-info">The two panels use different vertical scales; probability density is automatically rescaled. The wavefunction is plotted in a rotating global-phase convention and is not a classical vibrating string.</div>
+</div></div>
+<div class="advanced-explanation">
+<h2>From boundary conditions to quantised energy</h2>
+<div class="lab-note"><strong>A particle trapped in a one-dimensional well</strong><p>Inside 0 &lt; x &lt; L the potential is zero; outside it is infinite. The wavefunction vanishes at both walls. These boundary conditions allow only sin(nπx/L), with n = 1, 2, 3, …</p></div>
+<div class="lab-note"><strong>Discrete energy levels</strong><p>The energy eigenvalues are Eₙ = n²h²/(8mL²). Increasing n increases energy quadratically; making the box wider lowers the energy by the inverse square of L.</p></div>
+<div class="lab-note"><strong>Eigenstate versus superposition</strong><p>With normalized u = x/L, each eigenstate is ψ̃ₙ(u) = √2 sin(nπu). The displayed superposition is √(1−p)ψ̃ₙ + √p exp(−iΔφ)ψ̃ₙ₊₁. The interference term in |ψ̃|² depends on Δφ if 0 &lt; p &lt; 1.</p></div>
+<div class="lab-note"><strong>What the moving phase means</strong><p>A physical two-state superposition develops relative phase according to Δφ = (Eₙ₊₁−Eₙ)t/ℏ, up to a sign convention. The animation advances this relative phase at an educational speed rather than literal femtosecond timing.</p></div>
+<p class="tutor-micro">Ideal one-dimensional infinite square well with an electron of mass 9.109×10⁻³¹ kg. The chosen state is normalised analytically. No interactions, finite barriers, decoherence or relativistic corrections are included.</p>
+<div class="extension-footer-links"><a class="cta" href="/tutoring/lab">All ten demonstrations</a><a class="cta secondary" href="/tutoring">Tutoring overview</a></div>
+</div></div></section></main>
+<footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small"><a href="/tutoring">Tutoring</a> · <a href="/tutoring/lab">Interactive Lab</a></div></div></footer>
+<script>
+const el=id=>document.getElementById(id),num=id=>Number(el(id).value),write=(id,v)=>{el(id).textContent=String(v);};
+const H=6.62607015e-34,M=9.1093837139e-31,EV=1.602176634e-19;
+let running=false,frame=0,last=0,drawLast=0;
+function energies(){
+ const n=num('box-n'),L=num('box-length'),p=num('box-mix'),phase=num('box-phase')*Math.PI/180;
+ const unit=H*H/(8*M*Math.pow(L*1e-9,2))/EV,E1=unit*n*n,E2=unit*(n+1)*(n+1);
+ return {n,L,p,phase,E1,E2,mean:(1-p)*E1+p*E2,beat:4.135667696/(E2-E1)};
+}
+function drawBox(){
+ const s=energies(),c1=Math.sqrt(1-s.p),c2=Math.sqrt(s.p);
+ const raw=[];
+ let maxProb=0,sum=0;
+ for(let k=0;k<=320;k++){
+  const u=k/320,A=Math.SQRT2*Math.sin(s.n*Math.PI*u),B=Math.SQRT2*Math.sin((s.n+1)*Math.PI*u);
+  const re=c1*A+c2*Math.cos(s.phase)*B,im=-c2*Math.sin(s.phase)*B,prob=re*re+im*im;
+  raw.push({u,re,prob});maxProb=Math.max(maxProb,prob);sum+=(k===0||k===320?.5:1)*prob/320;
+ }
+ const X=u=>40+u*560,Ywave=r=>110-40*r,Yprob=p=>419-173*p/Math.max(1,maxProb);
+ let w='',p='',f='';
+ for(let k=0;k<raw.length;k++){
+  const q=raw[k],x=X(q.u).toFixed(2);
+  w+=(k?'L':'M')+x+' '+Ywave(q.re).toFixed(2)+' ';
+  p+=(k?'L':'M')+x+' '+Yprob(q.prob).toFixed(2)+' ';
+ }
+ f=p+'L600 419 L40 419 Z';
+ el('box-psi-path').setAttribute('d',w);
+ el('box-prob-path').setAttribute('d',p);
+ el('box-prob-fill').setAttribute('d',f);
+ write('box-n-label',s.n);
+ write('box-length-label',s.L.toFixed(2)+' nm');
+ write('box-mix-label',(s.p*100).toFixed(0)+'%');
+ write('box-phase-label',(num('box-phase')).toFixed(0)+'°');
+ write('box-e1',s.E1.toFixed(3)+' eV');
+ write('box-e2',s.E2.toFixed(3)+' eV');
+ write('box-mean',s.mean.toFixed(3)+' eV');
+ write('box-beat',s.beat.toFixed(3)+' fs');
+ write('box-norm',sum.toFixed(4));
+ write('box-nodes',s.p===0?String(s.n-1):'Mixed');
+ write('box-state',s.p===0?'Pure energy eigenstate':'Coherent superposition');
+}
+function stop(){running=false;cancelAnimationFrame(frame);frame=0;write('box-play','▶ Evolve phase');}
+function tick(now){
+ if(!running)return;
+ const dt=Math.min(50,Math.max(0,now-last));last=now;
+ el('box-phase').value=String((num('box-phase')+dt*.055)%360);
+ if(now-drawLast>=33){drawLast=now;drawBox();}
+ frame=requestAnimationFrame(tick);
+}
+for(const id of ['box-n','box-length','box-mix','box-phase'])
+el(id).addEventListener('input',()=>{stop();drawBox();});
+el('box-play').addEventListener('click',()=>{
+ if(running){stop();return;}
+ if(num('box-mix')===0){el('box-mix').value='.5';}
+ running=true;last=performance.now();drawLast=0;write('box-play','Ⅱ Pause');drawBox();frame=requestAnimationFrame(tick);
+});
+el('box-super').addEventListener('click',()=>{stop();el('box-mix').value='.5';el('box-phase').value='0';drawBox();});
+el('box-reset').addEventListener('click',()=>{stop();el('box-n').value='1';el('box-length').value='1';el('box-mix').value='0';el('box-phase').value='0';drawBox();});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
+window.addEventListener('pagehide',stop);
+drawBox();
+</script></body></html>

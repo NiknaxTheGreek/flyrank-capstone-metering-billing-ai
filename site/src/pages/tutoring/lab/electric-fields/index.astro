@@ -1,0 +1,146 @@
+---
+import '../../../../styles/global.css';
+import '../../../../styles/tutoring.css';
+import '../../../../styles/lab-extensions.css';
+---
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/>
+<meta name="description" content="Interactive electrostatics: superposition of electric fields and potential from two adjustable point charges."/>
+<title>Electric Fields & Potential — Nicholas Perikli</title></head><body class="tutor-shell">
+<header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav aria-label="Primary"><a href="/">Portfolio</a><a href="/tutoring">Tutoring</a><a href="/tutoring/lab">Lab</a><a class="cta" href="mailto:nicholasperikli@gmail.com?subject=Physics%20Tutoring%20Enquiry">Enquire</a></nav></div></header>
+<main><section class="advanced-hero"><div class="container">
+<div class="tutor-breadcrumb"><a href="/tutoring/lab">Interactive Lab</a> / Electromagnetism</div>
+<span class="tutor-kicker">Physics · Electromagnetism · Demonstration 07</span>
+<h1>What happens when electric fields overlap?</h1>
+<p>Move from one charge to two, vary their strengths and separation, and discover how vector fields and electric potential combine.</p>
+</div></section><section class="advanced-workbench"><div class="container"><div class="lab-layout">
+<div class="lab-controls">
+<div class="control"><label for="field-q1">Charge 1 <output id="field-q1-label">+2 nC</output></label><input id="field-q1" type="range" min="-3" max="3" step="1" value="2"/></div>
+<div class="control"><label for="field-q2">Charge 2 <output id="field-q2-label">−2 nC</output></label><input id="field-q2" type="range" min="-3" max="3" step="1" value="-2"/></div>
+<div class="control"><label for="field-gap">Separation <output id="field-gap-label">3.0 m</output></label><input id="field-gap" type="range" min="1" max="6" step=".5" value="3"/></div>
+<div class="control"><label for="field-probe">Probe position x <output id="field-probe-label">0.0 m</output></label><input id="field-probe" type="range" min="-4" max="4" step=".2" value="0"/></div>
+<div class="lab-buttons"><button class="lab-button" type="button" id="field-dipole">Dipole</button><button class="lab-button secondary" type="button" id="field-like">Like charges</button><button class="lab-button secondary" type="button" id="field-reset">↺ Reset</button></div>
+<div class="extension-stats">
+<div class="extension-stat"><small>Probe E magnitude</small><strong id="field-e">— N/C</strong></div>
+<div class="extension-stat"><small>Probe potential V</small><strong id="field-v">— V</strong></div>
+<div class="extension-stat"><small>Probe Eₓ</small><strong id="field-ex">— N/C</strong></div>
+<div class="extension-stat"><small>Probe Eᵧ</small><strong id="field-ey">— N/C</strong></div>
+</div>
+<p class="extension-control-note">Probe sits at y = +1.5 m to avoid placing it directly on a charge.</p>
+</div>
+<div class="lab-stage">
+<div class="stage-meta"><span>2D slice of 3D Coulomb fields</span><span>Arrows: direction only</span></div>
+<div class="extension-svg"><svg viewBox="0 0 640 360" role="img" aria-label="Electric field arrows and equipotential contours around adjustable charges">
+<defs><pattern id="field-grid" width="37" height="37" patternUnits="userSpaceOnUse"><path d="M37 0H0V37" stroke="#2a4c62" stroke-width=".7" fill="none"/></pattern></defs>
+<rect x="30" y="16" width="580" height="320" rx="7" fill="url(#field-grid)"/>
+<g id="field-contours"></g><g id="field-arrows"></g>
+<path d="M30 176H610" stroke="#87a6ba" stroke-opacity=".6" stroke-width=".9" stroke-dasharray="4 5"/>
+<circle id="field-charge1" r="12" cy="176" fill="#f6a1a2" stroke="#ffdad6" stroke-width="1.5"/>
+<circle id="field-charge2" r="12" cy="176" fill="#91cbf9" stroke="#d1edff" stroke-width="1.5"/>
+<text id="field-label1" y="181" fill="#102942" font-size="15" text-anchor="middle" font-family="sans-serif" font-weight="bold">+</text>
+<text id="field-label2" y="181" fill="#102942" font-size="15" text-anchor="middle" font-family="sans-serif" font-weight="bold">−</text>
+<circle id="field-probe-dot" r="7" fill="#ffdd83" stroke="#fff6da" stroke-width="1.5"/>
+<text id="field-probe-text" y="20" x="40" fill="#f1e3a4" font-size="13">● Probe</text>
+<text x="36" y="350" fill="#b2d1e3" font-size="12">x and y in metres (slice through point charges)</text>
+</svg></div>
+<div class="extension-legend"><span class="extension-key" style="--swatch:#7ed9ec">Field direction</span><span class="extension-key" style="--swatch:#c8a6ff">Equipotentials</span><span class="extension-key" style="--swatch:#ffdd83">Probe</span></div>
+<div class="extension-stage-info">Arrow lengths are visually normalized. Contours are selected equal-potential lines, not field lines; electric field arrows are perpendicular to equipotentials.</div>
+</div></div>
+<div class="advanced-explanation"><h2>Field versus potential</h2>
+<div class="lab-note"><strong>Electric field is a vector</strong><p>For point charges, E⃗ = Σ kqᵢ(r⃗−r⃗ᵢ)/|r⃗−r⃗ᵢ|³. Each contribution has both magnitude and direction; opposite charges do not simply cancel everywhere.</p></div>
+<div class="lab-note"><strong>Potential is a scalar</strong><p>V = Σ kqᵢ/|r⃗−r⃗ᵢ|. Potential can be negative, positive or zero. A zero potential does not necessarily mean the electric field is zero.</p></div>
+<div class="lab-note"><strong>Test your prediction</strong><p>Compare a dipole with equal like charges. Look for symmetry in the field and potential and check which quantity is zero at the midpoint.</p></div>
+<p class="tutor-micro">Ideal stationary point charges in vacuum. Charge values are in nanocoulombs, distances in metres, and k ≈ 8.99×10⁹ N·m²/C². The mathematical fields diverge at charge positions; the illustration omits field samples too near each charge.</p>
+<div class="extension-footer-links"><a class="cta" href="/tutoring/lab">All ten demonstrations</a><a class="cta secondary" href="/tutoring/lab/stellar-spectra">Next: Stellar Spectra</a></div>
+</div></div></section></main>
+<footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small"><a href="/tutoring">Tutoring</a> · <a href="/tutoring/lab">Interactive Lab</a></div></div></footer>
+<script>
+const el=id=>document.getElementById(id), num=id=>Number(el(id).value),write=(id,v)=>{el(id).textContent=String(v);};
+const SIGN=q=>q>0?'+'+q:q===0?'0':String(q), C=8.98755179;
+const CX=x=>320+x*43,CY=y=>176-y*43;
+function charges(){const d=num('field-gap');return [{q:num('field-q1'),x:-d/2},{q:num('field-q2'),x:d/2}];}
+function sample(x,y,list){
+ let ex=0,ey=0,v=0;
+ for(const c of list){
+  const dx=x-c.x,dy=y,r2=dx*dx+dy*dy;
+  if(r2<.10)return {ex:0,ey:0,v:0,invalid:true};
+  const r=Math.sqrt(r2),factor=C*c.q/(r2*r);
+  ex+=factor*dx;ey+=factor*dy;v+=C*c.q/r;
+ }
+ return {ex,ey,v,invalid:false};
+}
+function interpolate(a,b,va,vb,level){
+ const t=Math.max(0,Math.min(1,Math.abs(vb-va)>1e-10?(level-va)/(vb-va):.5));
+ return [a[0]+t*(b[0]-a[0]),a[1]+t*(b[1]-a[1])];
+}
+function contours(list){
+ // Marching-squares line segments for selected potentials in a fixed 2D slice.
+ const nx=53,ny=29,xmin=-6.3,xmax=6.3,ymin=-3.7,ymax=3.7;
+ const dx=(xmax-xmin)/nx,dy=(ymax-ymin)/ny,levels=[-25,-12,-6,6,12,25];
+ const pts=Array.from({length:ny+1},(_,j)=>Array.from({length:nx+1},(_,i)=>{
+  const x=xmin+i*dx,y=ymin+j*dy;
+  return {x,y,p:sample(x,y,list)};
+ }));
+ let out='';
+ for(const lv of levels){
+  let path='';
+  for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){
+   const corners=[pts[j][i],pts[j][i+1],pts[j+1][i+1],pts[j+1][i]];
+   if(corners.some(c=>c.p.invalid))continue;
+   const crossing=[];
+   for(let edge=0;edge<4;edge++){
+    const a=corners[edge],b=corners[(edge+1)%4];
+    if((a.p.v<lv)!==(b.p.v<lv)){
+     const xy=interpolate([a.x,a.y],[b.x,b.y],a.p.v,b.p.v,lv);
+     crossing.push(xy);
+    }
+   }
+   for(let k=0;k+1<crossing.length;k+=2){
+    const a=crossing[k],b=crossing[k+1];
+    path+='M'+CX(a[0]).toFixed(1)+' '+CY(a[1]).toFixed(1)+' L'+CX(b[0]).toFixed(1)+' '+CY(b[1]).toFixed(1)+' ';
+   }
+  }
+  out+='<path d="'+path+'" stroke="'+(lv>0?'#a7d6fa':'#d5a8ee')+'" opacity=".58" fill="none" stroke-width="1.1"/>';
+ }
+ return out;
+}
+function arrows(list){
+ let result='';
+ for(let y=-3.1;y<=3.1;y+=.75)for(let x=-5.8;x<=5.8;x+=.78){
+  const s=sample(x,y,list),mag=Math.hypot(s.ex,s.ey);
+  if(s.invalid||mag<.1)continue;
+  const ux=s.ex/mag,uy=s.ey/mag,scale=10;
+  const px=CX(x),py=CY(y),ex=px+scale*ux,ey=py-scale*uy;
+  const tx=ex-3.5*ux,ty=ey+3.5*uy;
+  result+='<path d="M'+(px-scale*ux).toFixed(1)+' '+(py+scale*uy).toFixed(1)+' L'+ex.toFixed(1)+' '+ey.toFixed(1)+' M'+(tx-2.6*uy).toFixed(1)+' '+(ty-2.6*ux).toFixed(1)+' L'+ex.toFixed(1)+' '+ey.toFixed(1)+' L'+(tx+2.6*uy).toFixed(1)+' '+(ty+2.6*ux).toFixed(1)+'" fill="none" stroke="#6bd7ec" stroke-opacity=".82" stroke-width="1.3"/>';
+ }
+ return result;
+}
+function drawFields(){
+ const list=charges(),q1=list[0].q,q2=list[1].q,d=num('field-gap'),probe=num('field-probe'),point=sample(probe,1.5,list);
+ write('field-q1-label',SIGN(q1)+' nC');write('field-q2-label',SIGN(q2)+' nC');
+ write('field-gap-label',d.toFixed(1)+' m');write('field-probe-label',probe.toFixed(1)+' m');
+ write('field-e',Math.hypot(point.ex,point.ey).toFixed(2)+' N/C');
+ write('field-v',point.v.toFixed(2)+' V');write('field-ex',point.ex.toFixed(2)+' N/C');write('field-ey',point.ey.toFixed(2)+' N/C');
+ const pos1=CX(-d/2),pos2=CX(d/2);
+ for(const [suffix,x,q] of [['1',pos1,q1],['2',pos2,q2]]){
+  el('field-charge'+suffix).setAttribute('cx',x);
+  el('field-charge'+suffix).setAttribute('fill',q>0?'#f9a7a5':q<0?'#98cdfd':'#c7d3d8');
+  el('field-label'+suffix).setAttribute('x',x);
+  write('field-label'+suffix,q>0?'+':q<0?'−':'0');
+ }
+ el('field-probe-dot').setAttribute('cx',CX(probe));
+ el('field-probe-dot').setAttribute('cy',CY(1.5));
+ el('field-probe-text').setAttribute('x',Math.min(550,CX(probe)+12));
+ el('field-probe-text').setAttribute('y',CY(1.5)-13);
+ el('field-contours').innerHTML=contours(list);
+ el('field-arrows').innerHTML=arrows(list);
+}
+for(const id of ['field-q1','field-q2','field-gap','field-probe'])
+ el(id).addEventListener('input',drawFields);
+el('field-dipole').addEventListener('click',()=>{el('field-q1').value='2';el('field-q2').value='-2';drawFields();});
+el('field-like').addEventListener('click',()=>{el('field-q1').value='2';el('field-q2').value='2';drawFields();});
+el('field-reset').addEventListener('click',()=>{
+ el('field-q1').value='2';el('field-q2').value='-2';el('field-gap').value='3';el('field-probe').value='0';drawFields();
+});
+drawFields();
+</script></body></html>

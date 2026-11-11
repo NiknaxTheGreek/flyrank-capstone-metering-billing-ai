@@ -1,13 +1,26 @@
 ---
 import '../../../styles/global.css';
 import '../../../styles/tutoring.css';
+import '../../../styles/lab-extensions.css';
 const enquiry = 'mailto:nicholasperikli@gmail.com?subject=Tutoring%20enquiry%20after%20interactive%20lab';
+const demonstrations = [
+ {num:'01',title:'Projectile Motion',topic:'Classical Physics',cat:'classical',href:'#motion'},
+ {num:'02',title:'Derivatives & Tangents',topic:'Mathematics',cat:'mathematics',href:'#calculus'},
+ {num:'03',title:'Wave Interference',topic:'Classical Physics',cat:'classical',href:'#waves'},
+ {num:'04',title:'Keplerian Orbits',topic:'Astronomy & Astrophysics',cat:'astrophysics',href:'/tutoring/lab/astrophysics'},
+ {num:'05',title:'Qubit State & Measurement',topic:'Modern Physics',cat:'modern',href:'/tutoring/lab/quantum'},
+ {num:'06',title:'Integration & Riemann Sums',topic:'Mathematics',cat:'mathematics',href:'/tutoring/lab/integration'},
+ {num:'07',title:'Electric Fields & Potential',topic:'Classical Physics',cat:'classical',href:'/tutoring/lab/electric-fields'},
+ {num:'08',title:'Stellar Spectra & Temperature',topic:'Astronomy & Astrophysics',cat:'astrophysics',href:'/tutoring/lab/stellar-spectra'},
+ {num:'09',title:'Spacetime Explorer',topic:'Modern Physics',cat:'modern',href:'/tutoring/lab/spacetime'},
+ {num:'10',title:'Quantum Particle in a Box',topic:'Modern Physics',cat:'modern',href:'/tutoring/lab/particle-box'}
+];
 ---
 <!doctype html>
 <html lang="en">
 <head>
  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/>
- <meta name="description" content="Explore interactive Mathematics and Physics simulations: projectile motion, secants and tangents, and wave interference. Created by Nicholas Perikli."/>
+ <meta name="description" content="Explore ten interactive Mathematics, Physics, Astrophysics and Quantum Mechanics demonstrations by Nicholas Perikli."/>
  <meta name="theme-color" content="#0b1d32"/>
  <title>Interactive Physics & Mathematics Lab — Nicholas Perikli</title>
 </head>
@@ -20,7 +33,29 @@ const enquiry = 'mailto:nicholasperikli@gmail.com?subject=Tutoring%20enquiry%20a
   <span class="tutor-kicker">Learn by experimenting</span>
   <h1>Change one thing. See what happens.</h1>
   <p>Use the sliders and animations to connect physical and mathematical ideas to the equations behind them. Each demonstration has a model, a prediction and something to think about.</p>
-  <div class="lab-index"><a href="#motion">01 · Projectile motion</a><a href="#calculus">02 · Derivatives</a><a href="#waves">03 · Wave interference</a><a href="/tutoring/lab/astrophysics">04 · Astrophysics</a><a href="/tutoring/lab/quantum">05 · Quantum Mechanics</a></div>
+  <div class="lab-index"><a href="#browse">Browse all ten demonstrations</a><a href="#motion">Start with Projectile Motion</a></div>
+ </div>
+</section>
+
+<section class="demo-browse" id="browse">
+ <div class="container">
+  <span class="tutor-kicker">Interactive demonstrations · 10 total</span>
+  <h2>Choose a topic to investigate.</h2>
+  <p class="lab-description">Browse all ten, or filter by subject. The first three open within this page; the others have their own lightweight interactive workspaces.</p>
+  <div class="demo-filter-row" role="group" aria-label="Filter demonstrations by subject">
+   <button class="demo-filter" type="button" data-demo-filter="all" aria-pressed="true">All 10</button>
+   <button class="demo-filter" type="button" data-demo-filter="mathematics" aria-pressed="false">Mathematics</button>
+   <button class="demo-filter" type="button" data-demo-filter="classical" aria-pressed="false">Classical Physics</button>
+   <button class="demo-filter" type="button" data-demo-filter="astrophysics" aria-pressed="false">Astrophysics</button>
+   <button class="demo-filter" type="button" data-demo-filter="modern" aria-pressed="false">Modern Physics</button>
+  </div>
+  <p class="tutor-micro" id="demo-count" aria-live="polite">Showing all ten demonstrations.</p>
+  <div class="demo-catalog">
+   {demonstrations.map(d => <a class="demo-catalog-item" href={d.href} data-demo-card data-category={d.cat}>
+     <span class="demo-catalog-no">{d.num}</span>
+     <span class="demo-catalog-copy"><strong>{d.title}</strong><span>{d.topic}</span></span>
+   </a>)}
+  </div>
  </div>
 </section>
 <section id="motion" class="lab-demo">
@@ -128,14 +163,13 @@ const enquiry = 'mailto:nicholasperikli@gmail.com?subject=Tutoring%20enquiry%20a
  </div>
 </section>
 
-<section class="tutor-section" id="university-lab">
-<div class="container">
- <div class="tutor-section-head"><span class="tutor-kicker">Explore university-level physics</span><h2>From planetary orbits to quantum states.</h2><p>The interactive lab now includes dedicated advanced demonstrations, each with the governing equations, adjustable parameters and clearly stated modelling assumptions.</p></div>
- <div class="inprogress-grid">
-  <article class="tutor-feature"><span class="feature-no">04 / Astrophysics</span><h3>Keplerian orbits</h3><p>Explore eccentricity, orbital period, distance and velocity around a star.</p><p><a href="/tutoring/lab/astrophysics">Explore the orbit simulation →</a></p></article>
-  <article class="tutor-feature"><span class="feature-no">05 / Quantum Mechanics</span><h3>Quantum state and measurement</h3><p>Explore a qubit on the Bloch sphere, relative phase and measurement in different bases.</p><p><a href="/tutoring/lab/quantum">Explore the quantum simulation →</a></p></article>
- </div>
- <p class="tutor-micro" style="margin-top:22px">Structured study notes and a video lesson series are <strong>In Progress</strong>; see the <a href="/tutoring#coming-soon">tutoring overview</a> for details.</p>
+<section class="tutor-section soft">
+<div class="container"><div class="tutor-section-head">
+ <span class="tutor-kicker">Keep learning</span><h2>Explore all ten interactive demonstrations.</h2>
+ <p>The complete lab covers Mathematics, Classical Physics, Astronomy and Astrophysics, and Modern Physics. Use the subject filters at the top to choose what to explore.</p>
+</div>
+<a class="cta" href="#browse">Browse the complete lab</a>
+<p class="tutor-micro" style="margin-top:22px">Structured study notes and a video lesson series are <strong>In Progress</strong>; see the <a href="/tutoring#coming-soon">tutoring overview</a>.</p>
 </div></section>
 
 <section class="lab-foot">
@@ -327,5 +361,19 @@ const enquiry = 'mailto:nicholasperikli@gmail.com?subject=Tutoring%20enquiry%20a
   document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseAllAnimations();});
   window.addEventListener('pagehide',pauseAllAnimations);
   renderMotion();calcDraw();renderWaves();
+</script>
+<script is:inline>
+(function(){
+ const buttons=[...document.querySelectorAll('[data-demo-filter]')];
+ const cards=[...document.querySelectorAll('[data-demo-card]')];
+ const label=document.getElementById('demo-count');
+ for(const btn of buttons)btn.addEventListener('click',()=>{
+   const selected=btn.dataset.demoFilter;
+   for(const b of buttons)b.setAttribute('aria-pressed',String(b===btn));
+   let n=0;
+   for(const card of cards){const visible=selected==='all'||card.dataset.category===selected;card.hidden=!visible;if(visible)n++;}
+   label.textContent=selected==='all'?'Showing all ten demonstrations.':'Showing '+n+' demonstration'+(n===1?'':'s')+'.';
+ });
+})();
 </script>
 </body></html>

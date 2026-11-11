@@ -1,0 +1,105 @@
+---
+import '../../../../styles/global.css';
+import '../../../../styles/tutoring.css';
+import '../../../../styles/lab-extensions.css';
+---
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/>
+<meta name="description" content="Interactive blackbody spectrum and stellar temperature learning tool with Wien's displacement law and Stefan-Boltzmann comparisons."/>
+<title>Stellar Spectra & Temperature — Nicholas Perikli</title></head><body class="tutor-shell">
+<header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav aria-label="Primary"><a href="/">Portfolio</a><a href="/tutoring">Tutoring</a><a href="/tutoring/lab">Lab</a><a class="cta" href="mailto:nicholasperikli@gmail.com?subject=Astrophysics%20Tutoring%20Enquiry">Enquire</a></nav></div></header>
+<main><section class="advanced-hero"><div class="container"><div class="tutor-breadcrumb"><a href="/tutoring/lab">Interactive Lab</a> / Stellar Spectra</div>
+<span class="tutor-kicker">Astronomy & Astrophysics · Demonstration 08</span>
+<h1>What does a star's temperature tell us about its light?</h1>
+<p>Adjust the temperature of an ideal thermal emitter. Watch its blackbody spectrum shift and its total radiated energy increase. Compare with a Sun-temperature reference.</p>
+</div></section>
+<section class="advanced-workbench"><div class="container"><div class="lab-layout">
+<div class="lab-controls">
+<div class="control"><label for="star-temp">Surface temperature <output id="star-temp-label">6,000 K</output></label><input id="star-temp" type="range" min="2500" max="16000" step="100" value="6000"/></div>
+<div class="control"><label for="star-probe">Probe wavelength <output id="star-probe-label">500 nm</output></label><input id="star-probe" type="range" min="100" max="2500" step="20" value="500"/></div>
+<div class="control"><label class="extension-inline"><input type="checkbox" checked id="star-solar"/> Compare with a 5,772 K reference</label></div>
+<div class="lab-buttons"><button id="star-hot" type="button" class="lab-button">Hot star · 10,000 K</button><button id="star-cool" type="button" class="lab-button secondary">Cool star · 3,500 K</button><button id="star-reset" type="button" class="lab-button secondary">↺ Reset</button></div>
+<div class="extension-stats">
+<div class="extension-stat"><small>Peak wavelength</small><strong id="star-peak">— nm</strong></div>
+<div class="extension-stat"><small>Peak region</small><strong id="star-region">—</strong></div>
+<div class="extension-stat"><small>Total flux / Sun</small><strong id="star-flux">—×</strong></div>
+<div class="extension-stat"><small>Spectral ratio at probe</small><strong id="star-ratio">—×</strong></div>
+</div>
+<p class="extension-control-note">Solar reference is a 5,772 K blackbody, not a detailed observed solar atmosphere spectrum.</p>
+</div>
+<div class="lab-stage">
+<div class="stage-meta"><span>Spectral radiance per wavelength · common scaling</span><span id="star-chart-label">Current / solar reference</span></div>
+<div class="extension-svg"><svg viewBox="0 0 640 360" role="img" aria-label="Two blackbody spectral radiance curves with probe wavelength and highlighted visible light band">
+<defs><pattern id="star-grid" width="42" height="36" patternUnits="userSpaceOnUse"><path d="M42 0H0V36" fill="none" stroke="#294b64" stroke-width=".7"/></pattern>
+<linearGradient id="star-visible"><stop offset="0" stop-color="#703ed6"/><stop offset=".16" stop-color="#405af0"/><stop offset=".33" stop-color="#2dc9e5"/><stop offset=".52" stop-color="#59bf78"/><stop offset=".68" stop-color="#e7d44a"/><stop offset=".85" stop-color="#ed8d4a"/><stop offset="1" stop-color="#df575a"/></linearGradient></defs>
+<rect x="45" y="18" width="565" height="294" fill="url(#star-grid)"/>
+<rect id="star-visible-rect" x="110" y="18" width="70" height="294" fill="url(#star-visible)" opacity=".13"/>
+<path d="M45 18 V312 H610" fill="none" stroke="#98b5c8" stroke-width="1.4"/>
+<path id="star-reference-path" d="" fill="none" stroke="#b4a7ff" stroke-width="2.2" stroke-dasharray="8 5"/>
+<path id="star-curve" d="" fill="none" stroke="#ffd480" stroke-width="3.4" stroke-linecap="round"/>
+<path id="star-probe-line" d="" stroke="#96f0dc" stroke-width="1.6" stroke-dasharray="5 5"/>
+<circle id="star-probe-marker" cx="160" cy="200" r="6" fill="#ffe49f" stroke="#fff3d7" stroke-width="1.3"/>
+<text x="49" y="15" fill="#d6e7f2" font-size="13">Relative spectral radiance</text>
+<text x="540" y="345" fill="#d6e7f2" font-size="13">λ (nm)</text>
+<text x="45" y="328" fill="#acc7d7" font-size="12">100</text><text x="563" y="328" fill="#acc7d7" font-size="12">2600</text>
+<text id="star-visible-label" x="120" y="305" fill="#f5e1ca" font-size="12">Visible</text>
+</svg></div>
+<div class="extension-legend"><span class="extension-key" style="--swatch:#ffd480">Selected T</span><span class="extension-key" style="--swatch:#b4a7ff">5,772 K reference</span><span class="extension-key" style="--swatch:#96f0dc">Wavelength probe</span></div>
+<div class="extension-stage-info">Both plotted curves use the same intensity scale. The vertical scale adjusts with the selected temperature so the relative radiances remain comparable.</div>
+</div></div>
+<div class="advanced-explanation"><h2>Three connected physical ideas</h2>
+<div class="lab-note"><strong>Planck's law</strong><p>The spectrum shown is proportional to Bλ(T) = [2hc²/λ⁵]/[exp(hc/(λkT)) − 1]. A hotter blackbody produces more spectral radiance at every wavelength for the same emitting area.</p></div>
+<div class="lab-note"><strong>Wien's displacement law</strong><p>For the peak of the spectral radiance per unit wavelength, λₘₐₓT ≈ 2.898×10⁶ nm·K. Raising T shifts that peak towards shorter wavelengths.</p></div>
+<div class="lab-note"><strong>Stefan–Boltzmann law</strong><p>Total emitted radiant flux per unit area is σT⁴. Doubling temperature increases that total by a factor of sixteen, holding emitting area fixed.</p></div>
+<p class="tutor-micro">The ideal blackbody model does not reproduce spectral absorption lines, stellar atmospheres or human colour perception. A star's perceived colour cannot be inferred from its peak wavelength alone.</p>
+<div class="extension-footer-links"><a class="cta" href="/tutoring/lab">All ten demonstrations</a><a class="cta secondary" href="/tutoring/lab/spacetime">Next: Spacetime</a></div>
+</div></div></section></main>
+<footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small"><a href="/tutoring">Tutoring</a> · <a href="/tutoring/lab">Interactive Lab</a></div></div></footer>
+<script>
+const el=id=>document.getElementById(id),num=id=>Number(el(id).value),write=(id,v)=>{el(id).textContent=String(v);};
+const SUN=5772,LAMBDA_MIN=100,LAMBDA_MAX=2600;
+function planck(lambdaNm,temp){
+ const lam=lambdaNm*1e-9, exponent=.01438776877/(lam*temp);
+ return 1/(Math.pow(lam,5)*Math.expm1(exponent));
+}
+function updateStars(){
+ const temp=num('star-temp'),probe=num('star-probe'),compare=el('star-solar').checked;
+ const peak=2897771.955/temp,ratio=Math.pow(temp/SUN,4);
+ const probeRatio=planck(probe,temp)/planck(probe,SUN);
+ const X=lambda=>45+(lambda-LAMBDA_MIN)/(LAMBDA_MAX-LAMBDA_MIN)*565;
+ let max=0;
+ for(let j=0;j<=240;j++){
+  const lam=LAMBDA_MIN+(LAMBDA_MAX-LAMBDA_MIN)*j/240;
+  max=Math.max(max,planck(lam,temp),compare?planck(lam,SUN):0);
+ }
+ const Y=v=>312-280*v/max;
+ function makeCurve(T){
+  let path='';
+  for(let j=0;j<=240;j++){
+   const l=LAMBDA_MIN+(LAMBDA_MAX-LAMBDA_MIN)*j/240;
+   path+=(j?'L':'M')+X(l).toFixed(2)+' '+Y(planck(l,T)).toFixed(2)+' ';
+  }
+  return path;
+ }
+ el('star-curve').setAttribute('d',makeCurve(temp));
+ el('star-reference-path').setAttribute('d',compare?makeCurve(SUN):'');
+ const xp=X(probe),yp=Y(planck(probe,temp));
+ el('star-probe-line').setAttribute('d','M'+xp+' 18 V312');
+ el('star-probe-marker').setAttribute('cx',xp);
+ el('star-probe-marker').setAttribute('cy',yp);
+ el('star-visible-rect').setAttribute('x',X(380));
+ el('star-visible-rect').setAttribute('width',X(700)-X(380));
+ el('star-visible-label').setAttribute('x',X(390));
+ write('star-temp-label',temp.toLocaleString('en-US')+' K');
+ write('star-probe-label',probe+' nm');
+ write('star-peak',peak.toFixed(0)+' nm');
+ write('star-region',peak<380?'Ultraviolet':peak>700?'Infrared':'Visible');
+ write('star-flux',ratio.toFixed(2)+'×');
+ write('star-ratio',probeRatio.toFixed(2)+'×');
+ write('star-chart-label',compare?'Current + solar reference':'Selected temperature only');
+}
+for(const id of ['star-temp','star-probe','star-solar'])el(id).addEventListener('input',updateStars);
+el('star-hot').addEventListener('click',()=>{el('star-temp').value='10000';updateStars();});
+el('star-cool').addEventListener('click',()=>{el('star-temp').value='3500';updateStars();});
+el('star-reset').addEventListener('click',()=>{el('star-temp').value='6000';el('star-probe').value='500';el('star-solar').checked=true;updateStars();});
+updateStars();
+</script></body></html>
