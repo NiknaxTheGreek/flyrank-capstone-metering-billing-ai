@@ -1,6 +1,6 @@
 
 /* Private-stage tutoring extension; scoped to .tutor-shell. */
-.tutor-shell{--ink:#102942;--line:#d5e0e9;--soft:#edf5f9;--accent:#0077a3;overflow:hidden}
+.tutor-shell{--ink:#102942;--line:#d5e0e9;--soft:#edf5f9;--accent:#0077a3;overflow-x:clip;overflow-y:visible}
 .tutor-shell .tutor-hero{padding:76px 0 78px;background:radial-gradient(ellipse at 86% 17%,#d6eff8 0,transparent 43%),linear-gradient(135deg,#f7f9fc,#eaf3fa)}
 .tutor-shell .tutor-hero-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:38px;align-items:center}
 .tutor-shell .tutor-kicker{font-size:.8rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#006f95}
@@ -64,11 +64,11 @@
 .tutor-shell .control{display:grid;gap:6px}
 .tutor-shell .control label{font-size:.88rem;color:#37556d;font-weight:700;display:flex;justify-content:space-between;gap:8px}
 .tutor-shell .control output{color:#0077a3;font-variant-numeric:tabular-nums}
-.tutor-shell .control input[type=range]{width:100%;accent-color:#0077a3;cursor:pointer}
+.tutor-shell .control input[type=range]{width:100%;accent-color:#0077a3;cursor:pointer;touch-action:pan-x}
 .tutor-shell .control select{border:1px solid #bdcfdd;background:#fff;color:#132f42;border-radius:6px;font:inherit;padding:9px}
 .tutor-shell .lab-stage{background:#0b1d32;border:1px solid #24435b;border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:10px;min-width:0}
 .tutor-shell .lab-stage .stage-meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:#a6c7d9;font-size:.8rem}
-.tutor-shell .lab-stage svg{width:100%;height:auto;background:#102c44;border-radius:8px}
+.tutor-shell .lab-stage svg{width:100%;height:auto;background:#102c44;border-radius:8px;touch-action:pan-y}
 .tutor-shell .lab-stage .stage-foot{font-size:.85rem;color:#bdd5e3}
 .tutor-shell .lab-buttons{display:flex;flex-wrap:wrap;gap:9px}
 .tutor-shell .lab-button{border:1px solid #0077a3;background:#0077a3;color:white;border-radius:6px;padding:9px 12px;font:600 .88rem 'IBM Plex Sans',sans-serif;cursor:pointer}
