@@ -1,0 +1,137 @@
+---
+import '../../../../styles/global.css';
+import '../../../../styles/tutoring.css';
+const enquiry='mailto:nicholasperikli@gmail.com?subject=Quantum%20Mechanics%20Tutoring%20Enquiry';
+---
+<!doctype html><html lang="en">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="theme-color" content="#0b1d32"/>
+<meta name="description" content="Learn the meaning of a quantum state, relative phase, measurement probabilities and the Bloch sphere with an interactive qubit simulator."/>
+<title>Quantum States — Interactive Quantum Mechanics Lab · Nicholas Perikli</title></head>
+<body class="tutor-shell">
+<header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav aria-label="Primary"><a href="/">Portfolio</a><a href="/tutoring">Tutoring</a><a href="/tutoring/lab">Lab</a><a class="cta" href={enquiry}>Enquire</a></nav></div></header>
+<main>
+<section class="advanced-hero"><div class="container">
+<div class="tutor-breadcrumb"><a href="/tutoring">Tutoring</a> / <a href="/tutoring/lab">Interactive Lab</a> / Quantum Mechanics</div>
+<span class="tutor-kicker">Quantum Mechanics · Qubits and measurement</span>
+<h1>A quantum state is more than a probability.</h1>
+<p>Explore a pure qubit state on the Bloch sphere. Change the amplitudes and relative phase, switch measurement bases, and see why different measurements answer different questions.</p>
+</div></section>
+<section class="advanced-workbench"><div class="container">
+<div class="lab-layout">
+<div class="lab-controls">
+ <div class="control"><label for="quant-theta">Polar angle θ <output id="quant-theta-val">90°</output></label><input id="quant-theta" type="range" min="0" max="180" step="1" value="90"/></div>
+ <div class="control"><label for="quant-phi">Relative phase φ <output id="quant-phi-val">0°</output></label><input id="quant-phi" type="range" min="0" max="360" step="1" value="0"/></div>
+ <div class="control"><label for="quant-basis">Measurement basis</label><select id="quant-basis"><option value="z">Z basis · |0⟩ and |1⟩</option><option value="x">X basis · |+⟩ and |−⟩</option></select></div>
+ <div class="lab-buttons"><button type="button" id="quant-play" class="lab-button">▶ Rotate phase</button><button type="button" id="quant-measure" class="lab-button secondary">Sample one measurement</button><button type="button" id="quant-reset" class="lab-button secondary">↺ Reset</button></div>
+ <div class="lab-stats">
+  <div class="lab-stat"><small>P(0), Z basis</small><strong id="quant-p0">50%</strong></div>
+  <div class="lab-stat"><small>P(1), Z basis</small><strong id="quant-p1">50%</strong></div>
+  <div class="lab-stat"><small>P(+), X basis</small><strong id="quant-pplus">100%</strong></div>
+ </div>
+ <div class="lab-note" style="margin-top:0"><strong>One measurement</strong><p id="quant-measurement" aria-live="polite">Choose a basis and sample an outcome. The displayed state will update to the measured eigenstate.</p></div>
+</div>
+<div class="lab-stage">
+ <div class="stage-meta"><span>Bloch sphere · pure single-qubit states</span><span id="quant-state-label">|+⟩ state</span></div>
+ <svg id="quant-chart" viewBox="0 0 640 385" role="img" aria-label="Bloch sphere diagram and qubit state vector with projection axes">
+ <defs><radialGradient id="sphere-fill" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#194969"/><stop offset="1" stop-color="#0b2036"/></radialGradient></defs>
+ <circle cx="320" cy="193" r="140" fill="url(#sphere-fill)" stroke="#7195b0" stroke-width="1.6"/>
+ <ellipse cx="320" cy="193" rx="140" ry="38" fill="none" stroke="#7a9eb4" stroke-width="1.3" stroke-dasharray="6 6"/>
+ <path d="M320 53V333" stroke="#8bacbf" stroke-width="1.6"/>
+ <path d="M195 255L445 131" stroke="#648da8" stroke-width="1.4"/>
+ <path d="M183 193H457" stroke="#648da8" stroke-width="1.4" stroke-dasharray="6 5"/>
+ <path id="quant-arrow" d="M320 193L458 193" stroke="#ffd281" stroke-width="4" stroke-linecap="round"/>
+ <circle id="quant-tip" cx="458" cy="193" r="8" fill="#ffdc98" stroke="#fff4d8" stroke-width="2"/>
+ <circle cx="320" cy="193" r="4" fill="#d9f5ff"/>
+ <text x="337" y="46" fill="#d8eefb" font-size="17">|0⟩</text><text x="338" y="350" fill="#d8eefb" font-size="17">|1⟩</text>
+ <text x="465" y="189" fill="#9ad9f5" font-size="15">+x</text><text x="447" y="124" fill="#aab9ff" font-size="15">+y</text>
+ <text x="28" y="50" fill="#b8d3e3" font-size="14">|ψ⟩ = cos(θ/2)|0⟩</text>
+ <text x="28" y="70" fill="#b8d3e3" font-size="14">+ eⁱᵠ sin(θ/2)|1⟩</text>
+ <text x="25" y="366" font-size="12" fill="#9cbbcc">Illustrative 3D projection; angles determine the state exactly.</text>
+ </svg>
+ <div class="stage-foot" id="quant-bloch-vector">Bloch vector: (x = 1.00, y = 0.00, z = 0.00)</div>
+</div>
+</div>
+
+<div class="advanced-explanation">
+<h2>Measurement probabilities</h2>
+<p>The same state can have very different probability distributions in different measurement bases. Choose Z or X to see the relevant probabilities. The probability of each outcome is the squared magnitude of its amplitude.</p>
+<div class="quantum-probabilities" aria-label="Current measurement basis probabilities">
+ <div class="probability-row"><strong id="quant-outcome-a-name">|0⟩</strong><div class="probability-track"><div class="probability-fill" id="quant-outcome-a-bar" style="width:50%"></div></div><output id="quant-outcome-a-value">50%</output></div>
+ <div class="probability-row"><strong id="quant-outcome-b-name">|1⟩</strong><div class="probability-track"><div class="probability-fill" id="quant-outcome-b-bar" style="width:50%"></div></div><output id="quant-outcome-b-value">50%</output></div>
+</div>
+<div class="lab-note"><strong>What changing the phase does</strong><p>In the Z basis, P(0) = cos²(θ/2) and P(1) = sin²(θ/2). These do not depend on φ. In the X basis, P(+) = [1 + sin(θ)cos(φ)]/2: the phase now matters. This is why relative phase contains information that probabilities in a single basis cannot reveal.</p></div>
+<div class="lab-note"><strong>What the Bloch arrow represents</strong><p>A pure qubit can be written |ψ⟩ = cos(θ/2)|0⟩ + eⁱᵠ sin(θ/2)|1⟩, up to an irrelevant overall phase. The Bloch vector is (sinθ cosφ, sinθ sinφ, cosθ). The arrow represents the state, not a particle moving through physical space.</p></div>
+<div class="lab-note"><strong>What happens when you sample a measurement</strong><p>The demonstration samples an outcome using its Born-rule probability and then updates the displayed state to the eigenstate of that result. It is an idealised projective measurement on a single qubit—not a simulation of laboratory measurement hardware.</p></div>
+<p class="tutor-micro">The sphere is a projected diagram. Phase rotation is a visual learning tool, not a physical Hamiltonian time evolution; outcomes are pseudorandom samples from the calculated probabilities.</p>
+<div class="advanced-back"><a class="cta" href="/tutoring/lab/astrophysics">Explore Astrophysics →</a><a class="cta secondary" href="/tutoring/lab">All lab simulations</a></div>
+</div>
+</div></section>
+</main>
+<footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small"><a href="/tutoring">Tutoring</a> · <a href="/tutoring/lab">Interactive Lab</a></div></div></footer>
+<script>
+const el=id=>document.getElementById(id);
+const read=id=>Number(el(id).value);
+const write=(id,text)=>{el(id).textContent=text;};
+const rad=v=>v*Math.PI/180;
+let running=false,frame=0,last=0,lastDraw=0;
+function state(){
+ const theta=rad(read('quant-theta')),phi=rad(read('quant-phi'));
+ const x=Math.sin(theta)*Math.cos(phi),y=Math.sin(theta)*Math.sin(phi),z=Math.cos(theta);
+ const p0=(1+z)/2,p1=1-p0,pPlus=(1+x)/2,pMinus=1-pPlus;
+ return {theta,phi,x,y,z,p0,p1,pPlus,pMinus};
+}
+function drawQuantum(){
+ const p=state(),basis=el('quant-basis').value;
+ write('quant-theta-val',read('quant-theta')+'°');write('quant-phi-val',read('quant-phi')+'°');
+ const fmt=q=>(100*q).toFixed(1)+'%';
+ write('quant-p0',fmt(p.p0));write('quant-p1',fmt(p.p1));write('quant-pplus',fmt(p.pPlus));
+ write('quant-bloch-vector','Bloch vector: (x = '+p.x.toFixed(2)+', y = '+p.y.toFixed(2)+', z = '+p.z.toFixed(2)+')');
+ const cx=320,cy=193,scale=124;
+ const X=cx+scale*(p.x+.34*p.y),Y=cy+scale*(.18*p.y-p.z);
+ el('quant-arrow').setAttribute('d','M'+cx+' '+cy+' L'+X.toFixed(2)+' '+Y.toFixed(2));
+ el('quant-tip').setAttribute('cx',X);el('quant-tip').setAttribute('cy',Y);
+ write('quant-state-label',p.z>.999?'|0⟩ state':p.z<-.999?'|1⟩ state':Math.abs(p.x-1)<.001?'|+⟩ state':Math.abs(p.x+1)<.001?'|−⟩ state':'Superposition');
+ const names=basis==='z'?['|0⟩','|1⟩']:['|+⟩','|−⟩'];
+ const probs=basis==='z'?[p.p0,p.p1]:[p.pPlus,p.pMinus];
+ for(let k=0;k<2;k++){
+   const key=k?'b':'a';
+   write('quant-outcome-'+key+'-name',names[k]);
+   write('quant-outcome-'+key+'-value',fmt(probs[k]));
+   el('quant-outcome-'+key+'-bar').style.width=(100*probs[k])+'%';
+ }
+}
+function stop(){running=false;cancelAnimationFrame(frame);frame=0;write('quant-play','▶ Rotate phase');}
+function tick(now){
+ if(!running)return;
+ const dt=Math.min(50,Math.max(0,now-last));last=now;
+ el('quant-phi').value=String((read('quant-phi')+dt*.045)%360);
+ if(now-lastDraw>=33){lastDraw=now;drawQuantum();}
+ frame=requestAnimationFrame(tick);
+}
+for(const id of ['quant-theta','quant-phi','quant-basis'])el(id).addEventListener('input',()=>{
+ stop();write('quant-measurement','Choose a basis and sample an outcome.');drawQuantum();
+});
+el('quant-play').addEventListener('click',()=>{
+ if(running){stop();return;}
+ running=true;last=performance.now();lastDraw=0;write('quant-play','Ⅱ Pause');frame=requestAnimationFrame(tick);
+});
+el('quant-measure').addEventListener('click',()=>{
+ stop();const p=state(),basis=el('quant-basis').value;
+ const positive=Math.random()<(basis==='z'?p.p0:p.pPlus);
+ if(basis==='z'){
+   el('quant-theta').value=positive?'0':'180';el('quant-phi').value='0';
+ }else{
+   el('quant-theta').value='90';el('quant-phi').value=positive?'0':'180';
+ }
+ write('quant-measurement','Sampled '+(basis==='z'?(positive?'|0⟩':'|1⟩'):(positive?'|+⟩':'|−⟩'))+'. The state is now the corresponding eigenstate.');
+ drawQuantum();
+});
+el('quant-reset').addEventListener('click',()=>{
+ stop();el('quant-theta').value='90';el('quant-phi').value='0';el('quant-basis').value='z';
+ write('quant-measurement','Choose a basis and sample an outcome.');drawQuantum();
+});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
+window.addEventListener('pagehide',stop);
+drawQuantum();
+</script>
+</body></html>
