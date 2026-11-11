@@ -1,0 +1,90 @@
+---
+import '../../../../styles/global.css';
+import '../../../../styles/tutoring.css';
+import '../../../../styles/lab-extensions.css';
+---
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/>
+<meta name="description" content="Interactive special relativity spacetime diagram with Lorentz transformation, time dilation and length contraction."/>
+<title>Special Relativity: Spacetime Explorer — Nicholas Perikli</title></head><body class="tutor-shell">
+<header><div class="container nav"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><nav aria-label="Primary"><a href="/">Portfolio</a><a href="/tutoring">Tutoring</a><a href="/tutoring/lab">Lab</a><a class="cta" href="mailto:nicholasperikli@gmail.com?subject=Relativity%20Tutoring%20Enquiry">Enquire</a></nav></div></header>
+<main><section class="advanced-hero"><div class="container"><div class="tutor-breadcrumb"><a href="/tutoring/lab">Interactive Lab</a> / Spacetime</div>
+<span class="tutor-kicker">Modern Physics · Special Relativity · Demonstration 09</span>
+<h1>Different frames. One spacetime.</h1>
+<p>Move between inertial reference frames and watch the axes tilt in a Minkowski diagram. The speed of light remains the same even though events acquire different space and time coordinates.</p>
+</div></section><section class="advanced-workbench"><div class="container">
+<div class="lab-layout">
+<div class="lab-controls">
+<div class="control"><label for="rel-beta">Relative speed β = v/c <output id="rel-beta-label">+0.60</output></label><input id="rel-beta" type="range" min="-.9" max=".9" step=".05" value=".6"/></div>
+<div class="control"><label for="rel-event-t">Event time t <output id="rel-event-t-label">2.00 s</output></label><input id="rel-event-t" type="range" min="0" max="3" step=".25" value="2"/></div>
+<div class="control"><label for="rel-event-x">Event position x <output id="rel-event-x-label">1.00 light-s</output></label><input id="rel-event-x" type="range" min="-3" max="3" step=".25" value="1"/></div>
+<div class="lab-buttons"><button id="rel-zero" class="lab-button" type="button">Rest frame</button><button id="rel-fast" class="lab-button secondary" type="button">Fast frame (0.9c)</button><button id="rel-reset" class="lab-button secondary" type="button">↺ Reset</button></div>
+<div class="extension-stats">
+<div class="extension-stat"><small>Lorentz factor γ</small><strong id="rel-gamma">1.250</strong></div>
+<div class="extension-stat"><small>Event t′</small><strong id="rel-tp">1.75 s</strong></div>
+<div class="extension-stat"><small>Event x′</small><strong id="rel-xp">−0.25 light-s</strong></div>
+<div class="extension-stat"><small>Moving clock elapsed τ</small><strong id="rel-tau">1.60 s</strong></div>
+<div class="extension-stat"><small>10 m rod measured length</small><strong id="rel-rod">8.00 m</strong></div>
+<div class="extension-stat"><small>Relative speed</small><strong id="rel-speed">0.60 c</strong></div>
+</div>
+</div>
+<div class="lab-stage"><div class="stage-meta"><span>Minkowski diagram · c = 1</span><span id="rel-label">Frame S′ moves at +0.60 c</span></div>
+<div class="extension-svg"><svg viewBox="0 0 640 390" role="img" aria-label="Spacetime x versus ct diagram with light cone, primed coordinate axes and event">
+<defs><pattern id="rel-grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#29475f" stroke-width=".75"/></pattern></defs>
+<rect x="35" y="25" width="570" height="335" fill="url(#rel-grid)"/>
+<path id="rel-x-axis" d="M35 192.5H605" stroke="#93b3c9" stroke-width="1.6"/>
+<path id="rel-t-axis" d="M320 25V360" stroke="#93b3c9" stroke-width="1.6"/>
+<path id="rel-light1" stroke="#f8d58d" stroke-width="2" stroke-dasharray="7 5"/>
+<path id="rel-light2" stroke="#f8d58d" stroke-width="2" stroke-dasharray="7 5"/>
+<path id="rel-prime-t" stroke="#81e4ce" stroke-width="3.1"/>
+<path id="rel-prime-x" stroke="#b7a0fb" stroke-width="3.1"/>
+<circle id="rel-event" r="7" cx="390" cy="112" fill="#ff9fbe" stroke="#ffe1ec" stroke-width="1.6"/>
+<path id="rel-event-proj" stroke="#ffabc4" stroke-width="1.3" stroke-dasharray="4 4"/>
+<text x="312" y="21" fill="#cce1ec" font-size="14">ct</text><text x="581" y="208" fill="#cce1ec" font-size="14">x</text>
+<text x="430" y="31" fill="#f9db95" font-size="12">light: ±c</text>
+<text id="rel-prime-t-label" x="353" y="33" fill="#81e4ce" font-size="14">ct′</text>
+<text id="rel-prime-x-label" x="575" y="160" fill="#b7a0fb" font-size="14">x′</text>
+<text id="rel-event-label" x="408" y="100" fill="#ffc0d1" font-size="13">Event</text>
+<text x="40" y="381" fill="#9bbbd1" font-size="12">x in light-seconds, ct in light-seconds · equal axis scales</text>
+</svg></div>
+<div class="extension-legend"><span class="extension-key" style="--swatch:#f8d58d">Light cone</span><span class="extension-key" style="--swatch:#81e4ce">ct′ axis</span><span class="extension-key" style="--swatch:#b7a0fb">x′ axis</span><span class="extension-key" style="--swatch:#ff9fbe">Event</span></div>
+<div class="extension-stage-info">The primed axes represent a coordinate system moving at β relative to the unprimed S frame. The marked event is the same physical event in both frames.</div>
+</div></div>
+<div class="advanced-explanation"><h2>Understand the transformation</h2>
+<div class="lab-note"><strong>Lorentz transformation</strong><p>In units where c = 1, t′ = γ(t − βx), x′ = γ(x − βt), with γ = 1/√(1−β²). Here distances are measured in light-seconds and times in seconds, so the formulas are numerically consistent.</p></div>
+<div class="lab-note"><strong>Different notions of simultaneity</strong><p>The x′ axis is the set of events where t′ = 0, so ct = βx. The ct′ axis is where x′ = 0, so x = βct. Both tilt towards the light lines as |β| increases.</p></div>
+<div class="lab-note"><strong>Time dilation and length contraction</strong><p>The clock statistic shows the proper time elapsed on a clock moving with S′ during the selected laboratory time t: τ = t/γ. The rod statistic assumes a rod with proper length 10 m, measured simultaneously in S: L = 10 m/γ. These are distinct experiments, not measurements of the arbitrary pink event.</p></div>
+<p class="tutor-micro">Ideal one-dimensional inertial frames, no acceleration or gravity. Coordinate axes in the diagram are drawn at equal scales and the speed of light corresponds to 45° diagonals.</p>
+<div class="extension-footer-links"><a class="cta" href="/tutoring/lab">All ten demonstrations</a><a class="cta secondary" href="/tutoring/lab/particle-box">Next: Quantum Well</a></div>
+</div></div></section></main>
+<footer><div class="container footer-grid"><a class="brand" href="/"><div class="monogram"><span>N</span><span>P</span></div><span class="wordmark">Nicholas Perikli</span></a><div class="small"><a href="/tutoring">Tutoring</a> · <a href="/tutoring/lab">Interactive Lab</a></div></div></footer>
+<script>
+const el=id=>document.getElementById(id),num=id=>Number(el(id).value),write=(id,v)=>{el(id).textContent=String(v);};
+const X=x=>320+x*42,Y=t=>192.5-t*42,DIR=v=>(v>=0?'+':'')+v.toFixed(2);
+function drawRelativity(){
+ const beta=num('rel-beta'),t=num('rel-event-t'),x=num('rel-event-x');
+ const gamma=1/Math.sqrt(1-beta*beta),tp=gamma*(t-beta*x),xp=gamma*(x-beta*t);
+ const segment=(point1,point2)=>'M'+X(point1[0])+' '+Y(point1[1])+' L'+X(point2[0])+' '+Y(point2[1]);
+ el('rel-light1').setAttribute('d',segment([-4,-4],[4,4]));
+ el('rel-light2').setAttribute('d',segment([-4,4],[4,-4]));
+ el('rel-prime-t').setAttribute('d',segment([-4*beta,-4],[4*beta,4]));
+ el('rel-prime-x').setAttribute('d',segment([-4,-4*beta],[4,4*beta]));
+ const xe=X(x),ye=Y(t);
+ el('rel-event').setAttribute('cx',xe);el('rel-event').setAttribute('cy',ye);
+ el('rel-event-proj').setAttribute('d','M'+xe+' '+ye+' L'+xe+' '+Y(0)+' M'+xe+' '+ye+' L'+X(0)+' '+ye);
+ el('rel-event-label').setAttribute('x',Math.min(560,xe+11));
+ el('rel-event-label').setAttribute('y',Math.max(34,ye-11));
+ el('rel-prime-t-label').setAttribute('x',Math.min(564,Math.max(65,X(3.65*beta)+10)));
+ el('rel-prime-t-label').setAttribute('y',Math.max(35,Y(3.65)-9));
+ el('rel-prime-x-label').setAttribute('x',X(3.6)-12);
+ el('rel-prime-x-label').setAttribute('y',Math.max(40,Math.min(344,Y(beta*3.6)-12)));
+ write('rel-beta-label',DIR(beta));write('rel-event-t-label',t.toFixed(2)+' s');write('rel-event-x-label',x.toFixed(2)+' light-s');
+ write('rel-gamma',gamma.toFixed(3));write('rel-tp',tp.toFixed(2)+' s');write('rel-xp',xp.toFixed(2)+' light-s');
+ write('rel-tau',(t/gamma).toFixed(2)+' s');write('rel-rod',(10/gamma).toFixed(2)+' m');
+ write('rel-speed',DIR(beta)+' c');write('rel-label','Frame S′ moves at '+DIR(beta)+' c');
+}
+for(const id of ['rel-beta','rel-event-t','rel-event-x'])el(id).addEventListener('input',drawRelativity);
+el('rel-zero').addEventListener('click',()=>{el('rel-beta').value='0';drawRelativity();});
+el('rel-fast').addEventListener('click',()=>{el('rel-beta').value='.9';drawRelativity();});
+el('rel-reset').addEventListener('click',()=>{el('rel-beta').value='.6';el('rel-event-t').value='2';el('rel-event-x').value='1';drawRelativity();});
+drawRelativity();
+</script></body></html>
