@@ -129,9 +129,15 @@
 @media(max-width:700px){.tutor-shell .inprogress-grid{grid-template-columns:1fr}.tutor-shell .advanced-workbench{padding:40px 0 55px}}
 @media(max-width:540px){.tutor-shell .qualification-cards{grid-template-columns:1fr}.tutor-shell .qualification-cards article{padding:19px}.tutor-shell .probability-row{grid-template-columns:80px minmax(0,1fr) 46px;gap:6px;font-size:.78rem}}
 
-/* Keep tutoring subject bullets on one readable line on narrow phones. */
+/* Preserve the normal readable font on phones. Save space through
+   card padding and concise subject labels, not smaller typography. */
 @media(max-width:540px){
   .tutor-shell #subjects .tutor-feature{padding:20px 16px}
   .tutor-shell #subjects .tutor-feature ul{padding-left:15px}
-  .tutor-shell #subjects .tutor-feature li{font-size:clamp(12px,3.7vw,14px);line-height:1.7;letter-spacing:-.015em;white-space:nowrap}
+  .tutor-shell #subjects .tutor-feature li{
+    font-size:inherit;
+    line-height:inherit;
+    letter-spacing:normal;
+    white-space:normal;
+  }
 }
