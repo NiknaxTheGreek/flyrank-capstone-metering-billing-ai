@@ -2,6 +2,7 @@
 import '../../../../styles/global.css';
 import '../../../../styles/tutoring.css';
 import '../../../../styles/lab-extensions.css';
+import Equation from '../../../../components/Equation.astro';
 ---
 <!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/>
 <meta name="description" content="Interactive blackbody spectrum and stellar temperature learning tool with Wien's displacement law and Stefan-Boltzmann comparisons."/>
@@ -47,9 +48,9 @@ import '../../../../styles/lab-extensions.css';
 <div class="extension-stage-info">Both plotted curves use the same intensity scale. The vertical scale adjusts with the selected temperature so the relative radiances remain comparable.</div>
 </div></div>
 <div class="advanced-explanation"><h2>Three connected physical ideas</h2>
-<div class="lab-note"><strong>Planck's law</strong><p>The spectrum shown is proportional to Bλ(T) = [2hc²/λ⁵]/[exp(hc/(λkT)) − 1]. A hotter blackbody produces more spectral radiance at every wavelength for the same emitting area.</p></div>
-<div class="lab-note"><strong>Wien's displacement law</strong><p>For the peak of the spectral radiance per unit wavelength, λₘₐₓT ≈ 2.898×10⁶ nm·K. Raising T shifts that peak towards shorter wavelengths.</p></div>
-<div class="lab-note"><strong>Stefan–Boltzmann law</strong><p>Total emitted radiant flux per unit area is σT⁴. Doubling temperature increases that total by a factor of sixteen, holding emitting area fixed.</p></div>
+<div class="lab-note"><strong>Planck's law</strong><p>The spectral radiance of an ideal blackbody depends on wavelength λ and absolute temperature T. The curves are generated from this relation.</p><Equation tex={String.raw`B_\lambda(T)=\frac{2hc^2}{\lambda^5}\,\frac{1}{e^{hc/(\lambda k_B T)}-1}`} label="Planck blackbody spectral radiance" /></div>
+<div class="lab-note"><strong>Wien's displacement law</strong><p>The peak wavelength of spectral radiance per unit wavelength moves towards shorter wavelengths as temperature rises.</p><Equation tex={String.raw`\lambda_{\max}T\approx2.898\times10^{6}\;\mathrm{nm\,K}`} label="Wien displacement relation" /></div>
+<div class="lab-note"><strong>Stefan–Boltzmann law</strong><p>The total thermal emission per unit area increases with the fourth power of absolute temperature.</p><Equation tex={String.raw`F=\sigma T^4`} label="Stefan Boltzmann radiant flux" /></div>
 <p class="tutor-micro">The ideal blackbody model does not reproduce spectral absorption lines, stellar atmospheres or human colour perception. A star's perceived colour cannot be inferred from its peak wavelength alone.</p>
 <div class="extension-footer-links"><a class="cta" href="/tutoring/lab">All ten demonstrations</a><a class="cta secondary" href="/tutoring/lab/spacetime">Next: Spacetime</a></div>
 </div></div></section></main>
