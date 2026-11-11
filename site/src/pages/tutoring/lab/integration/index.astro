@@ -2,6 +2,7 @@
 import '../../../../styles/global.css';
 import '../../../../styles/tutoring.css';
 import '../../../../styles/lab-extensions.css';
+import Equation from '../../../../components/Equation.astro';
 ---
 <!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/>
 <meta name="description" content="Explore definite integration through interactive left, midpoint, and right Riemann sums."/>
@@ -37,7 +38,7 @@ import '../../../../styles/lab-extensions.css';
 <div class="extension-stage-info">A negative rectangle counts as negative signed area. A smaller approximation error doesn't always decrease monotonically for every method and function.</div></div>
 </div>
 <div class="advanced-explanation"><h2>Why this works</h2>
-<div class="lab-note"><strong>The Riemann sum</strong><p>Partition [a,b] into n pieces of width Δx = (b−a)/n. Choose a sample point xᵢ* in each piece and add f(xᵢ*)Δx. As n increases, these sums approach the definite integral for an integrable function.</p></div>
+<div class="lab-note"><strong>The Riemann sum</strong><p>Divide the interval from a to b into n strips of width Δx. Multiply each strip's width by the function value at its sample point and add the signed contributions. The integral is the limit of the sums.</p><Equation tex={String.raw`\Delta x=\frac{b-a}{n},\qquad \int_a^b f(x)\,dx=\lim_{n\to\infty}\sum_{i=1}^n f(x_i^*)\Delta x`} label="Riemann sum definition of a definite integral" /></div>
 <div class="lab-note"><strong>Signed area matters</strong><p>Sections below the x-axis make negative contributions. An integral is not necessarily the total unsigned geometric area.</p></div>
 <div class="lab-note"><strong>Compare methods</strong><p>For a smooth function, midpoint sampling often gives a better estimate than using a left or right endpoint with the same number of rectangles. Verify that rather than assuming it.</p></div>
 <div class="extension-footer-links"><a class="cta" href="/tutoring/lab">All ten demonstrations</a><a class="cta secondary" href="/tutoring/lab/electric-fields">Next: Electric Fields</a></div>
